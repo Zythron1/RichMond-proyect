@@ -1,0 +1,17 @@
+# Ignorar imágenes
+*.jpg
+*.jpeg
+*.gif
+*eps
+
+# Ignorar dependencias
+vendor/
+
+# Ignorar archivos temporales y de configuración
+*.log
+*.tmp
+*.bak
+
+# Archivos del sistema operativo
+Thumbs.db
+.DS_Store
