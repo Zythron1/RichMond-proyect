@@ -1,8 +1,7 @@
 body,
 html{
-    width: 100vw;
+    width: 100%;
     overflow-x: hidden;
-
 }
 
 :root {
@@ -11,6 +10,7 @@ html{
     --title-font: Montserrat;
     --text-font: lato;
 }
+
 
 /* Estilos del header responsivo */
 .header {
@@ -36,7 +36,7 @@ html{
 .header__container-free-shipping-title {
     justify-self: center;
     align-self: center;
-    color: white;
+    color: #ffffff;
     font-size: 1.2em;
     font-family:Lato;
     font-weight: 100;
@@ -163,7 +163,6 @@ html{
 .container-company-information__company-information {
     display: grid;
     grid-template-columns: 1fr;
-    
 }
 
 .company-information__button {
