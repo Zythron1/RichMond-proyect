@@ -19,6 +19,7 @@ CREATE TABLE categories (
 category_id INT NOT NULL AUTO_INCREMENT,
 category_name VARCHAR(50) NOT NULL,
 category_description VARCHAR(255) NOT NULL,
+category_status BOOLEAN NOT NULL DEFAULT TRUE,
 PRIMARY KEY(category_id)
 );
 
@@ -70,6 +71,19 @@ FOREIGN KEY(product_id) REFERENCES products(product_id) ON DELETE CASCADE ON UPD
 PRIMARY KEY(shopping_bag_id, product_id)
 );
 
+CREATE TABLE purchase_history (
+    purchase_id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    total DECIMAL(10, 2),
+    PRIMARY KEY(purchase_id),
+    FOREIGN KEY(user_id) REFERENCES users(user_id),
+    FOREIGN KEY(product_id) REFERENCES products(product_id)
+);
+
+
 CREATE TABLE payment_methods (
 payment_method_id INT NOT NULL AUTO_INCREMENT,
 user_id INT NOT NULL,
@@ -91,4 +105,11 @@ shipment_status VARCHAR(255) NOT NULL DEFAULT 'en proceso',
 tracking_number VARCHAR(50) NOT NULL,
 FOREIGN KEY(order_id) REFERENCES orders(order_id),
 PRIMARY KEY(shipment_id)
+);
+
+CREATE TABLE password_resets (
+    user_id INT PRIMARY KEY,
+    reset_token VARCHAR(255),
+    token_expiration DATETIME,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );

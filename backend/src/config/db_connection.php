@@ -3,9 +3,9 @@
 class DatabaseConnection {
     private static $db = null;
     
-    private static function connect() {
+    private static function connection() {
         if(!self::$db) {
-            $config = require('db_config.php');
+            $config = require_once '../config/db_config.php';
             $dsn = 'mysql:host='. $config['host'] . ';dbname=' . $config['dbname']; //data source name
             
 
@@ -20,10 +20,13 @@ class DatabaseConnection {
         return self::$db;
     }
 
-    
+    public static function getConnection() {
+        return self::connection();
+    }
+
     public static function conexion() {
-        self::connect();
-        try {
+        self::connection();
+        try {   
             $stmt = self::$db->query('SELECT * FROM users;');
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch(PDOException $e) {
@@ -31,7 +34,4 @@ class DatabaseConnection {
             return [];
         }
     }
-    
 }
-$conxion = DatabaseConnection::conexion();
-print_r($conxion);
