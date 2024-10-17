@@ -1,5 +1,4 @@
 <?php
-
 require_once '../config/db_connection.php';
 
 class UserModel {
@@ -103,6 +102,5 @@ class UserModel {
             return false;
         }
     }
-
 }
 

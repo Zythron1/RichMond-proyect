@@ -19,7 +19,7 @@ CREATE TABLE categories (
 category_id INT NOT NULL AUTO_INCREMENT,
 category_name VARCHAR(50) NOT NULL,
 category_description VARCHAR(255) NOT NULL,
-category_status BOOLEAN NOT NULL DEFAULT TRUE,
+category_status ENUM('active', 'inactive', 'in process') NOT NULL,
 PRIMARY KEY(category_id)
 );
 
@@ -43,7 +43,7 @@ order_id INT NOT NULL AUTO_INCREMENT,
 user_id INT NOT NULL,
 order_date timestamp DEFAULT CURRENT_TIMESTAMP,
 total DECIMAL(10, 2) DEFAULT 0,
-order_status ENUM('pending', 'shipped', 'delivered') NOT NULL,
+order_status ENUM('pending', 'shipped', 'delivered') NOT NULL DEFAULT 'pending',
 FOREIGN KEY(user_id) REFERENCES users(user_id),
 PRIMARY KEY(order_id)
 );
@@ -77,7 +77,7 @@ CREATE TABLE purchase_history (
     product_id INT NOT NULL,
     quantity INT NOT NULL,
     purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    total DECIMAL(10, 2),
+    total DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY(purchase_id),
     FOREIGN KEY(user_id) REFERENCES users(user_id),
     FOREIGN KEY(product_id) REFERENCES products(product_id)
@@ -101,7 +101,7 @@ shipment_id INT NOT NULL AUTO_INCREMENT,
 order_id INT NOT NULL,
 address VARCHAR(255) NOT NULL,
 shipment_date DATE NOT NULL,
-shipment_status VARCHAR(255) NOT NULL DEFAULT 'en proceso',
+shipment_status ENUM('pending', 'shipped', 'delivered') NOT NULL DEFAULT 'pending',
 tracking_number VARCHAR(50) NOT NULL,
 FOREIGN KEY(order_id) REFERENCES orders(order_id),
 PRIMARY KEY(shipment_id)
