@@ -8,7 +8,7 @@ class CategoryModel {
         return $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getCategorieById ($connection, $categoryId) {
+    public function getCategoryById ($connection, $categoryId) {
         $stmt = $connection->prepare('SELECT * FROM categories WHERE category_id = :categoryId;');
         $stmt->bindParam(':categoryId', $categoryId, PDO::PARAM_INT);
         $stmt->execute();
@@ -16,9 +16,10 @@ class CategoryModel {
     }
 
     public function createCategory ($connection, $categoryData) {
-        $stmt = $connection->prepare('INSERT INTO categories (category_name, category_description) VALUES (:categoryName, :categoryDescription);');
+        $stmt = $connection->prepare('INSERT INTO categories (category_name, category_description, category_status) VALUES (:categoryName, :categoryDescription, :status);');
         $stmt->bindParam(':categoryName', $categoryData['categoryName'], PDO::PARAM_STR);
         $stmt->bindParam(':categoryDescription', $categoryData['categoryDescription'], PDO::PARAM_STR);
+        $stmt->bindParam(':status', $categoryData['status'], PDO::PARAM_STR);
         if($stmt->execute()) {
             return $connection->lastInsertId();
         } else {
@@ -41,8 +42,8 @@ class CategoryModel {
         }
 
         if (isset($categoryData['categoryStatus'])) {
-            $query .= 'category_status = :categoryDescription,';
-            $params[':categoryDescription'] = $categoryData['categoryDescription'];
+            $query .= 'category_status = :categoryStatus,';
+            $params[':categoryStatus'] = $categoryData['categoryStatus'];
         }
 
         $query->rtrim($query, ', '). ' WHERE category_id = :categoryId;';
@@ -56,6 +57,4 @@ class CategoryModel {
             return false;
         }
     }
-
-    
 }

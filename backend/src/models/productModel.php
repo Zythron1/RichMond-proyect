@@ -5,7 +5,7 @@ require_once '../config/db_connection.php';
 class ProductModel {
     public function getAllProducts ($connection) {
         $stmt = $connection->query('SELECT * FROM products;');
-        return $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getProductById ($connection, $productId) {
@@ -16,12 +16,13 @@ class ProductModel {
     }
 
     public function createProduct ($connection, $producData) {
-        $stmt = $connection->prepare('INSERT INTO products (product_name, product_description, stock, price, image_url, ) VALUES (:productName, :productDescription, :stock, :price, :imageUrl);');
+        $stmt = $connection->prepare('INSERT INTO products (product_name, product_description, stock, price, image_url, category_id) VALUES (:productName, :productDescription, :stock, :price, :imageUrl, :categoryId);');
         $stmt->bindparam(':productName', $producData['productName'], PDO::PARAM_STR);
         $stmt->bindparam(':productDescription', $producData['productDescription'], PDO::PARAM_STR);
         $stmt->bindparam(':stock', $producData['stock'], PDO::PARAM_INT);
         $stmt->bindparam(':price', $producData['price'], PDO::PARAM_INT);
         $stmt->bindparam(':imageUrl', $producData['imageUrl'], PDO::PARAM_STR);
+        $stmt->bindparam(':category_id', $producData['categoryId'], PDO::PARAM_STR);
 
         if ($stmt->execute()) {
             return $connection->lastInsertId();

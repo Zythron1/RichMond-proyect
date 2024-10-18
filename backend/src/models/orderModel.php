@@ -6,7 +6,7 @@ class OrderModel {
     public function getAllOrder($connection) {
         $stmt = $connection->query('SELECT * FROM orders;');
         $stmt->execute();
-        return $ordenes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getOrderById ($connection, $orderId) {
@@ -16,17 +16,17 @@ class OrderModel {
         return $order = $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-        public function createOrder ($connection, $orderData) {
-            $stmt = $connection->prepare('INSERT INTO orders (user_id, total) VALUES (:userId, :total);');
-            $stmt->bindParam(':userId', $orderData['userId'], PDO::PARAM_INT);
-            $stmt->bindParam(':total', $orderData['total'], PDO::PARAM_STR);
+    public function createOrder ($connection, $orderData) {
+        $stmt = $connection->prepare('INSERT INTO orders (user_id, total) VALUES (:userId, :total);');
+        $stmt->bindParam(':userId', $orderData['userId'], PDO::PARAM_INT);
+        $stmt->bindParam(':total', $orderData['total'], PDO::PARAM_STR);
 
-            if ($stmt->execute()) {
-                return $connection->lastInsertId();
-            } else {
-                return false;
-            }
+        if ($stmt->execute()) {
+            return $connection->lastInsertId();
+        } else {
+            return false;
         }
+    }
 
     public function updateOrder ($connection, $orderId, $orderData) {
         $query = 'UPDATE orders SET ';

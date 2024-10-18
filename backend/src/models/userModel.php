@@ -2,7 +2,7 @@
 require_once '../config/db_connection.php';
 
 class UserModel {
-    public function getAllUsers($connection) {
+    public function getAllUsers ($connection) {
         // Se realiza la consulta con el método query del objeto que fue instaciado de PDO
         $stmt = $connection->query('SELECT * FROM users;');
         // Se recupera todos los datos, se dice cómo se devolverán y se retornan esos datos
@@ -10,7 +10,7 @@ class UserModel {
         
     }
 
-    public function getUserById($connection, $userId) {
+    public function getUserById ($connection, $userId) {
         // Se prepara la consulta para evitar inyecciones SQL
         $stmt = $connection->prepare('SELECT  * FROM users WHERE user_id = :userId;');
         // Se asocia el parámetro $userId con el parámetro :userId
@@ -21,7 +21,7 @@ class UserModel {
         return $user = $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function createUser($connection, $userData) {
+    public function createUser ($connection, $userData) {
         // Se encripta la contraseña del usuario
         $hashedPassword = password_hash($userData['userPassword'], PASSWORD_BCRYPT);
 
@@ -41,7 +41,7 @@ class UserModel {
         }
     }
 
-    public function updateUser($connection, $userId, $userData) {
+    public function updateUser ($connection, $userId, $userData) {
         $query = 'UPDATE users SET ';
         $params = [];
 
@@ -77,7 +77,7 @@ class UserModel {
         }
     }
 
-    public function changePassword($connection, $userId,$currentPassword, $newPassword) { 
+    public function changePassword ($connection, $userId, $currentPassword, $newPassword) { 
         // paso 1: Se obtiene la contraseña actual del usuario
         $currentPasswordstmt = $connection->prepare('SELECT user_password FROM users WHERE user_id = :userId;');
         $currentPasswordstmt->bindParam(':userId', $userId, PDO::PARAM_STR);
@@ -86,7 +86,10 @@ class UserModel {
         
         // paso 2: Se verifica la contraseña
         if (!password_verify($currentPassword, $password['user_password'])) {
-            return ['error' => 'La contraseña actual no coincide'];
+            return [
+                'status' => 'error',
+                'message' => 'La contraseña actual no coincide'
+            ];
         } 
 
         // paso 3: Se encripta la contraseña nueva
@@ -98,6 +101,30 @@ class UserModel {
         $updateStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
         if ($updateStmt->execute()) {
             return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function passwordRecovery ($connection, $userId, $newPassword) {
+        // se encripta la nueva contraseña
+        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+
+        // Se actualiza la nueva contraseña
+        $updateStmt = $connection->prepare('UPDATE users SET user_password = :newPassword WHERE user_id = :userId;');
+        $updateStmt->bindParam(':newPassword', $hashedPassword, PDO::PARAM_STR);
+        $updateStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+
+        if ($updateStmt->execute()) {
+            // Si la contraseña se actualiza correctamente, eliminamos el token
+            $deleteStmt = $connection->prepare('DELETE FROM password_resets WHERE user_id = :userId;');
+            $deleteStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+            
+            if ($deleteStmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }

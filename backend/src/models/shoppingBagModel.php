@@ -11,10 +11,10 @@ class ShoppingBagModel {
         $stmt = $connection->prepare('SELECT * FROM shopping_bag WHERE user_id = :userId;');
         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
         $stmt->execute();
-        $shoppingBagActive = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $activeShoppingBag = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        if ($shoppingBagActive) {
-            return $shoppingBagActive;
+        if ($activeShoppingBag) {
+            return $activeShoppingBag;
         } else {
             return false;
         }
@@ -26,65 +26,65 @@ class ShoppingBagModel {
         $stmt->bindParam(':productId', $shoppingBagData['productId'], PDO::PARAM_INT);
         $stmt->bindParam(':quantity', $shoppingBagData['quantity'], PDO::PARAM_INT);
         if ($stmt->execute()) {
-            return $shoppingBagId = $connection->lastInsertId();
+            return $connection->lastInsertId();
         } else {
             return false;
         }
     }
 
     public function addProduct($connection, $userId, $productId, $quantity) {
-    // Paso 1: Verificar el stock
-    $stmt = $connection->prepare('SELECT stock FROM products WHERE product_id = :productId;');
-    $stmt->bindParam(':productId', $productId, PDO::PARAM_INT);
-    $stmt->execute();
-    $stock = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Paso 1: Verificar el stock
+        $stmt = $connection->prepare('SELECT stock FROM products WHERE product_id = :productId;');
+        $stmt->bindParam(':productId', $productId, PDO::PARAM_INT);
+        $stmt->execute();
+        $stock = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($stock && $stock['stock'] >= $quantity) {
-        // Paso 2: Verificar si el usuario ya tiene una bolsa de compra
-        $bagStmt = $connection->prepare('SELECT shopping_bag_id FROM shopping_bag WHERE user_id = :userId AND product_id = :productId;');
-        $bagStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-        $bagStmt->bindParam(':productId', $productId, PDO::PARAM_INT);
-        $bagStmt->execute();
-        $shoppingBag = $bagStmt->fetch(PDO::FETCH_ASSOC);
+        if ($stock && $stock['stock'] >= $quantity) {
+            // Paso 2: Verificar si el usuario ya tiene una bolsa de compra
+            $bagStmt = $connection->prepare('SELECT shopping_bag_id FROM shopping_bag WHERE user_id = :userId AND product_id = :productId;');
+            $bagStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+            $bagStmt->bindParam(':productId', $productId, PDO::PARAM_INT);
+            $bagStmt->execute();
+            $shoppingBag = $bagStmt->fetch(PDO::FETCH_ASSOC);
         
-        if ($shoppingBag) {
-            // Si la bolsa existe se actualiza el stock de la bolsa de compray el bag_product
-            $updateBagStmt = $connection->prepare('UPDATE shopping_bag SET quantity = quantity + :quantity WHERE user_id = :userId AND product_id = :productId;');
-            $updateBagStmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
-            $updateBagStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-            $updateBagStmt->bindParam(':productId', $productId, PDO::PARAM_INT);
-            $updateBagStmt->execute();
+            if ($shoppingBag) {
+                // paso 3: Si la bolsa existe se actualiza el stock de la bolsa de compray el bag_product
+                $updateBagStmt = $connection->prepare('UPDATE shopping_bag SET quantity = quantity + :quantity WHERE user_id = :userId AND product_id = :productId;');
+                $updateBagStmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
+                $updateBagStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+                $updateBagStmt->bindParam(':productId', $productId, PDO::PARAM_INT);
+                $updateBagStmt->execute();
 
-            $updateBagProductStmt = $connection->prepare('UPDATE bag_product SET quantity = quantity + :quantity WHERE shopping_bag_id = :shoppingBagId AND product_id = :productId;');
-            $updateBagProductStmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
-            $updateBagProductStmt->bindParam(':shoppingBagId', $shoppingBag['shopping_bag_id'], PDO::PARAM_INT);
-            $updateBagProductStmt->bindParam(':productId', $productId, PDO::PARAM_INT);
-            $updateBagProductStmt->execute();
+                $updateBagProductStmt = $connection->prepare('UPDATE bag_product SET quantity = quantity + :quantity WHERE shopping_bag_id = :shoppingBagId AND product_id = :productId;');
+                $updateBagProductStmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
+                $updateBagProductStmt->bindParam(':shoppingBagId', $shoppingBag['shopping_bag_id'], PDO::PARAM_INT);
+                $updateBagProductStmt->bindParam(':productId', $productId, PDO::PARAM_INT);
+                $updateBagProductStmt->execute();
 
-            return ['success' => true, 'message' => 'Producto actualizado.'];
+                return ['status' => 'success', 'message' => 'Producto actualizado.'];
+            } else {
+                // paso 4: Si la bolsa no existe crear una bolsa de compra y crear el bag_product
+                $shoppingBagData = [
+                    'userId' => $userId,
+                    'productId' => $productId,
+                    'quantity' => $quantity
+                ];
+                $shoppingBagId = $this->createShoppingBag(DatabaseConnection::getConnection(), $shoppingBagData);
+
+                $bagProduct = new BagProductModel();
+                $bagProductData = [
+                    'shoppingBagId' => $shoppingBagId,
+                    'productId' => $productId,
+                    'quantity' => $quantity
+                ];
+                $bagProductId = $bagProduct->createBagProduct(DatabaseConnection::getConnection(), $bagProductData);
+
+                return ['status' => 'success', 'message' => 'Producto añadido a la bolsa de compra.'];
+            }
         } else {
-            // Si la bolsa no existe crear una bolsa de compra y crear el bag_product
-            $shoppingBagData = [
-                'userId' => $userId,
-                'productId' => $productId,
-                'quantity' => $quantity
-            ];
-            $shoppingBagId = $this->createShoppingBag(DatabaseConnection::getConnection(), $shoppingBagData);
-
-            $bagProduct = new BagProductModel();
-            $bagProductData = [
-                'shoppingBagId' => $shoppingBagId,
-                'productId' => $productId,
-                'quantity' => $quantity
-            ];
-            $bagProductId = $bagProduct->createBagProduct(DatabaseConnection::getConnection(), $bagProductData);
-
-            return ['success' => true, 'message' => 'Producto añadido a la bolsa de compra.'];
+            return ['status' => 'error', 'message' => 'No hay suficiente stock para este producto.'];
         }
-    } else {
-        return ['error' => 'No hay suficiente stock para este producto.'];
     }
-}
 
     // finalizar la compra de una bolsa de compra. Lógica
     public function checkOuts ($connection, $userId) {
@@ -98,7 +98,7 @@ class ShoppingBagModel {
 
             // paso 2: verificar el stock y calcular el total de la compra
             if (empty($bagProduct)) {
-                return ['error' => 'El carrito está vacío'];
+                return ['status' => 'error', 'message' => 'El carrito está vacío'];
             }
 
             $productData = [];
@@ -118,7 +118,7 @@ class ShoppingBagModel {
                     $total += $product['price'] * $item['quantity'];
 
                 } else {
-                    return ['error' => 'No hay suficiente stock para el producto'. $item['product_id']];
+                    return ['status' => 'error', 'message' => 'No hay suficiente stock para el producto '. $item['product_id']];
                 }
             }
 
@@ -151,11 +151,11 @@ class ShoppingBagModel {
                 $deleteBagStmt->execute();
 
                 $connection->commit();
-                return ['succes' => 'Compra realizada con éxito', 'orderId' => $orderId];
+                return ['status' => 'success', 'message' => 'Compra realizada con éxito, orden '. $orderId, 'orderId' => $orderId];
                 
         } catch (Exception $e) {
             $connection->rollBack();
-            return ['Error' => 'Error al realizar la compra'. $e->getMessage()];
+            return ['status' => 'error', 'message' => 'Error al realizar la compra'. $e->getMessage()];
         }
     }
 
@@ -186,14 +186,14 @@ class ShoppingBagModel {
 
                 // Si se elimna se confirma la transacción 
                 $connection->commit();
-                return ['success' => true, 'message' => 'Producto eliminado del carrito de compra.'];
+                return ['status' => 'success', 'message' => 'Producto eliminado del carrito de compra.'];
             } else {
-                return ['error' => 'El producto no existe en el carrito de compra.'];
+                return ['status' => 'error', 'message' => 'El producto no existe en el carrito de compra.'];
             }
         } catch (Exception $e) {
             // En caso de error hacer un rollBack para deshacer los cambios.
             $connection->rollBack();
-            return ['error' => 'Ocurrió un error al eliminar el producto: ' . $e->getMessage()];
+            return ['status' => 'error', 'message' => 'Error al eliminar el producto: ' . $e->getMessage()];
         }
     }
 }
