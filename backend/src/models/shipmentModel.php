@@ -3,7 +3,7 @@
 require_once '../config/db_connection.php';
 
 class ShipmentModel {
-    public function getAllShipments ($connection, $orderId) {
+    public function getAllShipments ($connection) {
         $stmt = $connection->query('SELECT * FROM shipments;');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
