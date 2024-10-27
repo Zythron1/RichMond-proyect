@@ -1,6 +1,6 @@
 <?php
-require_once '../config/dbConnection.php';
-require_once '../models/paymentMethodModel.php';
+require_once './backend/src/config/dbConnection.php';
+require_once './backend/src/models/PaymentMethodModel.php';
 
 class PaymentMethodController {
     private $connection;
@@ -20,9 +20,9 @@ class PaymentMethodController {
         }
     }
 
-    public function getPaymentMethodById ($userIdEncoded) {
+    public function getPaymentMethodById ($data) {
         // paso 1: Verificar datos recibidos
-        if (!($userIdEncoded && is_numeric($userIdEncoded))) {
+        if (!($data['userId'] && is_numeric($data['userId']))) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -32,7 +32,7 @@ class PaymentMethodController {
         }
 
         // paso 2: Convertir categoryId a entero y llamar al método correspondiente
-        $userId = (int)$userIdEncoded;
+        $userId = (int)$data['userId'];
         $paymentMethods = $this->paymentMethodModel->getPaymentMethodById($this->connection, $userId);
 
         // paso 3: Verificar datos devueltos del método

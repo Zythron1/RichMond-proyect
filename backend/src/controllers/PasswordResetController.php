@@ -1,6 +1,6 @@
 <?php
-require_once '../config/dbConnection.php';
-require_once '../models/passwordResetsModel.php';
+require_once './backend/src/config/dbConnection.php';
+require_once './backend/src/models/PasswordResetModel.php';
 
 class PasswordResetController {
     private $connection;

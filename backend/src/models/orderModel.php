@@ -1,6 +1,6 @@
 <?php
 
-require_once '../config/db_connection.php';
+require_once './backend/src/config/dbConnection.php';
 
 class OrderModel {
     public function getAllOrder($connection) {

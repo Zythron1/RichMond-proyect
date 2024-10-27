@@ -5,7 +5,7 @@ class DatabaseConnection {
     
     private static function connection() {
         if(!self::$db) {
-            $config = require_once '../config/db_config.php';
+            $config = require_once './backend/src/config/dbConfig.php';
             $dsn = 'mysql:host='. $config['host'] . ';dbname=' . $config['dbname']; //data source name
             
 

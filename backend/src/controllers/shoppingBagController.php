@@ -1,6 +1,6 @@
 <?php
-require_once '../config/dbConnection.php';
-require_once '../models/shoppingBagModel.php';
+require_once './backend/src/config/dbConnection.php';
+require_once './backend/src/models/ShoppingBagModel.php';
 
 class ShoppingBagController {
     private $connection;
@@ -20,9 +20,9 @@ class ShoppingBagController {
         }
     }
 
-    public function getShoppingBagById ($userIdEncoded) {
+    public function getShoppingBagById ($data) {
         // paso 1: Verificar datos recibidos
-        if (!($userIdEncoded && is_numeric($userIdEncoded))) {
+        if (!($data['userId'] && is_numeric($data['userId']))) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -32,8 +32,8 @@ class ShoppingBagController {
         }
 
         // paso 2: Convertir categoryId a entero y llamar al método correspondiente
-        $userId = (int)$userIdEncoded;
-        $activeShoppingBag = $this->shoppingBag->getShoppingBagById($this->connection, $userId);
+        $userId = (int)$data['userId'];
+        $activeShoppingBag = $this->shoppingBag->getShoppingBagById($this->connection, $data);
 
         // paso 3: Verificar datos devueltos del método
         if (empty($activeShoppingBag)) {
@@ -53,21 +53,9 @@ class ShoppingBagController {
         }
     }
 
-    public function createShoppingBag ($shoppingBagDataEncoded) {
-        // paso 1: Decodificar los datos recibidos
-        $shoppingBagData = json_decode($shoppingBagDataEncoded, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            http_response_code(400);
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Datos de la bolsa de compra no válidos.'
-            ]);
-            return;
-        }
-
+    public function createShoppingBag ($data) {
         // paso 2: Verificar los datos recibidos
-        if (count(array_filter($shoppingBagData)) !== 3) {
+        if (count(array_filter($data)) !== 3) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -77,7 +65,7 @@ class ShoppingBagController {
         }
 
         // paso 3: Llamar al método necesario
-        $newShoppingBagId = $this->shoppingBag->createShoppingBag($this->connection, $shoppingBagData);
+        $newShoppingBagId = $this->shoppingBag->createShoppingBag($this->connection, $data);
 
         // paso 4: Verificar los datos devueltos del método
         if (empty($newShoppingBagId)) {
@@ -98,21 +86,9 @@ class ShoppingBagController {
         }
     }
 
-    public function addProduct ($shoppingBagDataEncoded) {
-        // paso 1: Decodificar los datos recibidos y validar la decodificación
-        $shoppingBagData = json_decode($shoppingBagDataEncoded, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            http_response_code(400);
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Datos de la bolsa de compra no válidos.'
-            ]);
-            return;
-        }
-        
+    public function addProduct ($data) {
         // paso 2: Validar los datos recibidos userId productId quantity
-        if (count(array_filter($shoppingBagData)) !== 3 && count(array_filter($shoppingBagData, 'is_numeric')) !== 3) {
+        if (count(array_filter($data)) !== 3 && count(array_filter($data, 'is_numeric')) !== 3) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -122,9 +98,9 @@ class ShoppingBagController {
         }
 
         // paso 3: convertir los datos a int y llamar al método requerido
-        $userId = (int)$shoppingBagData['userId'];
-        $productId = (int)$shoppingBagData['productId'];
-        $quantity = (int)$shoppingBagData['quantity'];
+        $userId = (int)$data['userId'];
+        $productId = (int)$data['productId'];
+        $quantity = (int)$data['quantity'];
         $shoppingBagResult = $this->shoppingBag->addProduct($this->connection, $userId, $productId, $quantity);
 
         // paso 4: Verificar la respuesta del método.
@@ -145,9 +121,9 @@ class ShoppingBagController {
         }
     }
 
-    public function checkOuts ($userIdEncoded) {
+    public function checkOuts ($data) {
         // paso 1: Verificar el dato recibido
-        if (empty($userIdEncoded) && !is_numeric($userIdEncoded)) {
+        if (empty($data) && !is_numeric($data['userId'])) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -157,7 +133,7 @@ class ShoppingBagController {
         }
 
         // paso 2: pasar el número a entero y llamar al método necesario
-        $userId = (int)$userIdEncoded;
+        $userId = (int)$data;
         $shoppingBagResult = $this->shoppingBag->checkOuts($this->connection, $userId);
 
         // paso 3: Verificar el resultado del método
@@ -179,12 +155,9 @@ class ShoppingBagController {
         }
     }
 
-    public function deleteProduct ($shoppingBagDataEncoded) {
-        // paso 1: decodificar los datos recibidos
-        $shoppingBagData = json_decode($shoppingBagDataEncoded, true);
-
+    public function deleteProduct ($data) {
         // paso 2: Verificar los datos recibidos
-        if (count(array_filter($shoppingBagData, 'is_numeric')) !== 2) {
+        if (count(array_filter($data, 'is_numeric')) !== 2) {
             http_response_code();
             echo json_encode([
                 'status' => 'error',
@@ -194,8 +167,8 @@ class ShoppingBagController {
         }
 
         // paso 3: pasar el número a entero y llamar al método necesario
-        $userId = (int)$shoppingBagData['userId'];
-        $productId = (int)$shoppingBagData['productId'];
+        $userId = (int)$data['userId'];
+        $productId = (int)$data['productId'];
         $shoppingBagResult = $this->shoppingBag->deleteProduct($this->connection, $userId, $productId);
 
         // paso 4: Verificar el resultado del método

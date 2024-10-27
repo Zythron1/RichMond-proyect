@@ -1,6 +1,6 @@
 <?php
-require_once '../config/dbConnection.php';
-require_once '../models/categoryModel.php';
+require_once './backend/src/config/dbConnection.php';
+require_once './backend/src/models/CategoryModel.php';
 
 class CategoryController {
     private $connection;
@@ -40,9 +40,9 @@ class CategoryController {
         }
     }
 
-    public function getCategorieById ($categoryIdEncoded) {
+    public function getCategorieById ($data) {
         // paso 1: Verificar datos recibidos
-        if (!($categoryIdEncoded && is_numeric($categoryIdEncoded))) {
+        if (!($data['categoryId'] && is_numeric($data['categoryId']))) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -52,7 +52,7 @@ class CategoryController {
         }
         
         // paso 2: Convertir categoryId a entero y llamar al método correspondiente
-        $categoryId = (int)$categoryIdEncoded;
+        $categoryId = (int)$data['categoryId'];
         $category = $this->categoryModel->getCategoryById($this->connection, $categoryId);
         
         // paso 3: Verificar datos devueltos del método
@@ -73,21 +73,9 @@ class CategoryController {
         }
     }
 
-    public function createCategory ($categoryDataEncoded) {
-        // paso 1: Decodificar los datos recibidos
-        $categoryData = json_decode($categoryDataEncoded, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            http_response_code(400);
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Datos de la categoría no válidos.'
-            ]); 
-            return;
-        }
-
+    public function createCategory ($data) {
         // paso 2: Verificar los datos recibidos
-        if (count(array_filter($categoryData)) !== 3) {
+        if (count(array_filter($data)) !== 3) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -97,7 +85,7 @@ class CategoryController {
         }
 
         // paso 3: Llamar al método necesario
-        $newCategoryId = $this->categoryModel->createCategory($this->connection, $categoryData);
+        $newCategoryId = $this->categoryModel->createCategory($this->connection, $data);
 
         // paso 4: Verificar los datos devueltos del método
         if (empty($newCategoryId)) {
@@ -118,21 +106,9 @@ class CategoryController {
         }
     }
 
-    public function updateCategory ($categoryIdEncoded, $categoryDataEncoded) {
-        // paso 1: Decodificar los datos enviados
-        $categoryData = json_decode($categoryDataEncoded, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            http_response_code(400);
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Datos de la categoría no válidos.'
-            ]);
-            return;
-        }
-
+    public function updateCategory ($data) {
         // paso 2: Verficar los datos recibidos
-        if (!($categoryIdEncoded && is_numeric($categoryIdEncoded) && count(array_filter($categoryData)))) {
+        if (!($data['categoryId'] && is_numeric($data['categoryId']) && count(array_filter($data)) > 1)) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -142,10 +118,10 @@ class CategoryController {
         }
 
         // paso 3: Convertir el id a entero y llamar al método requerido
-        $categoryId = (int)$categoryIdEncoded;
+        $categoryId = (int)$data['categoryId'];
 
         // paso 4: Verificar la respuesta del método
-        if (!$this->categoryModel->updateCategory($this->connection, $categoryId, $categoryData)) {
+        if (!$this->categoryModel->updateCategory($this->connection, $categoryId, $data)) {
             // paso 5: Respuesta http 500 y mensaje
             http_response_code(500);
             echo json_encode([
@@ -161,5 +137,4 @@ class CategoryController {
             ]);
         }
     }
-
 }

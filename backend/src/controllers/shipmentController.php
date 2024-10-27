@@ -1,6 +1,6 @@
 <?php
-require_once '../config/dbConnection.php';
-require_once '../models/shipmentModel.php';
+require_once './backend/src/config/dbConnection.php';
+require_once './backend/src/models/ShipmentModel.php';
 
 class ShipmentController {
     private $connection;
@@ -42,9 +42,9 @@ class ShipmentController {
         }
     }
 
-    public function getOrderById ($userIdEncoded) {
+    public function getOrderById ($data) {
         // paso 1: Verificar datos recibidos
-        if (!($userIdEncoded && is_numeric($userIdEncoded))) {
+        if (!($data['userId'] && is_numeric($data['userId']))) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -54,7 +54,7 @@ class ShipmentController {
         }
 
         // paso 2: Convertir categoryId a entero y llamar al método correspondiente
-        $userId = (int)$userIdEncoded;
+        $userId = (int)$data['userId'];
         $shipment = $this->shipmentModel->getShipmentById($this->connection, $userId);
 
         // paso 3: Verificar datos devueltos del método

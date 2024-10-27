@@ -1,9 +1,9 @@
 <?php
 
-require_once '../config/db_connection.php';
-require_once '../models/order.php';
-require_once '../models/purchase_history.php';
-require_once '../models/bag_product.php';
+require_once './backend/src/config/dbConnection.php';
+require_once './backend/src/models/OrderModel.php';
+require_once './backend/src/models/PurchaseHistoryModel.php';
+require_once './backend/src/models/BagProductModel.php';
 
 class ShoppingBagModel {
 

@@ -1,6 +1,6 @@
 <?php
-require_once '../config/dbConnection.php';
-require_once '../models/productModel.php';
+require_once './backend/src/config/dbConnection.php';
+require_once './backend/src/models/ProductModel.php';
 
 class ProductController {
     private $connection;
@@ -42,9 +42,9 @@ class ProductController {
         }
     }
 
-    public function getProductById ($productIdEncoded) {
+    public function getProductById ($data) {
         // paso 1: Verificar datos recibidos
-        if (!($productIdEncoded && is_numeric($productIdEncoded))) {
+        if (!($data['productId'] && is_numeric($data['productId']))) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -54,7 +54,7 @@ class ProductController {
         }
 
         // paso 2: Convertir categoryId a entero y llamar al método correspondiente
-        $productId = (int)$productIdEncoded;
+        $productId = (int)$data['productId'];
         $product = $this->productModel->getProductById($this->connection, $productId);
 
         // paso 3: Verificar datos devueltos del método
@@ -75,21 +75,9 @@ class ProductController {
         }
     }
 
-    public function createProduct ($producDataEncoded) {
-        // paso 1: Decodificar los datos recibidos
-        $producData = json_decode($producDataEncoded, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            http_response_code(400);
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Datos del producto no válidos.'
-            ]);
-            return;
-        }
-
+    public function createProduct ($data) {
         // paso 2: Verificar los datos recibidos
-        if (count(array_filter($producData)) !== 6) {
+        if (count(array_filter($data)) !== 6) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -99,7 +87,7 @@ class ProductController {
         }
 
         // paso 3: Llamar al método necesario
-        $newProductId = $this->productModel->createProduct($this->connection, $producData);
+        $newProductId = $this->productModel->createProduct($this->connection, $data);
 
         // paso 4: Verificar los datos devueltos del método
         if (empty($newProductId)) {
@@ -120,21 +108,9 @@ class ProductController {
         }
     }
 
-    public function updateProduct ($productIdEncoded, $productDataEncoded) {
-        // paso 1: Decodificar los datos enviados
-        $productData = json_decode($productDataEncoded, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            http_response_code(400);
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Datos del producto no válidos.'
-            ]);
-            return;
-        }
-
+    public function updateProduct ($data) {
         // paso 2: Verficar los datos recibidos
-        if (!($productIdEncoded && is_numeric($productIdEncoded) && count(array_filter($productData)))) {
+        if (!($data['productId'] && is_numeric($data['productId']) && count(array_filter($data)) > 1)) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -144,10 +120,10 @@ class ProductController {
         }
 
         // paso 3: Convertir el id a entero y llamar al método requerido
-        $productId = (int)$productIdEncoded;
+        $productId = (int)$data['productId'];
 
         // paso 4: Verificar la respuesta del método
-        if (!$this->productModel->updateProduct($this->connection, $productId, $productData)) {
+        if (!$this->productModel->updateProduct($this->connection, $productId, $data)) {
             // paso 5: Respuesta http 500 y mensaje
             http_response_code(500);
             echo json_encode([
@@ -164,9 +140,9 @@ class ProductController {
         }
     }
 
-    public function deleteProduct ($productIdEncoded) {
+    public function deleteProduct ($data) {
         // paso 1: Varificar los datos recibidos
-        if (!($productIdEncoded && is_numeric($productIdEncoded))) {
+        if (!($data['productId'] && is_numeric($data['productId']))) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -176,7 +152,7 @@ class ProductController {
         }
 
         // paso 2: Convertir productId a entero y llamar al método necesario
-        $productId = (int)$productIdEncoded;
+        $productId = (int)$data['productId'];
         
         // paso 3: Verificar la respuesta del método
         if (!$this->productModel->deleteProduct($this->connection, $productId)) {

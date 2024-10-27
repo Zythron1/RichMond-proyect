@@ -1,6 +1,7 @@
 <?php
-require_once '../config/dbConnection.php';
-require_once '../models/bagProductModel.php';
+
+require_once './backend/src/config/dbConnection.php';
+require_once './backend/src/models/BagProductModel.php';
 
 class BagProductController {
     private $connection;
@@ -20,21 +21,9 @@ class BagProductController {
         }
     }
 
-    public function createOrder ($bagProductDataEncoded) {
-        // paso 1: Decodificar los datos recibidos
-        $bagProductData = json_decode($bagProductDataEncoded, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            http_response_code(400);
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Datos de la bolsa y producto no válidos.'
-            ]);
-            return;
-        }
-
+    public function createBagProduct ($data) {
         // paso 2: Verificar los datos recibidos
-        if (count(array_filter($bagProductData)) !== 3) {
+        if (count(array_filter($data)) !== 3) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -44,7 +33,7 @@ class BagProductController {
         }
 
         // paso 3: Llamar al método necesario
-        $newBagProduct = $this->bagProductModel->createBagProduct($this->connection, $bagProductData);
+        $newBagProduct = $this->bagProductModel->createBagProduct($this->connection, $data);
 
         // paso 4: Verificar los datos devueltos del método
         if (empty($newBagProduct)) {

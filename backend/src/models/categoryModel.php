@@ -1,6 +1,6 @@
 <?php
 
-require_once '../config/db_connection.php';
+require_once './backend/src/config/dbConnection.php';
 
 class CategoryModel {
     public function getAllCategories ($connection) {

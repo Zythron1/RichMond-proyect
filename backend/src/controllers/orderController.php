@@ -1,6 +1,7 @@
 <?php
-require_once '../config/dbConnection.php';
-require_once '../models/orderModel.php';
+
+require_once './backend/src/config/dbConnection.php';
+require_once './backend/src/models/OrderModel.php';
 
 class OrderController {
     private $connection;
@@ -42,9 +43,9 @@ class OrderController {
         }
     }
 
-    public function getOrderById ($orderIdEncoded) {
+    public function getOrderById ($data) {
         // paso 1: Verificar datos recibidos
-        if (!($orderIdEncoded && is_numeric($orderIdEncoded))) {
+        if (!($data['orderId'] && is_numeric($data['orderId']))) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -54,7 +55,7 @@ class OrderController {
         }
 
         // paso 2: Convertir categoryId a entero y llamar al método correspondiente
-        $orderId = (int)$orderIdEncoded;
+        $orderId = (int)$data['orderId'];
         $order = $this->orderModel->getOrderById($this->connection, $orderId);
 
         // paso 3: Verificar datos devueltos del método
@@ -75,21 +76,9 @@ class OrderController {
         }
     }
 
-    public function createOrder ($orderDataEncoded) {
-        // paso 1: Decodificar los datos recibidos
-        $orderData = json_decode($orderDataEncoded, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            http_response_code(400);
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Datos de la orden no válidos.'
-            ]);
-            return;
-        }
-
+    public function createOrder ($data) {
         // paso 2: Verificar los datos recibidos
-        if (count(array_filter($orderData)) !== 2) {
+        if (count(array_filter($data)) !== 2) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -99,7 +88,7 @@ class OrderController {
         }
 
         // paso 3: Llamar al método necesario
-        $newOrderId = $this->orderModel->createOrder($this->connection, $orderData);
+        $newOrderId = $this->orderModel->createOrder($this->connection, $data);
 
         // paso 4: Verificar los datos devueltos del método
         if (empty($newOrderId)) {
@@ -120,21 +109,9 @@ class OrderController {
         }
     }
 
-    public function updateOrder ($orderIdEncoded, $orderDataEncoded) {
-        // paso 1: Decodificar los datos enviados
-        $orderData = json_decode($orderDataEncoded, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            http_response_code(400);
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Datos de la orden no válidos.'
-            ]);
-            return;
-        }
-
+    public function updateOrder ($data) {
         // paso 2: Verficar los datos recibidos
-        if (!($orderIdEncoded && is_numeric($orderIdEncoded) && count(array_filter($orderData)))) {
+        if (!($data['orderId'] && is_numeric($data['orderId']) && count(array_filter($data)) > 1)) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -144,10 +121,10 @@ class OrderController {
         }
 
         // paso 3: Convertir el id a entero y llamar al método requerido
-        $orderId = (int)$orderIdEncoded;
+        $orderId = (int)$data['orderId'];
 
         // paso 4: Verificar la respuesta del método
-        if (!$this->orderModel->updateOrder($this->connection, $orderId, $orderData)) {
+        if (!$this->orderModel->updateOrder($this->connection, $orderId, $data)) {
             // paso 5: Respuesta http 500 y mensaje
             http_response_code(500);
             echo json_encode([
@@ -164,9 +141,9 @@ class OrderController {
         }
     }
 
-    public function deleteOrder ($orderIdEncoded) {
+    public function deleteOrder ($data) {
         // paso 1: Varificar los datos recibidos
-        if (!($orderIdEncoded && is_numeric($orderIdEncoded))) {
+        if (!($data['orderId'] && is_numeric($data['orderId']))) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -176,7 +153,7 @@ class OrderController {
         }
 
         // paso 2: Convertir productId a entero y llamar al método necesario
-        $orderId = (int)$orderIdEncoded;
+        $orderId = (int)$data['orderId'];
         
         // paso 3: Verificar la respuesta del método
         if (!$this->orderModel->deleteOrder($this->connection, $orderId)) {

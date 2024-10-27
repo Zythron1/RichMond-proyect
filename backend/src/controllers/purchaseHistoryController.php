@@ -1,6 +1,6 @@
 <?php
-require_once '../config/dbConnection.php';
-require_once '../models/purchaseHistoryModel.php';
+require_once './backend/src/config/dbConnection.php';
+require_once './backend/src/models/PurchaseHistoryModel.php';
 
 class PurchaseHistoryController {
     private $connection;
@@ -42,9 +42,9 @@ class PurchaseHistoryController {
         }
     }
 
-    public function GetpurchaseHistoryById ($userIdEncoded) {
+    public function GetpurchaseHistoryById ($data) {
         // paso 1: Verificar datos recibidos
-        if (!($userIdEncoded && is_numeric($userIdEncoded))) {
+        if (!($data['userId'] && is_numeric($data['userId']))) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -54,7 +54,7 @@ class PurchaseHistoryController {
         }
 
         // paso 2: Convertir categoryId a entero y llamar al método correspondiente
-        $userId = (int)$userIdEncoded;
+        $userId = (int)$$data['userId'];
         $purchaseHistory = $this->purchaseHistoryModel->GetpurchaseHistoryById($this->connection, $userId);
 
         // paso 3: Verificar datos devueltos del método
@@ -75,21 +75,9 @@ class PurchaseHistoryController {
         }
     }
 
-    public function createPurchaseHistory ($purchaseDataEncoded) {
-        // paso 1: Decodificar los datos recibidos
-        $purchaseData = json_decode($purchaseDataEncoded, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            http_response_code(400);
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Datos del historial de compra no válidos.'
-            ]);
-            return;
-        }
-
+    public function createPurchaseHistory ($data) {
         // paso 2: Verificar los datos recibidos
-        if (count(array_filter($purchaseData)) !== 4) {
+        if (count(array_filter($data, 'is_numeric')) !== 4) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
@@ -99,7 +87,7 @@ class PurchaseHistoryController {
         }
 
         // paso 3: Llamar al método necesario
-        $newPurchaseHistoryId = $this->purchaseHistoryModel->createPurchaseHistory($this->connection, $purchaseData);
+        $newPurchaseHistoryId = $this->purchaseHistoryModel->createPurchaseHistory($this->connection, $data);
 
         // paso 4: Verificar los datos devueltos del método
         if (empty($newPurchaseHistoryId)) {
