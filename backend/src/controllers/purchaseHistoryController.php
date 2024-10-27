@@ -54,7 +54,7 @@ class PurchaseHistoryController {
         }
 
         // paso 2: Convertir categoryId a entero y llamar al método correspondiente
-        $userId = (int)$$data['userId'];
+        $userId = (int)$data['userId'];
         $purchaseHistory = $this->purchaseHistoryModel->GetpurchaseHistoryById($this->connection, $userId);
 
         // paso 3: Verificar datos devueltos del método

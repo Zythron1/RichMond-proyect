@@ -6,12 +6,13 @@ class DatabaseConnection {
     private static function connection() {
         if(!self::$db) {
             $config = require_once './backend/src/config/dbConfig.php';
-            $dsn = 'mysql:host='. $config['host'] . ';dbname=' . $config['dbname']; //data source name
+            $dsn = 'mysql:host='. $config['host'] . ';dbname=' . $config['dbname']. ';'. $config['codificacion']; //data source name
             
 
             try {
                 self::$db = new PDO($dsn, $config['username'], $config['password']);
                 self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                self::$db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES 'utf8mb4'");
             } catch( PDOException $e) {
                 echo 'Fallo de conexión con la base de datos RichMond_db, ERROR:'. $e->getMessage();
                 die();

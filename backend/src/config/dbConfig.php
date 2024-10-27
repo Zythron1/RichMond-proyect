@@ -6,4 +6,6 @@ return [
     'dbname' => 'RichMond_db',
     'username' => 'root',
     'password' => '3105180466Df',
+    'codificacion' => 'charset=utf8mb4',
+    
 ];

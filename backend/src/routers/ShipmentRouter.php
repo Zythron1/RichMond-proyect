@@ -3,8 +3,8 @@
 class ShipmentRouter {
     // paso 1: Crear 4 atributos que guardan la información necesaria para ejecutar el método requerido en la petición (controlador y la acción del controlador, ruta y método)
     private $routesGet = [
-        ['controller' => 'ShipmentController', 'action' => 'getAllOrder', 'route' => '/Shipment', 'method' => 'GET'],
-        ['controller' => 'ShipmentController', 'action' => 'getOrderById', 'route' => '/Shipment/{userId}', 'method' => 'GET']
+        ['controller' => 'ShipmentController', 'action' => 'getAllOrder', 'route' => '/shipment', 'method' => 'GET'],
+        ['controller' => 'ShipmentController', 'action' => 'getOrderById', 'route' => '/shipment/{userId}', 'method' => 'GET']
     ]; 
     private $routesPost = [
         ['controller' => 'ShipmentController', 'action' => '', 'route' => '', 'method' => 'POST']

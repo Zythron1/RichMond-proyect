@@ -3,6 +3,7 @@
 header('Access-Control-Allow-Origin: http://127.0.0.1:5500');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Content-Type: application/json; charset=utf-8');
 
 // paso 1: Recuperar la url particionada y el método.
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -35,108 +36,108 @@ switch ($entity) {
             $routes = $userRouter->getRoutesDelete();
         }
         break;
-    case 'Product':
-        require_once './backend/src/routers/UserRouter.php';
-        $userRouter = new UserRouter();
+    case 'product':
+        require_once './backend/src/routers/ProductRouter.php';
+        $product = new ProductRouter();
         if ($method === 'GET') {
-            $routes = $userRouter->getRoutesGet();
+            $routes = $product->getRoutesGet();
         } elseif ($method === 'POST') {
-            $routes = $userRouter->getRoutesPost();
+            $routes = $product->getRoutesPost();
         } elseif ($method === 'PUT') {
-            $routes = $userRouter->getRoutesPut();
+            $routes = $product->getRoutesPut();
         } elseif ($method === 'DELETE') {
-            $routes = $userRouter->getRoutesDelete();
+            $routes = $product->getRoutesDelete();
         }
         break;
-    case 'Category':
-        require_once './backend/src/routers/UserRouter.php';
-        $userRouter = new UserRouter();
+    case 'category':
+        require_once './backend/src/routers/CategoryRouter.php';
+        $category = new CategoryRouter();
         if ($method === 'GET') {
-            $routes = $userRouter->getRoutesGet();
+            $routes = $category->getRoutesGet();
         } elseif ($method === 'POST') {
-            $routes = $userRouter->getRoutesPost();
+            $routes = $category->getRoutesPost();
         } elseif ($method === 'PUT') {
-            $routes = $userRouter->getRoutesPut();
+            $routes = $category->getRoutesPut();
         } elseif ($method === 'DELETE') {
-            $routes = $userRouter->getRoutesDelete();
+            $routes = $category->getRoutesDelete();
         }
         break;
-    case 'ShoppingBag':
-        require_once './backend/src/routers/UserRouter.php';
-        $userRouter = new UserRouter();
+    case 'shoppingBag':
+        require_once './backend/src/routers/ShoppingBagRouter.php';
+        $shoppingBag = new ShoppingBagRouter();
         if ($method === 'GET') {
-            $routes = $userRouter->getRoutesGet();
+            $routes = $shoppingBag->getRoutesGet();
         } elseif ($method === 'POST') {
-            $routes = $userRouter->getRoutesPost();
+            $routes = $shoppingBag->getRoutesPost();
         } elseif ($method === 'PUT') {
-            $routes = $userRouter->getRoutesPut();
+            $routes = $shoppingBag->getRoutesPut();
         } elseif ($method === 'DELETE') {
-            $routes = $userRouter->getRoutesDelete();
+            $routes = $shoppingBag->getRoutesDelete();
         }
         break;
-    case 'BagProduct':
-        require_once './backend/src/routers/UserRouter.php';
-        $userRouter = new UserRouter();
+    case 'bagProduct':
+        require_once './backend/src/routers/BagProductRouter.php';
+        $bagProduct = new BagProductRouter();
         if ($method === 'GET') {
-            $routes = $userRouter->getRoutesGet();
+            $routes = $bagProduct->getRoutesGet();
         } elseif ($method === 'POST') {
-            $routes = $userRouter->getRoutesPost();
+            $routes = $bagProduct->getRoutesPost();
         } elseif ($method === 'PUT') {
-            $routes = $userRouter->getRoutesPut();
+            $routes = $bagProduct->getRoutesPut();
         } elseif ($method === 'DELETE') {
-            $routes = $userRouter->getRoutesDelete();
+            $routes = $bagProduct->getRoutesDelete();
         }
         break;
-    case 'PaymentMethod':
-        require_once './backend/src/routers/UserRouter.php';
-        $userRouter = new UserRouter();
+    case 'paymentMethod':
+        require_once './backend/src/routers/PaymentMethodRouter.php';
+        $paymentMethod = new PaymentMethodRouter();
         if ($method === 'GET') {
-            $routes = $userRouter->getRoutesGet();
+            $routes = $paymentMethod->getRoutesGet();
         } elseif ($method === 'POST') {
-            $routes = $userRouter->getRoutesPost();
+            $routes = $paymentMethod->getRoutesPost();
         } elseif ($method === 'PUT') {
-            $routes = $userRouter->getRoutesPut();
+            $routes = $paymentMethod->getRoutesPut();
         } elseif ($method === 'DELETE') {
-            $routes = $userRouter->getRoutesDelete();
+            $routes = $paymentMethod->getRoutesDelete();
         }
         break;
-    case 'Order':
-        require_once './backend/src/routers/UserRouter.php';
-        $userRouter = new UserRouter();
+    case 'order':
+        require_once './backend/src/routers/OrderRouter.php';
+        $order = new OrderRouter();
         if ($method === 'GET') {
-            $routes = $userRouter->getRoutesGet();
+            $routes = $order->getRoutesGet();
         } elseif ($method === 'POST') {
-            $routes = $userRouter->getRoutesPost();
+            $routes = $order->getRoutesPost();
         } elseif ($method === 'PUT') {
-            $routes = $userRouter->getRoutesPut();
+            $routes = $order->getRoutesPut();
         } elseif ($method === 'DELETE') {
-            $routes = $userRouter->getRoutesDelete();
+            $routes = $order->getRoutesDelete();
         }
         break;
-    case 'Shipment':
-        require_once './backend/src/routers/UserRouter.php';
-        $userRouter = new UserRouter();
+    case 'shipment':
+        require_once './backend/src/routers/ShipmentRouter.php';
+        $shipment = new ShipmentRouter();
         if ($method === 'GET') {
-            $routes = $userRouter->getRoutesGet();
+            $routes = $shipment->getRoutesGet();
         } elseif ($method === 'POST') {
-            $routes = $userRouter->getRoutesPost();
+            $routes = $shipment->getRoutesPost();
         } elseif ($method === 'PUT') {
-            $routes = $userRouter->getRoutesPut();
+            $routes = $shipment->getRoutesPut();
         } elseif ($method === 'DELETE') {
-            $routes = $userRouter->getRoutesDelete();
+            $routes = $shipment->getRoutesDelete();
         }
         break;
-    case 'PurchaseHistory':
-        require_once './backend/src/routers/UserRouter.php';
-        $userRouter = new UserRouter();
+    case 'purchaseHistory':
+        require_once './backend/src/routers/PurchaseHistoryRouter.php';
+        $purchaseHistory = new PurchaseHistoryRouter();
         if ($method === 'GET') {
-            $routes = $userRouter->getRoutesGet();
+            $routes = $purchaseHistory->getRoutesGet();
         } elseif ($method === 'POST') {
-            $routes = $userRouter->getRoutesPost();
+            $routes = $purchaseHistory->getRoutesPost();
         } elseif ($method === 'PUT') {
-            $routes = $userRouter->getRoutesPut();
+            $routes = $purchaseHistory->getRoutesPut();
         } elseif ($method === 'DELETE') {
-            $routes = $userRouter->getRoutesDelete();
+            $routes = $purchaseHistory->getRoutesDelete();
         }
         break;
     default:

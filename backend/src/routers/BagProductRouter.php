@@ -1,12 +1,12 @@
 <?php
 
-class BagProductRouterv {
+class BagProductRouter {
     // paso 1: Crear 4 atributos que guardan la información necesaria para ejecutar el método requerido en la petición (controlador y la acción del controlador, ruta y método)
     private $routesGet = [
         ['controller' => 'BagProductController', 'action' => '', 'route' => '', 'method' => 'GET']
     ]; 
     private $routesPost = [
-        ['controller' => 'BagProductController', 'action' => 'createBagProduct', 'route' => '/BagProduct', 'method' => 'POST']
+        ['controller' => 'BagProductController', 'action' => 'createBagProduct', 'route' => '/bagProduct', 'method' => 'POST']
     ]; 
     private $routesPut = [
         ['controller' => 'BagProductController', 'action' => '', 'route' => '', 'method' => 'PUT']

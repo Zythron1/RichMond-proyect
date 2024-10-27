@@ -3,11 +3,11 @@
 class PurchaseHistoryRouter {
     // paso 1: Crear 4 atributos que guardan la información necesaria para ejecutar el método requerido en la petición (controlador y la acción del controlador, ruta y método)
     private $routesGet = [
-        ['controller' => 'PurchaseHistoryController', 'action' => 'getAllPurchaseHistory', 'route' => '/PurchaseHistory', 'method' => 'GET'],
-        ['controller' => 'PurchaseHistoryController', 'action' => 'GetpurchaseHistoryById', 'route' => '/PurchaseHistory/{userId}', 'method' => 'GET']
+        ['controller' => 'PurchaseHistoryController', 'action' => 'getAllPurchaseHistory', 'route' => '/purchaseHistory', 'method' => 'GET'],
+        ['controller' => 'PurchaseHistoryController', 'action' => 'GetpurchaseHistoryById', 'route' => '/purchaseHistory/{userId}', 'method' => 'GET']
     ]; 
     private $routesPost = [
-        ['controller' => 'PurchaseHistoryController', 'action' => 'createPurchaseHistory', 'route' => '/PurchaseHistory', 'method' => 'POST']
+        ['controller' => 'PurchaseHistoryController', 'action' => 'createPurchaseHistory', 'route' => '/purchaseHistory', 'method' => 'POST']
     ]; 
     private $routesPut = [
         ['controller' => 'PurchaseHistoryController', 'action' => '', 'route' => '', 'method' => 'PUT']

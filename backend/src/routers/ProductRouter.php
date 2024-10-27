@@ -3,17 +3,17 @@
 class ProductRouter {
     // paso 1: Crear 4 atributos que guardan la información necesaria para ejecutar el método requerido en la petición (controlador y la acción del controlador, ruta y método)
     private $routesGet = [
-        ['controller' => 'ProductController', 'action' => 'getAllProducts', 'route' => '/Product', 'method' => 'GET'],
-        ['controller' => 'ProductController', 'action' => 'getProductById', 'route' => '/Product/{productId}', 'method' => 'GET']
+        ['controller' => 'ProductController', 'action' => 'getAllProducts', 'route' => '/product', 'method' => 'GET'],
+        ['controller' => 'ProductController', 'action' => 'getProductById', 'route' => '/product/{productId}', 'method' => 'GET']
     ]; 
     private $routesPost = [
-        ['controller' => 'ProductController', 'action' => 'createProduct', 'route' => '/Product', 'method' => 'POST']
+        ['controller' => 'ProductController', 'action' => 'createProduct', 'route' => '/product', 'method' => 'POST']
     ]; 
     private $routesPut = [
-        ['controller' => 'ProductController', 'action' => 'updateProduct', 'route' => '/Product/{productId}/update', 'method' => 'PUT']
+        ['controller' => 'ProductController', 'action' => 'updateProduct', 'route' => '/product/{productId}/update', 'method' => 'PUT']
     ]; 
     private $routesDelete = [
-        ['controller' => 'ProductController', 'action' => 'deleteProduct', 'route' => '/Product/{productId}/delete', 'method' => 'DELETE']
+        ['controller' => 'ProductController', 'action' => 'deleteProduct', 'route' => '/product/{productId}/delete', 'method' => 'DELETE']
     ]; 
 
     // paso 2: hacer todas las funciones para obtener los datos 

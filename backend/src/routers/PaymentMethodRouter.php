@@ -3,7 +3,7 @@
 class PaymentMethodRouter {
     // paso 1: Crear 4 atributos que guardan la información necesaria para ejecutar el método requerido en la petición (controlador y la acción del controlador, ruta y método)
     private $routesGet = [
-        ['controller' => 'PaymentMethodController', 'action' => 'getPaymentMethodById', 'route' => '/PaymentMethod/{userId}', 'method' => 'GET']
+        ['controller' => 'PaymentMethodController', 'action' => 'getPaymentMethodById', 'route' => '/paymentMethod/{userId}', 'method' => 'GET']
     ]; 
     private $routesPost = [
         ['controller' => 'PaymentMethodController', 'action' => '', 'route' => '', 'method' => 'POST']

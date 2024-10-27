@@ -3,17 +3,17 @@
 class OrderRouter {
     // paso 1: Crear 4 atributos que guardan la información necesaria para ejecutar el método requerido en la petición (controlador y la acción del controlador, ruta y método)
     private $routesGet = [
-        ['controller' => 'OrderController', 'action' => 'getAllOrder', 'route' => '/Order', 'method' => 'GET'],
-        ['controller' => 'OrderController', 'action' => 'getOrderById', 'route' => '/Order/{orderId}', 'method' => 'GET']
+        ['controller' => 'OrderController', 'action' => 'getAllOrder', 'route' => '/order', 'method' => 'GET'],
+        ['controller' => 'OrderController', 'action' => 'getOrderById', 'route' => '/order/{orderId}', 'method' => 'GET']
     ]; 
     private $routesPost = [
-        ['controller' => 'OrderController', 'action' => 'createOrder', 'route' => '/Order', 'method' => 'POST']
+        ['controller' => 'OrderController', 'action' => 'createOrder', 'route' => '/order', 'method' => 'POST']
     ]; 
     private $routesPut = [
-        ['controller' => 'OrderController', 'action' => 'updateOrder', 'route' => '/Order/{orderId}/update', 'method' => 'PUT']
+        ['controller' => 'OrderController', 'action' => 'updateOrder', 'route' => '/order/{orderId}/update', 'method' => 'PUT']
     ]; 
     private $routesDelete = [
-        ['controller' => 'OrderController', 'action' => 'deleteOrder', 'route' => '/Order/{orderId}/delete', 'method' => 'DELETE']
+        ['controller' => 'OrderController', 'action' => 'deleteOrder', 'route' => '/order/{orderId}/delete', 'method' => 'DELETE']
     ]; 
 
     // paso 2: hacer todas las funciones para obtener los datos 

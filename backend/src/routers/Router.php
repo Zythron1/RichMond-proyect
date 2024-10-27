@@ -22,7 +22,6 @@ class Router {
                 // paso 5: verificar si la expresión regualar existe en cada parte de la ruta, si existe agregarla a una variable el valor de la ruta, limpiarlo y utilizarlo como clave al fusionar los arrays que contienen la información para el método del controlador
                 if (preg_match('/\{[a-zA-Z_]+\}/', $routePart)) {
                     $cleanKey = preg_replace('/^\{(.*)\}$/', '$1', $routePart);
-
                     // paso 6: Si existe almacenar el dato en la variable que guarda los parámetros
                     if (isset($urlParts[$index])) {
                         $params[$cleanKey] = $urlParts[$index];
@@ -36,6 +35,7 @@ class Router {
                     if ($urlParts[$index] !== $routePart) {
                         // paso 8: Si son diferentes cambiar el estado de la variable rutasCoincididas a false y romper para que no siga ejecutandose el método.
                         $routeMatches = false;
+                        print_r($routePart);
                         break;
                     }
                 }
