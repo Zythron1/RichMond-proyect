@@ -1,6 +1,7 @@
 # Ignorar imágenes
 *.jpg
 *.jpeg
+*.png
 *.gif
 *eps
 

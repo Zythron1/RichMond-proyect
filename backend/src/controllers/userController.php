@@ -92,7 +92,7 @@ class UserController {
                 http_response_code(201);
                 echo json_encode([
                     'status' => 'success',
-                    'message' => 'Usuario creado exitosamente',
+                    'message' => 'Usuario creado exitosamente. Ya puedes ingresar a tu cuenta',
                     'userId' => $newUserId
                 ]);
             }

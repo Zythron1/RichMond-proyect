@@ -28,14 +28,13 @@ html {
 }
 
 .main {
-    
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     width: 100vw;
     height: 100vh;
     font-family: var(--text-font);
     color: #ffffff;
-    
+    overflow: hidden;
 }
 
 .forms-container {
@@ -58,6 +57,10 @@ html {
     object-fit: cover;
 }
 
+.tamano {
+    width: 90%;
+}
+
 .content-container {
     position: relative;
     background: radial-gradient(circle, #323639 50%, #212121);
@@ -77,13 +80,18 @@ html {
     padding: 30px 10px;
 }
 
-.visible {
-    transition: right 0.5s ease;
-
+.hidden {
+    transform: translateX(100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 1.2s ease-out, opacity 0.7s ease-in-out;
 }
 
-.hidden {
-    display: none;
+.visible {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    transition: transform 1.2s ease-out, opacity 0.7s ease-in-out;
 }
 
 .form__title {
@@ -150,6 +158,20 @@ html {
     width: 70%;
     height: 65%;
     bottom: 15%;
+}
+
+.hidden {
+    transform: translateY(100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 1.2s ease-out, opacity 0.7s ease-in-out;
+}
+
+.visible {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    transition: transform 1.2s ease-out, opacity 0.7s ease-in-out;
 }
 
 }

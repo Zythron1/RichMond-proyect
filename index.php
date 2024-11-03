@@ -11,7 +11,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 // paso 2: Obtener los datos envviados en el body y utilizar el método estático de la clase DecodeEncodeRequestData
 $jsonData = file_get_contents('php://input');
-require_once './backend/src/services/DecodeEncodeRequestData.php';
+require_once './backend/src/helpers/DecodeEncodeRequestData.php';
 $data = DecodeEncodeRequestData::decodeJson($jsonData);
 
 //paso 2: partir la url por cada / que se encuentre y almacenar el nombre de la entidad para hacer la verificación de a quién
