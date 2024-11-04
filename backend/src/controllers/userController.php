@@ -1,6 +1,7 @@
 <?php
 require_once './backend/src/config/dbConnection.php';
 require_once './backend/src/models/UserModel.php';
+require_once './backend/src/helpers/UserHelpers.php';
 
 class UserController {
     private $connection;
@@ -103,6 +104,25 @@ class UserController {
                 'status' => 'error',
                 'message' => 'Datos de usuario faltantes, se requiere nombre de usuario, email y contraseña'
             ]);
+        }
+    }
+
+    public function login ($data) {
+        $validationResponse = UserHelpers::validateUserData($data);
+
+        if ($validationResponse['status'] === 'error') {
+            http_response_code(400);
+            echo json_encode($validationResponse);
+        }
+
+        $loginResponse = $this->userModel->login($this->connection, $data);
+
+        if ($loginResponse['status'] === 'error') {
+            http_response_code(404);
+            echo json_encode($loginResponse);
+        } else {
+            http_response_code(200);
+            echo json_encode($loginResponse);
         }
     }
 

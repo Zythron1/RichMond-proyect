@@ -6,10 +6,10 @@ class UserModel {
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
 
         if (!nameRegex.test(data.userName)) {
-            alert('Usuario no válido');
+            alert('Nombre de usuario no válido');
             return false;
         } else if (!emailRegex.test(data.emailAddress)) {
-            alert('Correo no válido')
+            alert('Email no válido')
             return false;
         } else if (!passwordRegex.test(data.userPassword)) {
             alert('Contraseña no válida. Min 8 caracteres una letra mayúscula, minúscula y un número.')
@@ -17,7 +17,6 @@ class UserModel {
         } else {
             return true;
         }
-
     }
 }
 

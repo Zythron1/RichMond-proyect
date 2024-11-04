@@ -1,16 +1,17 @@
 import UserModel from "../models/UserModel.js";
 import UserService from "../services/UserService.js";
 
+const UserModelInstance = new UserModel();
+const UserServiceInstance = new UserService;
+
 class UserController {
     createUser (data) {
         const loginButton = document.getElementById('login');
 
-        const userModelInstance = new UserModel();
-        if (!userModelInstance.validateUserData(data)) {
+        if (!UserModelInstance.validateUserData(data)) {
             return;
         } 
 
-        const UserServiceInstance = new UserService;
         UserServiceInstance.requestToCreateUser(data)
         .then(data => {
             if (data.status === 'success') {
@@ -18,6 +19,19 @@ class UserController {
             }
         })
         
+    }
+
+    login (data) {
+        if (!UserModelInstance.validateUserData(data)) {
+            return;
+        }
+
+        UserServiceInstance.requestToLogin(data)
+        .then(data => {
+            if (data.status === 'success') {
+                window.location.href = 'index.html';
+            }
+        })
     }
 }
 

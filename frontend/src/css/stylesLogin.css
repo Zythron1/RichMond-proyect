@@ -43,7 +43,7 @@ html {
     align-items: center;
     justify-content: center;
     position: relative;
-    background-color: #323639;
+    background-color: #282b2d;
 }
 
 .content {
@@ -63,7 +63,7 @@ html {
 
 .content-container {
     position: relative;
-    background: radial-gradient(circle, #323639 50%, #212121);
+    background: radial-gradient(circle, #282b2d 50%, #161616);
 }
 
 .form {
@@ -158,6 +158,10 @@ html {
     width: 70%;
     height: 65%;
     bottom: 15%;
+}
+
+.forms-container {
+    background: radial-gradient(circle, #282b2d 50%, #161616);  
 }
 
 .hidden {

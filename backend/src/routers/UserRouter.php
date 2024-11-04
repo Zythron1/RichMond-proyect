@@ -8,6 +8,7 @@ class UserRouter {
     ]; 
     private $routesPost = [
         ['controller' => 'UserController', 'action' => 'createUser', 'route' => '/user', 'method' => 'POST'],
+        ['controller' => 'UserController', 'action' => 'login', 'route' => '/user/login', 'method' => 'POST']
     ]; 
     private $routesPut = [
         ['controller' => 'UserController', 'action' => 'updateUser', 'route' => '/user/{userId}/updateUser', 'method' => 'PUT'],

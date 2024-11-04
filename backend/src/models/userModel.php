@@ -1,5 +1,4 @@
 <?php
-require_once './backend/src/config/dbConnection.php';
 
 class UserModel {
     public function getAllUsers ($connection) {
@@ -39,6 +38,41 @@ class UserModel {
         } else {
             return false;
         }
+    }
+
+    public function login ($connection, $data) {
+        $stmt = $connection->prepare('SELECT user_id, email_address, user_password FROM users WHERE email_address = :emailAddress');
+        $stmt->bindParam(':emailAddress', $data['emailAddress'], PDO::PARAM_STR);
+        $stmt->execute();
+        $realUserData = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$realUserData) {
+            return [
+                'status' => 'error',
+                'message' => 'El email no existe.'
+            ];
+        }
+
+        if (!password_verify($data['userPassword'], $realUserData['user_password'])) {
+            return [
+                'status' => 'error',
+                'message' => 'La contraseña no coincide.'
+            ];
+        }
+
+        $userId = $realUserData['user_id'];
+        $tokenData = [
+            'userId' => $userId,
+            'exp' => time() + (60 * 60 * 168)
+        ];
+
+        $token = base64_encode(json_encode($tokenData));
+
+        return [
+            'status' => 'success',
+            'message' => 'Inicio de sesión exitoso.',
+            'token' => $token
+        ];
     }
 
     public function updateUser ($connection, $userId, $userData) {
@@ -130,4 +164,3 @@ class UserModel {
         }
     }
 }
-

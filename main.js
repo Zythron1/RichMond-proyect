@@ -2,6 +2,8 @@
 import LoginController from "./frontend/src/js/controllers/LoginController.js";
 import UserController from "./frontend/src/js/controllers/UserController.js";
 
+const UserControllerInstance = new UserController();
+
 // Cambio de formulario entre iniciar sesión y crear cuenta
 const registerButton = document.getElementById('register');
 const loginButton = document.getElementById('login');
@@ -29,8 +31,23 @@ registerForm.addEventListener('submit', e => {
         'emailAddress': email,
         'userPassword': password
     };
-    const UserControllerInstance = new UserController();
     UserControllerInstance.createUser(data);
 })
 
+
 // Iniciar sesión
+const loginForm = document.getElementById('login-form');
+loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const emailLogin = document.getElementById('email-login').value;
+    const passwordLogin = document.getElementById('password-login').value;
+
+    let data = {
+        'userName': 'Shanks Ace',
+        'emailAddress': emailLogin,
+        'userPassword': passwordLogin
+    };
+
+    UserControllerInstance.login(data);
+})
