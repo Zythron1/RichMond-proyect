@@ -26,17 +26,24 @@
                 <h3 class="form__title">Login</h3>
                 <input type="email" id="email-login" class="form__input" placeholder="Email" required>
                 <input type="password" id="password-login" class="form__input" placeholder="Contraseña" required>
-                <button type="button" class="form__password-recovery btn-clean">¿Olvidaste tu contraseña?</button>
+                <button type="button" class="form__password-recovery btn-clean" id="password-recovery-button">¿Olvidaste tu contraseña?</button>
                 <button type="submit" class="btn">Iniciar sesión</button>
-                <button type="button" class="form__register btn-clean" id="register">¿Eres nuevo? Regístrese</button>
+                <button type="button" class="form__register btn-clean" id="register-button">¿Eres nuevo? Regístrese</button>
             </form>
             <form class="form hidden" id="register-form">
                 <h3 class="form__title">Crear cuenta</h3>
-                <input type="text" id="name-create" class="form__input" placeholder="Nombre de usuario" >
-                <input type="email" id="email-create" class="form__input" placeholder="Email" >
-                <input type="password" id="password-create" class="form__input" placeholder="Contraseña" >
-                <button type="submit" class="btn" id="create">Crear</button>
-                <button type="button" class="form__register btn-clean" id="login">¿Tienes cuenta?</button>
+                <input type="text" id="name-create" class="form__input" placeholder="Nombre de usuario" required>
+                <input type="email" id="email-create" class="form__input" placeholder="Email" required>
+                <input type="password" id="password-create" class="form__input" placeholder="Contraseña" required>
+                <button type="submit" class="btn">Crear</button>
+                <button type="button" class="form__register btn-clean" id="login-button">¿Tienes cuenta?</button>
+            </form>
+            <form class="form hidden" id="password-recovery-form">
+                <h3 class="form__title">Recuperar cuenta</h3>
+                <input type="email" id="recovery-email" class="form__input" placeholder="Email" required>
+                <button type="button" class="form__register btn-clean" id="login-button-from-recovery">¿Tienes cuenta?</button>
+                <button type="submit" class="btn">Recuperar</button>
+                <button type="button" class="form__register btn-clean" id="register-button-from-recovery">¿Eres nuevo? Regístrese</button>
             </form>
         </div>
         <div class="content-container">

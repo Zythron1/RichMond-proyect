@@ -121,7 +121,7 @@ class UserController {
             http_response_code(404);
             echo json_encode($loginResponse);
         } else {
-            http_response_code(200);
+            http_response_code(201);
             echo json_encode($loginResponse);
         }
     }
@@ -131,7 +131,11 @@ class UserController {
         if ($data['userId'] && is_numeric($data['userId'])) {
             $userId = (int)$data['userId']; // Convertimos a entero
         } else {
-            return;
+            http_response_code(404);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'ID de usuario faltante o inválido.'
+            ]);
         }
 
         // paso 2: Verificar que los datos recibidos no sean vacíos
@@ -213,45 +217,23 @@ class UserController {
         }
     }
 
-    public function passwordRecovery ($data) {
-        // paso 1: Verificar contenido de los datos recibidos 
-        if ($data['userId'] && is_numeric($data['userId'])) {
-            $userId = (int)$data['userId']; // Convertimos a entero
-        } else {
+    public function sendUrlToEmail ($data) {
+        if (!preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $data['emailAddress'])) {
             http_response_code(400);
-            echo json_encode([
+            return [
                 'status' => 'error',
-                'message' => 'Se requiere un userId válido o existente.'
-            ]);
-            return;
+                'message' => 'Email no válido'
+            ];
         }
 
-        if (empty($userId) || empty($data['newPassword'])) {
-            http_response_code(400);
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Se necesitan los datos completos'
-            ]);
-            return;
-        }
+        $response = $this->userModel->sendUrlToEmail($this->connection, $data);
 
-        // paso 2: Llamar el método requerido para recuperar contraseña
-        // paso 3: Verificar el resultado del método.
-        if (!$this->userModel->passwordRecovery($this->connection, $data['userId'], $data['newPassword'])) {
-            // paso 4: Respuesta http 500 y mensaje de error
-            http_response_code(500);
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'No se pudo Recuperar la contraseña en este momento.'
-            ]);
+        if ($response['status'] === 'error') {
+            http_response_code(404);
+            echo json_encode($response);
         } else {
-            // paso 5: Respuesta http 200 y mensaje de actualizado con éxito
             http_response_code(200);
-            echo json_encode([
-                'status' => 'success',
-                'message' => 'Contraseña recuperada'
-            ]);
+            echo json_encode($response); 
         }
     }
 }
-

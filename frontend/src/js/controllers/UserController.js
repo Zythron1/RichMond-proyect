@@ -6,7 +6,7 @@ const UserServiceInstance = new UserService;
 
 class UserController {
     createUser (data) {
-        const loginButton = document.getElementById('login');
+        const loginButton = document.getElementById('login-button');
 
         if (!UserModelInstance.validateUserData(data)) {
             return;
@@ -32,6 +32,14 @@ class UserController {
                 window.location.href = 'index.html';
             }
         })
+    }
+
+    passwordRecovery (data) {
+        if (!UserModelInstance.validateUserData(data)) {
+            return;
+        }
+
+        UserServiceInstance.requestToPasswordRecovery(data);
     }
 }
 

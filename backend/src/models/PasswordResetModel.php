@@ -1,44 +1,44 @@
 <?php
 
 require_once './backend/src/config/dbConnection.php';
+require_once './backend/src/models/UserModel.php';
 
 class PasswordResetModel {
-    private function generateToken () {
-        // Se retorna un token random
-        return bin2hex(random_bytes(16));
-    }
 
-    public function setResetToken ($connection, $userId) {
-        $token = $this->generateToken();
-
-        // Se establece la fecha y hora actual más 30 minutos que va a duara el token
-        $expiration = date('Y-m-d H:i:s', strtotime('+30 minutes'));
-        
-        // Se verifica si ya existe un token para el usuario
-        $stmt = $connection->prepare('SELECT * FROM password_resets WHERE user_id = :userId');
-        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+    public function passwordRecovery ($connection, $data) {
+        $stmt = $connection->prepare('SELECT * FROM password_resets WHERE reset_token = :resetToken;');
+        $stmt->bindParam(':token', $data['token'], PDO::PARAM_STR);
         $stmt->execute();
+        $passwordResetsData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($stmt->rowCount() > 0) {
-            $updateStmt = $connection->prepare('UPDATE password_resets SET reset_token = :token, token_expiration = :expiration WHERE user_id = :userId');
-        } else {
-            $updateStmt = $connection->prepare('INSERT INTO password_resets (reset_token, token_expiration) VALUES (:token, :expiration);');
+        if (!$passwordResetsData || $passwordResetsData['token_expiration'] < time()) {
+            return [
+                'status' => 'error',
+                'message' => 'El enlace ha expirado o no es válido.'
+            ];
         }
 
-        $updateStmt->bindParam(':token', $token, PDO::PARAM_STR);
-        $updateStmt->bindParam(':expiration', $expiration, PDO::PARAM_STR);
-        $updateStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $hashedPassword = password_hash($data['newPassword'], PASSWORD_BCRYPT);
 
-        return $updateStmt->execute();
-    }
+        $stmt = $connection->prepare('UPDATE users SET user_password = :userPassword WHERE user_id = :userId;');
+        $stmt->bindParam(':userPassword', $hashedPassword,PDO::PARAM_STR);
+        $stmt->bindParam(':userId', $passwordResetsData['user_id'], PDO::PARAM_INT);
+        
+        if (!$stmt->execute()) {
+            return [
+                'status' => 'error',
+                'message' => 'No fue posible actualizar la contraseña.'
+            ];
+        }
 
-    public function verifyToken ($connection, $userId, $token) {
-        $stmt = $connection->prepare('SELECT * FROM password_resets WHERE user_id = :userId AND reset_token = :token AND token_expiration > NOW();');
-        $stmt->bindParam(':userId', $userId, PDO::PARAM_STR);
-        $stmt->bindParam(':token', $token, PDO::PARAM_STR);
-        $stmt->execute();
-
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = $connection->prepare('UPDATE password_resets SET reset_token = NULL, token_expiration = NULL WHERE user_id = :userId;');
+        $stmt->bindParam(':userId', $passwordResetsData['user_id'], PDO::PARAM_INT);
+        if (!$stmt->execute()) {
+            return [
+                'status' => 'error',
+                'message' => 'No fue posible actualizar los tokens.'
+            ];
+        }
     }
 
 }

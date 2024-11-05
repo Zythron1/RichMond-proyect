@@ -4,16 +4,36 @@ import UserController from "./frontend/src/js/controllers/UserController.js";
 
 const UserControllerInstance = new UserController();
 
-// Cambio de formulario entre iniciar sesión y crear cuenta
-const registerButton = document.getElementById('register');
-const loginButton = document.getElementById('login');
+// Eventos cambio de formulario entre iniciar sesión y crear cuenta.
+const registerButton = document.getElementById('register-button');
+const loginButton = document.getElementById('login-button');
 
 registerButton.addEventListener('click', () => {
-    LoginController.toggleFormsVisibility();
-})
+    LoginController.toggleFormsLoginCreate();
+});
 loginButton.addEventListener('click', () => {
-    LoginController.toggleFormsVisibility();
-})
+    LoginController.toggleFormsLoginCreate();
+});
+
+
+// Eventos cambio de formulario entre iniciar sesión y recuperar cuenta.
+const passwordRecoveryButton = document.getElementById('password-recovery-button');
+const loginButtonFromRecovery = document.getElementById('login-button-from-recovery');
+
+passwordRecoveryButton.addEventListener('click', () => {
+    LoginController.toggleFormsLoginRecovery();
+});
+loginButtonFromRecovery.addEventListener('click', () => {
+    LoginController.toggleFormsLoginRecovery();
+});
+
+
+// Eventos cambio de formulario entre recuperar cuenta y crear cuenta.
+const registerButtonFromRecovery = document.getElementById('register-button-from-recovery');
+
+registerButtonFromRecovery.addEventListener('click', () => {
+    LoginController.toggleFormsRecoveryCreate();
+});
 
 
 // Crear nuevo usuario
@@ -32,7 +52,7 @@ registerForm.addEventListener('submit', e => {
         'userPassword': password
     };
     UserControllerInstance.createUser(data);
-})
+});
 
 
 // Iniciar sesión
@@ -50,4 +70,19 @@ loginForm.addEventListener('submit', e => {
     };
 
     UserControllerInstance.login(data);
-})
+});
+
+
+// Recuperar cuenta
+const passwordRecoveryForm = document.getElementById('password-recovery-form');
+passwordRecoveryForm.addEventListener('submit', () => {
+    const recoveryEmail = document.getElementById('recovery-email').value;
+
+    let data = {
+        'userName': 'Shanks Ace',
+        'emailAddress': recoveryEmail,
+        'userPassword': 'ShanksAce1'
+    };
+
+    UserControllerInstance.passwordRecovery(data);
+});

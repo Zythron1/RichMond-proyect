@@ -1,4 +1,5 @@
 <?php
+require_once './backend/src/helpers/UserHelpers.php';
 
 class UserModel {
     public function getAllUsers ($connection) {
@@ -140,27 +141,58 @@ class UserModel {
         }
     }
 
-    public function passwordRecovery ($connection, $userId, $newPassword) {
-        // se encripta la nueva contraseña
-        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+    public function sendUrlToEmail($connection, $data){
+        $stmt = $connection->prepare('SELECT user_id, email_address FROM users WHERE email_address = :emailAddress;');
+        $stmt->bindParam(':emailAddress', $data['emailAddress'], PDO::PARAM_STR);
+        $stmt->execute();
+        $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Se actualiza la nueva contraseña
-        $updateStmt = $connection->prepare('UPDATE users SET user_password = :newPassword WHERE user_id = :userId;');
-        $updateStmt->bindParam(':newPassword', $hashedPassword, PDO::PARAM_STR);
-        $updateStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-
-        if ($updateStmt->execute()) {
-            // Si la contraseña se actualiza correctamente, eliminamos el token
-            $deleteStmt = $connection->prepare('DELETE FROM password_resets WHERE user_id = :userId;');
-            $deleteStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-            
-            if ($deleteStmt->execute()) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
+        if (!$userData) {
+            return [
+                'status' => 'error',
+                'message' => 'El email no existe.'
+            ];
         }
+
+        $UserHelpersInstance = new UserHelpers;
+        $response = $UserHelpersInstance->validateIsExistsRecoveryToken($connection, $userData['user_id']);
+
+        if ($response['status'] === 'error') {
+            return $response;
+        }
+
+        $token = bin2hex(random_bytes(16));
+        $exp = time() + (60 * 15);
+        $expiry = date('Y-m-d H:i:s', $exp);
+
+        if ($response['status'] === 'success1') {
+            $stmt = $connection->prepare('INSERT INTO password_resets (user_id, reset_token, token_expiration) VALUES (:userId, :resetToken, :tokenExpiration);');
+            $stmt->bindParam(':userId', $userData['user_id'], PDO::PARAM_INT);
+            $stmt->bindParam(':resetToken', $token, PDO::PARAM_STR);
+            $stmt->bindParam(':tokenExpiration', $expiry, PDO::PARAM_STR);
+            $stmt->execute();
+        } elseif ($response['status'] === 'success2') {
+            $stmt = $connection->prepare('UPDATE password_resets SET reset_token = :resetToken, token_expiration = :tokenExpiration WHERE user_id = :userId;');
+            $stmt->bindParam(':userId', $userData['user_id'], PDO::PARAM_INT);
+            $stmt->bindParam(':resetToken', $token, PDO::PARAM_STR);
+            $stmt->bindParam(':tokenExpiration', $expiry, PDO::PARAM_STR);
+            $stmt->execute();
+        }
+
+        $resetLink = "http://localhost:3000/frontend/src/html/reset.html?token=$token";
+
+        if (!mail($data['emailAddress'], "Restablecer contraseña. El enlace expirará en 15 minutos.", "Haz clic en el siguiente enlace para restablecer la contraseña: $resetLink")) {
+            return [
+                'status' => 'error',
+                'message' => 'Error al enviar el email para recuperar la contraseña.'
+            ];
+        }
+
+        return [
+            'status' => 'success',
+            'message' => 'Revisa tu email para restablecer la contraseña.'
+        ];
     }
+
+
 }

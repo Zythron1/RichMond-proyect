@@ -9,7 +9,7 @@ class UserModel {
             alert('Nombre de usuario no válido');
             return false;
         } else if (!emailRegex.test(data.emailAddress)) {
-            alert('Email no válido')
+            alert('Email no váliddssssso')
             return false;
         } else if (!passwordRegex.test(data.userPassword)) {
             alert('Contraseña no válida. Min 8 caracteres una letra mayúscula, minúscula y un número.')
