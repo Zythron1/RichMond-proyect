@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <link rel="stylesheet" href="/frontend/src/css/stylesLogin.css">
+    <link rel="stylesheet" href="/frontend/node_modules/normalize.css/normalize.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Montserrat">
+</head>
+
+<body>
+    <header class="header">
+        <h1 class="header__container-brand-name">
+            <a href="/frontend/src/html/index.html" class="container-brand-name__link">
+                <svg class="container-brand-name__svg" xmlns="http://www.w3.org/2000/svg" width="144" height="35"
+                    viewBox="0 0 144 35" role="img" aria-label="RichMond logo" fill="none"><text x="50%" y="50%"
+                        font-size="30" fill="white" font-weight="bold" text-anchor="middle"
+                        dominant-baseline="middle">RichMond</text></svg>
+            </a>
+        </h1>
+    </header>
+
+    <main class="main">
+        <div class="forms-container">
+            <form class="form visible" id="login-form">
+                <h3 class="form__title">Recuperar cuenta</h3>
+                <input type="password" id="password-login" class="form__input" placeholder="Nueva contraseña" required>
+                <input type="password" id="password-login" class="form__input" placeholder="Repite la contraseña" required>
+                <button type="submit" class="btn">Cambiar</button>
+            </form>
+        </div>
+        <div class="content-container">
+            <div class="content">
+                <img src="/frontend/src/assets/fotos/login/Pull_Bear-Black-white-remove.png" alt="Outfit"
+                    class="content__img visible" id="img-login">
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/main.js"></script>
+</body>
+
+</html>
