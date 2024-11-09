@@ -17,10 +17,6 @@
 </head>
 <body>
     <header class="header">
-        <div class="header__container-free-shipping">
-            <span class="header__container-free-shipping-title">Envío gratuito a partir de 199.000</span>
-        </div>
-    
         <button type="button" class="header__icons-button left transparent button-opacity-hover" id="open-menu-button"  aria-label="menú de navagación">
             <div class="icons-button__svg-container">
                 <svg class="icons-button__svg transparent"   xmlns="http://www.w3.org/2000/svg" role="presentation" width="22"
@@ -170,17 +166,23 @@
             <hr>
         </div>
     </header>
-    
+
+    <aside class="aside">
+        <div class="header__container-free-shipping">
+            <span class="header__container-free-shipping-title">Envío gratuito a partir de 199.000</span>
+        </div>
+    </aside>
+
     <main class="main">
 
         <div class="main__image-container cien-por-ciento">
             <a href="#" class="image-container__link">
                 <img class="image-container__img" src="../assets/fotos/login/Pull_Bear-Black-white.jpg" alt="Outfits RichMond"
                     width="200px">
-                <span class="image-container__btn-overlay">Outfit</span>
+                <span class="image-container__btn-overlay cambio">Outfit</span>
             </a>
         </div>
-    
+
         <div class="main__image-container">
             <a href="#" class="image-container__link">
                 <img class="image-container__img" src="../assets/fotos/body/camisetas.jpg" alt="Sudaderas imagen"
@@ -277,10 +279,7 @@
             <div class="container-company-information__company-information">
                 <button type="button" class="company-information__button" id="company-information__button1" aria-expanded="false"
                     aria-controls="empresa-info">
-                    <h2 class="company-informationr__title">
-                        <h2 class="title__title-text">La Familia RichMond</h2>
-                        
-                    </h2>
+                    <h2 class="company-information__title">La Familia RichMond</h2>
                 </button>
                 <div id="company-information1">
                     <a href="#" class="company-information__link link-animation" aria-hidden="true">De donde venimos</a>
@@ -288,13 +287,11 @@
                     <a href="#" class="company-information__link link-animation" aria-hidden="true">Arte y cultura</a>
                 </div>
             </div>
-    
+
             <div class="container-company-information__company-information">
                 <button type="button" class="company-information__button" id="company-information__button2" aria-expanded="false"
                     aria-controls="empresa-ayuda">
-                    <h2 class="company-information__title">
-                        <h4 class="title__title-text">Ayuda</h4>
-                    </h2>
+                    <h3 class="company-information__title">Ayuda</h3>
                 </button>
                 <div class="hidden" id="company-information2">
                     <a href="#" class="company-information__link link-animation" aria-hidden="true">Servicio al cliente</a>
@@ -303,8 +300,17 @@
                     <a href="#" class="company-information__link link-animation" aria-hidden="true">Cuidado del producto</a>
                 </div>
             </div>
+
+            <h2 class="footer__container-brand-name">
+                <a href="/frontend/src/html/index.html" class="footer-brand-name__link">
+                    <svg class="footer-brand-name__svg transparent" xmlns="http://www.w3.org/2000/svg" width="144" height="35"
+                        viewBox="0 0 144 35" role="img" aria-label="Marca RichMond" fill="none"><text class="brand-name-text"  x="50%" y="50%" font-size="30"
+                            fill="black" font-weight="bold" text-anchor="middle" dominant-baseline="middle">RichMond</text></svg>
+                </a>
+            </h2>
         </div>
-    
+
+
         <div class="footer__company-policy-container">
             <div class="company-policy-container__company-policy">
                 <a href="#" class="company-policy__link">Terminos y condiciones</a>
