@@ -1,6 +1,7 @@
 body,
 html{
     overflow-x: hidden;
+    font-size: 10px;
 }
 
 :root {
@@ -71,6 +72,123 @@ html{
     justify-self: center;
 }
 
+.header__menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 0;
+    overflow: auto;
+    background-color: #000000;
+    color: #ffffff;
+    opacity: 0.95   ;
+    width: 100%;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1.5em;
+}
+
+li {
+    list-style: none;
+    margin: 10px;
+}
+
+.menu__close-button {
+    border: none;
+    padding: 5px;
+    margin: 15px;
+    cursor: pointer;
+    position: absolute;
+}
+
+.li-brand-name {
+    justify-self: center;
+    margin: 10px;
+}
+
+.li-woman__title, .li-man__title, .li-logut__title {
+    border: none;
+    color: #ffffff;
+    font-size: 1.9em;
+    font-weight: bolder;
+    width: 100%;
+    cursor: pointer;
+}
+
+.li-woman__text {
+    text-align: start;
+}
+
+.a-underline:hover {
+    text-decoration: underline;
+}
+
+.li-h4 {
+    font-size: 1.8em;
+}
+
+.header__profile {
+    position: absolute;
+    right: 30px;
+    top: 91px;
+    background-color: #ffffff;
+    width: 200px;
+    border-radius: 10px;
+}
+.accesorio {
+    position: absolute;
+    right: 48px;
+    top: 87px;
+    background-color: #ffffff;
+    width: 30px;
+    height: 30px;
+    border-radius: 2px;
+    transform: rotate(47deg);
+}
+
+.header__profile-link{
+    color: #000000;
+}
+
+.header__shopping-bag {
+    position: absolute;
+    right: 0;
+    background-color: #000000;
+    color: #ffffff;
+    width: 75%;
+    height: 100vh;
+}
+
+.hidden {
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    display: none;
+}
+
+.shopping-bag__close-button {
+    margin-top: 16px;
+    margin-left: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+}
+
+.shopping-bag__title {
+    text-align: center;
+    margin: 5px;
+    font-size: 2em;
+    line-height: 2;
+}
+
+.button-opacity-hover:hover {
+    opacity: 0.75;
+    transition: opacity 0.2s ease-in ;
+}
+
 /* Estilos de body responsivo */
 
 .main {
@@ -127,21 +245,24 @@ html{
 .footer {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 15px;
     background-color: #ffffff;
     color: #000000;
+    margin: 20px;
 }
 
 .footer__container-social-networks {
+    justify-self: center;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     gap: 9px;
     min-height: 20vh;
-    font-size: 10px;
-    background-color: #ffffff;
+    font-size: 1em;
+    background-color: #e0e0e0;
     color: #000000;
-    font-size: 10px;
+    width: 100%;
+    
 }
 
 .container-social-networks__title {
@@ -159,33 +280,17 @@ html{
 }
 
 /* Información de la compañía */
-.container-company-information__company-information {
-    display: grid;
-    grid-template-columns: 1fr;
-}
 
-.company-information__button {
-    border: 1px solid #747474;
-    background-color: #ffffff;
-    color: #000000;
-    Transition: 1s, cubic-bezier(0.17, 0.35, 0.9, 0.45), 0.5s;
-}
 
-.medio {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 
-.title__title-text {
-    line-height: 2;
-}
+
+
 
 .company-information__link {
     position: relative;
     left: 10px;
     text-decoration: none;
-    line-height: 2;
+    margin: 5px;
     color: #000000;
 }
 
@@ -198,5 +303,27 @@ html{
 .company-policy__link {
     text-decoration: none;
     color: #000000;
+}
+
+.link-animation {
+    display: inline-block;
+    width: 80%;
+    position: relative;
+}
+
+.link-animation::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: #000000;
+    left: 0;
+    bottom: 0;
+    transition: width 0.3s ease-in;
+}
+
+.link-animation:hover::after {
+    width: 100%;
+    /* Ancho del subrayado al pasar el ratón */
 }
 

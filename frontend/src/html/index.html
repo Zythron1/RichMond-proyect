@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="/frontend/node_modules/normalize.css/normalize.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Montserrat">
-    
+
 </head>
 <body>
     <header class="header">
@@ -21,17 +21,87 @@
             <span class="header__container-free-shipping-title">Envío gratuito a partir de 199.000</span>
         </div>
     
-        <button type="button" class="header__icons-button left transparent" aria-label="menú de navagación">
+        <button type="button" class="header__icons-button left transparent button-opacity-hover" id="open-menu-button"  aria-label="menú de navagación">
             <div class="icons-button__svg-container">
-                <svg class="icons-button__svg transparent" xmlns="http://www.w3.org/2000/svg" role="presentation" width="22"
+                <svg class="icons-button__svg transparent"   xmlns="http://www.w3.org/2000/svg" role="presentation" width="22"
                     height="22" viewBox="0 0 22 22" fill="none">
                     <path d="M3 6H21M3 12H21M3 18H21" stroke="white" stroke-width="1.5" stroke-linecap="round"
                         stroke-linejoin="round"></path>
                 </svg>
             </div>
         </button>
+
+        <div class="header__menu hidden" id="menu">
+            <button type="button" class="menu__close-button transparent" id="close-menu-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 14 14">
+                    <rect width="14" height="14" fill="none" />
+                    <path fill="white" fill-rule="evenodd"
+                        d="M1.707.293A1 1 0 0 0 .293 1.707L5.586 7L.293 12.293a1 1 0 1 0 1.414 1.414L7 8.414l5.293 5.293a1 1 0 0 0 1.414-1.414L8.414 7l5.293-5.293A1 1 0 0 0 12.293.293L7 5.586z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+            <ul>
+                <li class="li-brand-name">
+                    <a href="/frontend/src/html/index.html">
+                        <svg class="li-brand-name__svg transparent" xmlns="http://www.w3.org/2000/svg" width="148" height="39"
+                            viewBox="0 0 144 35" role="img" aria-label="RichMond logo" fill="none"><text x="50%" y="50%" font-size="30"
+                                fill="white" font-weight="bold" text-anchor="middle" dominant-baseline="middle">RichMond</text></svg>
+                    </a>
+                </li> 
+                <hr>
+                <li class="li-woman">
+                    <button class="li-woman__title transparent woman" id="products-list-button-woman">
+                        <h3 class="li-woman__text">Mujer</h3>
+                    </button>
+                    <ul class="hidden" id="woman-products-list">
+                        <li><a href="#" class="a-underline">Descuentos</a></li>
+                        <li><a href="#" class="a-underline">Sale</a></li>
+                        <li><a href="#" class="a-underline">Outfits</a></li>
+                        <li><a href="#" class="a-underline">Sport</a></li>
+                        <li><a href="#" class="a-underline">Elegante</a></li>
+                        <h4 class="li-h4">Por prenda</h4>
+                        <li><a href="#" class="a-underline">Faldas</a></li>
+                        <li><a href="#" class="a-underline">Jeans</a></li>
+                        <li><a href="#" class="a-underline">Pantalones</a></li>
+                        <li><a href="#" class="a-underline">Tops</a></li>
+                        <li><a href="#" class="a-underline">Camisas</a></li>
+                        <li><a href="#" class="a-underline">Camisetas</a></li>
+                        <li><a href="#" class="a-underline">Busos</a></li>
+                        <li><a href="#" class="a-underline">Vestidos</a></li>
+                    </ul>
+                </li> 
+                
+                <li class="li-man">
+                    <button class="li-man__title transparent man" id="products-list-button-man">
+                        <h3 class="li-woman__text">Hombre</h3>
+                    </button>
+                    <ul class="hidden" id="man-products-list">
+                        <li><a href="#" class="a-underline">Descuentos</a></li>
+                        <li><a href="#" class="a-underline">Sale</a></li>
+                        <li><a href="#" class="a-underline">Outfits</a></li>
+                        <li><a href="#" class="a-underline">Sport</a></li>
+                        <li><a href="#" class="a-underline">Elegante</a></li>
+                        <h4 class="li-h4">Por prenda</h4>
+                        <li><a href="#" class="a-underline">Faldas</a></li>
+                        <li><a href="#" class="a-underline">Jeans</a></li>
+                        <li><a href="#" class="a-underline">Pantalones</a></li>
+                        <li><a href="#" class="a-underline">Tops</a></li>
+                        <li><a href="#" class="a-underline">Camisas</a></li>
+                        <li><a href="#" class="a-underline">Camisetas</a></li>
+                        <li><a href="#" class="a-underline">Busos</a></li>
+                        <li><a href="#" class="a-underline">Vestidos</a></li>
+                    </ul>
+                </li>
+                <li class="li-logout">
+                    <button class="li-logut__title transparent" id="products-list-button-man">
+                        <h3 class="li-woman__text">Cerrar sesión</h3>
+                    </button>
+                </li>
+                
+            </ul>
+        </div>
     
-        <button type="button" class="header__icons-button left transparent" aria-label="buscar">
+        <button type="button" class="header__icons-button left transparent button-opacity-hover" aria-label="buscar">
             <div class="icons-button__svg-container">
                 <svg class="icons-button__svg transparent" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                     viewBox="0 0 22 22">
@@ -52,7 +122,7 @@
             </a>
         </h1>
     
-        <button type="button" class="header__icons-button right transparent" aria-label="Usuario">
+        <button type="button" class="header__icons-button right transparent button-opacity-hover" id="profile-button" aria-label="Usuario">
             <div class="icons-button__svg-container">
                 <svg class="icons-button__svg transparent" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                     viewBox="0 0 22 22">
@@ -61,13 +131,24 @@
                 </svg>
             </div>
         </button>
+
+        
+        <div class="accesorio hidden" id="accesorio"></div>
+        <div class="header__profile hidden" id="profile">
+            <ul>
+                <li><a href="#" class="header__profile-link">Perfil</a></li>
+                <li><a href="#" class="header__profile-link">Iniciar sesión</a></li>
+                <li><a href="#" class="header__profile-link">Seguimiento del pedido</a></li>
+                <li><a href="#" class="header__profile-link">Cambios y devoluciones</a></li>
+                <li><a href="#" class="header__profile-link">Contáctanos</a></li>
+            </ul>
+        </div>
     
-        <button type="button" class="header__icons-button right transparent"
-            aria-label="Bolsa de compras y lista de deseos">
+        <button type="button" class="header__icons-button right transparent button-opacity-hover" id="open-shopping-bag-button" aria-label="Bolsa de compras">
             <div class="icons-button__svg-container">
                 <svg class="icons-button__svg transparent" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                     viewBox="0 0 24 24">
-                    <g fill="none" stroke="white" stroke-width="1.5">
+                    <g fill="none" stroke="white" stroke-width="1.5" >
                         <path stroke-linejoin="round"
                             d="M4 9h16l-.835 9.181A2 2 0 0 1 17.174 20H6.826a2 2 0 0 1-1.991-1.819z" />
                         <path stroke-linecap="round" d="M8 11V8a4 4 0 1 1 8 0v3" />
@@ -75,10 +156,23 @@
                 </svg>
             </div>
         </button>
+
+        <div class="header__shopping-bag hidden" id="shopping-bag">
+            <button type="button" class="shopping-bag__close-button transparent" id="close-shopping-bag-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 14 14">
+                    <rect width="14" height="14" fill="none" />
+                    <path fill="white" fill-rule="evenodd"
+                        d="M1.707.293A1 1 0 0 0 .293 1.707L5.586 7L.293 12.293a1 1 0 1 0 1.414 1.414L7 8.414l5.293 5.293a1 1 0 0 0 1.414-1.414L8.414 7l5.293-5.293A1 1 0 0 0 12.293.293L7 5.586z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+            <h3 class="shopping-bag__title">Tu bolsa de compra</h3>
+            <hr>
+        </div>
     </header>
     
     <main class="main">
-    
+
         <div class="main__image-container cien-por-ciento">
             <a href="#" class="image-container__link">
                 <img class="image-container__img" src="../assets/fotos/login/Pull_Bear-Black-white.jpg" alt="Outfits RichMond"
@@ -181,31 +275,33 @@
     
         <div class="footer__container-company-information">
             <div class="container-company-information__company-information">
-                <button type="button" class="company-information__button" aria-expanded="false"
+                <button type="button" class="company-information__button" id="company-information__button1" aria-expanded="false"
                     aria-controls="empresa-info">
-                    <h2 class="company-informationr__title medio">
-                        <span class="title__title-text">La Familia RichMond</span>
-                        <span class="title__icon">+</span>
+                    <h2 class="company-informationr__title">
+                        <h2 class="title__title-text">La Familia RichMond</h2>
+                        
                     </h2>
                 </button>
-    
-                <a href="#" class="company-information__link" hidden aria-hidden="true">De donde venimos</a>
-                <a href="#" class="company-information__link" hidden aria-hidden="true">Sustentabilidad</a>
-                <a href="#" class="company-information__link" hidden aria-hidden="true">Arte y cultura</a>
+                <div id="company-information1">
+                    <a href="#" class="company-information__link link-animation" aria-hidden="true">De donde venimos</a>
+                    <a href="#" class="company-information__link link-animation" aria-hidden="true">Sustentabilidad</a>
+                    <a href="#" class="company-information__link link-animation" aria-hidden="true">Arte y cultura</a>
+                </div>
             </div>
     
             <div class="container-company-information__company-information">
-                <button type="button" class="company-information__button" aria-expanded="false"
+                <button type="button" class="company-information__button" id="company-information__button2" aria-expanded="false"
                     aria-controls="empresa-ayuda">
-                    <h2 class="company-information__title medio">
-                        <span class="title__title-text">Ayuda</span>
-                        <span class="title__icon">+</span>
+                    <h2 class="company-information__title">
+                        <h4 class="title__title-text">Ayuda</h4>
                     </h2>
                 </button>
-                <a href="#" class="company-information__link" hidden aria-hidden="true">Servicio al cliente</a>
-                <a href="#" class="company-information__link" hidden aria-hidden="true">Seguimiento de mi pedido</a>
-                <a href="#" class="company-information__link" hidden aria-hidden="true">Preguntas frecuentes</a>
-                <a href="#" class="company-information__link" hidden aria-hidden="true" v>Cuidado del producto</a>
+                <div class="hidden" id="company-information2">
+                    <a href="#" class="company-information__link link-animation" aria-hidden="true">Servicio al cliente</a>
+                    <a href="#" class="company-information__link link-animation" aria-hidden="true">Seguimiento de mi pedido</a>
+                    <a href="#" class="company-information__link link-animation" aria-hidden="true">Preguntas frecuentes</a>
+                    <a href="#" class="company-information__link link-animation" aria-hidden="true">Cuidado del producto</a>
+                </div>
             </div>
         </div>
     
@@ -217,6 +313,6 @@
             </div>
         </div>
     </footer>
-<script src="../../../main.js"></script>
+<script type="module" src="/main.js"></script>
 </body>
 </html>
