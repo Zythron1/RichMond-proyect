@@ -34,6 +34,7 @@ class UserController {
         })
     }
 
+
     passwordRecovery (data) {
         if (!UserModelInstance.validateUserData(data)) {
             return;

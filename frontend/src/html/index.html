@@ -17,7 +17,7 @@
 </head>
 <body>
     <header class="header">
-        <button type="button" class="header__icons-button left transparent button-opacity-hover" id="open-menu-button"  aria-label="menú de navagación">
+        <button type="button" class="header__icons-button left transparent button-opacity-hover delete" id="open-menu-button"  aria-label="menú de navagación">
             <div class="icons-button__svg-container">
                 <svg class="icons-button__svg transparent"   xmlns="http://www.w3.org/2000/svg" role="presentation" width="22"
                     height="22" viewBox="0 0 22 22" fill="none">
@@ -93,11 +93,17 @@
                         <h3 class="li-woman__text">Cerrar sesión</h3>
                     </button>
                 </li>
-                
             </ul>
         </div>
-    
-        <button type="button" class="header__icons-button left transparent button-opacity-hover" aria-label="buscar">
+
+        <div class="Container-category-woman-man">
+            
+            <a href="http://localhost:3000/frontend/src/html/index.html" class="Container-category-woman-man__p-man">Hombre</a>
+            <p class="barra">|</p>
+            <p class="Container-category-woman-man__p-woman">Mujer En breve</p>
+        </div>
+
+        <button type="button" class="header__icons-button left transparent button-opacity-hover search-button-order" aria-label="buscar">
             <div class="icons-button__svg-container">
                 <svg class="icons-button__svg transparent" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                     viewBox="0 0 22 22">
@@ -109,16 +115,16 @@
             </div>
         </button>
     
-        <h1 class="header__container-brand-name">
+        <h1 class="header__container-brand-name brand-name-order">
             <a href="/frontend/src/html/index.html" class="container-brand-name__link">
-                <svg class="container-brand-name__svg transparent" xmlns="http://www.w3.org/2000/svg" width="144"
-                    height="35" viewBox="0 0 144 35" role="img" aria-label="RichMond logo" fill="none"><text x="50%" y="50%"
+                <svg class="container-brand-name__svg transparent" xmlns="http://www.w3.org/2000/svg" width="147"
+                    height="38" viewBox="0 0 144 35" role="img" aria-label="RichMond logo" fill="none"><text x="50%" y="50%"
                         font-size="30" fill="white" font-weight="bold" text-anchor="middle"
                         dominant-baseline="middle">RichMond</text></svg>
             </a>
         </h1>
     
-        <button type="button" class="header__icons-button right transparent button-opacity-hover" id="profile-button" aria-label="Usuario">
+        <button type="button" class="header__icons-button right transparent button-opacity-hover profile-button-order" id="profile-button" aria-label="Usuario">
             <div class="icons-button__svg-container">
                 <svg class="icons-button__svg transparent" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                     viewBox="0 0 22 22">
@@ -132,15 +138,16 @@
         <div class="accesorio hidden" id="accesorio"></div>
         <div class="header__profile hidden" id="profile">
             <ul>
-                <li><a href="#" class="header__profile-link">Perfil</a></li>
-                <li><a href="#" class="header__profile-link">Iniciar sesión</a></li>
-                <li><a href="#" class="header__profile-link">Seguimiento del pedido</a></li>
-                <li><a href="#" class="header__profile-link">Cambios y devoluciones</a></li>
-                <li><a href="#" class="header__profile-link">Contáctanos</a></li>
+                <li><a href="#" class="header__profile-link link-animation animation-color" >Perfil</a></li>
+                <li><a href="#" class="header__profile-link link-animation animation-color">Iniciar sesión</a></li>
+                <li><a href="#" class="header__profile-link link-animation animation-color">Cerrar sesión</a></li>
+                <li><a href="#" class="header__profile-link link-animation animation-color">Seguimiento del pedido</a></li>
+                <li><a href="#" class="header__profile-link link-animation animation-color">Cambios y devoluciones</a></li>
+                <li><a href="#" class="header__profile-link link-animation animation-color">Contáctanos</a></li>
             </ul>
         </div>
     
-        <button type="button" class="header__icons-button right transparent button-opacity-hover" id="open-shopping-bag-button" aria-label="Bolsa de compras">
+        <button type="button" class="header__icons-button right transparent button-opacity-hover shopping-bag-button-order" id="open-shopping-bag-button" aria-label="Bolsa de compras">
             <div class="icons-button__svg-container">
                 <svg class="icons-button__svg transparent" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                     viewBox="0 0 24 24">

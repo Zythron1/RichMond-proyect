@@ -16,12 +16,17 @@ html{
 .header {
     display: grid;
     grid-template-columns: auto 1fr 45% 1fr auto;
+    grid-template-rows: auto;
     gap: 0;
     position: absolute;
     top: 0;
     z-index: 10;
     background-color: transparent;
     width: 100%;
+}
+
+.Container-category-woman-man{
+    display: none;
 }
 
 .header__icons-button {
@@ -115,16 +120,16 @@ li {
 
 .header__profile {
     position: absolute;
-    right: 30px;
-    top: 91px;
+    right: 32px;
+    top: 58px;
     background-color: #ffffff;
-    width: 200px;
+    width: 170px;
     border-radius: 10px;
 }
 .accesorio {
     position: absolute;
-    right: 48px;
-    top: 87px;
+    right: 50px;
+    top: 55px;
     background-color: #ffffff;
     width: 30px;
     height: 30px;
@@ -390,3 +395,54 @@ li {
     width: 100%;
 }
 
+.animation-color::after {
+    background-color: #c6ae91;
+}
+
+@media (min-width: 500px) {
+    .delete {
+        display: none;
+    }
+
+    .header {
+        grid-template-columns: auto 1fr auto auto auto;
+    }
+
+    .brand-name-order {
+        order: 1;
+        margin-left: 10px;
+    }
+
+    .Container-category-woman-man {
+        justify-content: center;
+        align-content: center;
+        display: flex;
+        order: 2;
+    }
+    
+    .Container-category-woman-man__p-woman, 
+    .Container-category-woman-man__p-man, 
+    .barra {
+        align-self: center;
+        padding: 0 5px;
+        color: #ffffff;
+        font-size: 1.9em;
+        font-weight: 900;
+    }
+
+    .search-button-order {
+        order: 3;
+    }
+
+    .profile-button-order {
+        order: 4;
+    }
+
+    .shopping-bag-button-order {
+        order: 5;
+    }
+
+    .header__shopping-bag {
+        width: 420px;
+    }
+}
