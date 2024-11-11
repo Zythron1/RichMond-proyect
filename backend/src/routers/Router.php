@@ -35,7 +35,6 @@ class Router {
                     if ($urlParts[$index] !== $routePart) {
                         // paso 8: Si son diferentes cambiar el estado de la variable rutasCoincididas a false y romper para que no siga ejecutandose el método.
                         $routeMatches = false;
-                        print_r($routePart);
                         break;
                     }
                 }
@@ -50,14 +49,14 @@ class Router {
                 $controller = new $controllerName;
 
                 // paso 11: Verificar que la variable data no tenga un error al haber decodificado los datos
-                if (!empty($data['status'])) {
+                if ($data['status'] === 'error') {
                     http_response_code(400);
                     echo json_encode([
                         'status' => 'error',
                         'message' => $data['message']
                     ]);
                     return;
-                }
+                } 
 
                 // paso 12: fusionar los arrays que contienen los parámetros, y verificar si hay contenido
                 $newData = array_merge($data, $params);
@@ -74,6 +73,6 @@ class Router {
         }
         // paso 15: Si en el foreach no se encuentra coincidencias entre la ruta y la url, retornar un código de respuesta http y la respuesta en formato Json.
         http_response_code(404);
-        echo json_encode(['status' => 'error', 'message' => 'Ruta no encontrada.']);
+        echo json_encode(['status' => 'error', 'message' =>'Problemas con la petición, intenta de nuevo.', 'messageToDeveloper' => 'Ruta no encontrada.']);
     }
 }

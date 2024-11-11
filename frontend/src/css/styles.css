@@ -141,6 +141,13 @@ li {
     color: #000000;
 }
 
+.logout-button {
+    border: none;
+    text-align: start;
+    padding: 0;
+    font-size: 1.5em ;
+}
+
 .header__shopping-bag {
     position: absolute;
     right: 0;

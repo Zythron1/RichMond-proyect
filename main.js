@@ -159,12 +159,29 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
     const companyInformationButton2 = document.getElementById('company-information__button2');
     const companyInformation1  = document.getElementById('company-information1');
     const companyInformation2 = document.getElementById('company-information2');
-
+    
     companyInformationButton1.addEventListener('click', () => {
         HomepageInstance.openCloseSection(companyInformation1);
     });
-
+    
     companyInformationButton2.addEventListener('click', () => {
         HomepageInstance.openCloseSection(companyInformation2);
     });
+
+
+
+    // Cerrar sesión
+    const logoutButtons = [
+        document.getElementById('profile-logout-button'),
+        document.getElementById('menu-logout-button')
+    ];
+
+    logoutButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            UserControllerInstance.logout();
+        });
+    });
+
+
+
 }

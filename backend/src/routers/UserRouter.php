@@ -9,11 +9,10 @@ class UserRouter {
     private $routesPost = [
         ['controller' => 'UserController', 'action' => 'createUser', 'route' => '/user', 'method' => 'POST'],
         ['controller' => 'UserController', 'action' => 'login', 'route' => '/user/login', 'method' => 'POST'],
-        ['controller' => 'UserController', 'action' => 'sendUrlToEmail', 'route' => '/user/resetPassword', 'method' => 'POST']
+        ['controller' => 'UserController', 'action' => 'logout', 'route' => '/user/logout', 'method' => 'POST']
     ]; 
     private $routesPut = [
-        ['controller' => 'UserController', 'action' => 'updateUser', 'route' => '/user/{userId}/updateUser', 'method' => 'PUT'],
-        ['controller' => 'UserController', 'action' => 'changePassword', 'route' => '/user/{userId}/changePassword', 'method' => 'PUT']
+        ['controller' => 'UserController', 'action' => 'updateUser', 'route' => '/user/{userId}/updateUser', 'method' => 'PUT']
     ]; 
     private $routesDelete = [
         ['controller' => 'UserController', 'action' => '', 'route' => '/user/{userId}', 'method' => 'DELETE'],

@@ -1,4 +1,9 @@
 <?php
+ini_set('session.cookie_lifetime', 0);
+ini_set('session.cookie_httponly', true);
+session_start();
+session_regenerate_id(true);
+
 require_once './backend/src/helpers/UserHelpers.php';
 require './backend/vendor/autoload.php';
 
@@ -46,6 +51,13 @@ class UserModel {
     }
 
     public function login ($connection, $data) {
+        if (isset($_SESSION['userId'])) {
+            return [
+                'status' => 'error',
+                'message' => 'Hay una sessión abierta en este momento.'
+            ];
+        }
+
         $stmt = $connection->prepare('SELECT user_id, email_address, user_password FROM users WHERE email_address = :emailAddress');
         $stmt->bindParam(':emailAddress', $data['emailAddress'], PDO::PARAM_STR);
         $stmt->execute();
@@ -65,18 +77,44 @@ class UserModel {
             ];
         }
 
-        $userId = $realUserData['user_id'];
-        $tokenData = [
-            'userId' => $userId,
-            'exp' => time() + (60 * 60 * 168)
-        ];
-
-        $token = base64_encode(json_encode($tokenData));
+        $_SESSION['userId'] = $realUserData['user_id'];
 
         return [
             'status' => 'success',
             'message' => 'Inicio de sesión exitoso.',
-            'token' => $token
+            'userId' => $realUserData['user_id']
+        ];
+    }
+
+    public function logout () {
+        if (empty($_SESSION['userId'])) {
+            return [
+                'status' => 'error',
+                'message' => 'No tienes ninguna sessión abierta.',
+                'messageToDeveloper' => 'No está el userId en la variable $_SESSION.'
+            ];
+        }
+        
+        if (!session_unset()) {
+            return [
+                'status' => 'error',
+                'message' => 'Hubo problemas al cerrar sesión, intenta de nuevo.',
+                'messageToDeveloper' => 'Error al limpiar la variable $_SESSION.'
+            ];
+        }
+        
+        if (!session_destroy()) {
+            return [
+                'status' => 'error',
+                'message' => 'Error al destruir la sesión.',
+                'messageToDeveloper' => 'Error al destruir la variable $_SESSION.'
+            ];
+        }
+        
+        return [
+            'status' => 'succes',
+            'message' => 'Sesión cerrada exitosamente.',
+            'messageToDeveloper' => 'Ningún error.'
         ];
     }
 

@@ -19,12 +19,12 @@ class UserService {
         .catch(error => {
             console.error('Error en la petición. ' + error);
             alert('Hubo un error al procesar la solicitud. Inténtalo de nuevo.');
-            return null;
+            return {'status': 'error'};
         });
     }
 
-    
-    async requestToLogin(userData) {
+
+    async requestToLogin (userData) {
         return fetch('http://localhost:3000/user/login', {
             method: "POST",
             headers: {
@@ -37,17 +37,15 @@ class UserService {
             if (data.status === 'error') {
                 throw new Error(data.message);
             }
-            localStorage.setItem('authToken', data.token);
-            alert(data.message);
+
             return data;
         })
         .catch(error => {
             console.error('Error en la petición. ' + error);
             alert(error);
-            return null;
+            return {'status': 'error'};
         })
     }
-    
 
     
     requestToPasswordRecovery (userData) {
@@ -57,6 +55,53 @@ class UserService {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(userData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'error') {
+                throw new Error(data.message);
+            }
+            alert(data.message);
+        })
+        .catch(error => {
+            console.error('Error en la petición. ' + error);
+            alert(error);
+        })
+    }
+
+
+    async requestToLogout () {
+        return fetch('http://localhost:3000/user/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'  
+            },
+            body: JSON.stringify({'ShanksAce': 'ShanksAce'})
+        }) 
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'error') {
+                alert(data.message);
+                throw new Error(data.messageToDeveloper);
+            }
+
+            return data;
+        })
+        .catch(error => {
+            console.error('Error en la petición. ' + error);
+            return {'status': 'error'};
+        })
+    }
+    
+    /*
+    requestToLogout () {
+        fetch('http://localhost:3000/user/logout', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ "ShanksAce1": 'ShanksAce1'})
         })
         .then(response => response.text())
         .then(text => {
@@ -76,30 +121,8 @@ class UserService {
             
         })
     }
-    
-    
-    /*
-    requestToPasswordRecovery(userData) {
-        fetch('http://localhost:3000/user/resetPassword', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(userData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'error') {
-                throw new Error(data.message);
-            }
-            alert(data.message);
-        })
-        .catch(error => {
-            console.error('Error en la petición. ' + error);
-            alert(error);
-        })
-    }
     */
+
 }
 
 export default UserService;

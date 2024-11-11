@@ -1,4 +1,5 @@
 <?php
+
 require_once './backend/src/config/dbConnection.php';
 require_once './backend/src/models/UserModel.php';
 require_once './backend/src/helpers/UserHelpers.php';
@@ -123,6 +124,18 @@ class UserController {
         } else {
             http_response_code(201);
             echo json_encode($loginResponse);
+        }
+    }
+
+    public function logout () {
+        $ResponseLogout = $this->userModel->logout();
+
+        if ($ResponseLogout['status'] === 'error') {
+            http_response_code(400);
+            echo json_encode($ResponseLogout);
+        } else {
+            http_response_code(200);
+            echo json_encode($ResponseLogout);
         }
     }
 
