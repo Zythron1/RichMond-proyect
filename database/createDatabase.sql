@@ -53,10 +53,8 @@ CREATE INDEX idx_user_id ON orders(user_id);
 CREATE TABLE shopping_bag (
 shopping_bag_id INT NOT NULL AUTO_INCREMENT,
 user_id INT NOT NULL,
-product_id INT NOT NULL,
-quantity INT NOT NULL DEFAULT 0,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY(user_id) REFERENCES users(user_id),
-FOREIGN KEY(product_id) REFERENCES products(product_id),
 PRIMARY KEY(shopping_bag_id)
 );
 

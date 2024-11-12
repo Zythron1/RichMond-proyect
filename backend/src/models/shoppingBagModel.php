@@ -7,6 +7,34 @@ require_once './backend/src/models/BagProductModel.php';
 
 class ShoppingBagModel {
 
+    public function getShoppingBagId ($connection, $userId) {
+        $stmt = $connection->prepare('SELECT shopping_bag_id FROM shopping_bag WHERE user_id = :userId;');
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getShoppingBagProducts ($connection, $shoppingBagId) {
+        $stmt = $connection->prepare('
+        SELECT 
+            products.product_id,
+            products.product_name,
+            products.price,
+            products.image_url,
+            bag_product.quantity
+        FROM 
+            bag_product
+        INNER JOIN 
+            products ON bag_product.product_id = products.product_id
+        WHERE 
+            bag_product.shopping_bag_id = :shoppingBagId
+    ');
+        $stmt->bindParam(':shoppingBagId', $shoppingBagId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     public function getShoppingBagById ($connection, $userId) {
         $stmt = $connection->prepare('SELECT * FROM shopping_bag WHERE user_id = :userId;');
         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);

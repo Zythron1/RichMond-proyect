@@ -1,8 +1,13 @@
 // -------------------------------  LOGIN  -------------------------------
 import LoginController from "./frontend/src/js/controllers/LoginController.js";
 import UserController from "./frontend/src/js/controllers/UserController.js";
+import UserView from "./frontend/src/js/views/UserView.js";
+import Homepage from "./frontend/src/js/controllers/HomepageController.js";
 
+const HomepageInstance = new Homepage;
 const UserControllerInstance = new UserController();
+const UserViewInstance = new UserView();
+
 
 if (window.location.href === 'http://localhost:3000/frontend/src/html/logIn.html') {
     // Eventos cambio de formulario entre iniciar sesión y crear cuenta.
@@ -92,11 +97,16 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/logIn.html
 
 
 // -------------------------------  PÁGINA PRINCIPAL  -------------------------------
-import Homepage from "./frontend/src/js/controllers/HomepageController.js";
 
-const HomepageInstance = new Homepage;
 
 if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html') {
+    const shoppingBagProducts = JSON.parse(localStorage.getItem('shoppingBagProducts'));
+    if (shoppingBagProducts) {
+        UserViewInstance.showProductInShoppingBag(shoppingBagProducts);
+    }
+
+
+
     // Abrir menú y Cerrar menú
     const menuButton = document.getElementById('open-menu-button');
     const buttonToCloseMenu = document.getElementById('close-menu-button');
@@ -182,6 +192,6 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
         });
     });
 
-
+    
 
 }

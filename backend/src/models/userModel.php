@@ -4,8 +4,10 @@ ini_set('session.cookie_httponly', true);
 session_start();
 session_regenerate_id(true);
 
+require_once './backend/src/config/dbConnection.php';
+require_once './backend/src/models/ShoppingBagModel.php';
 require_once './backend/src/helpers/UserHelpers.php';
-require './backend/vendor/autoload.php';
+require_once './backend/vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -79,10 +81,30 @@ class UserModel {
 
         $_SESSION['userId'] = $realUserData['user_id'];
 
+        $ShoppingBagModelInstance = new ShoppingBagModel;
+        $ShoppingBagId = $ShoppingBagModelInstance->getShoppingBagId(DatabaseConnection::getConnection(), $realUserData['user_id']);
+
+        if (!empty($ShoppingBagId)) {
+            $products = $ShoppingBagModelInstance->getShoppingBagProducts(DatabaseConnection::getConnection(), $ShoppingBagId['shopping_bag_id']);
+
+            if (!empty($products)) {
+                return [
+                    'status' => 'success',
+                    'message' => 'Inicio de sesión exitoso.',
+                    'userId' => $realUserData['user_id'],
+                    'shoppingBag' => $products,
+                    'productsAvailable' => true
+                ];
+            }
+        }
+
+        
         return [
             'status' => 'success',
             'message' => 'Inicio de sesión exitoso.',
-            'userId' => $realUserData['user_id']
+            'userId' => $realUserData['user_id'],
+            'shoppingBag' => false,
+            'productsAvailable' => false
         ];
     }
 
