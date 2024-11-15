@@ -171,4 +171,28 @@ class ProductController {
             ]);
         }
     }
+
+    public function getProductsByCategoryWithLimitAndOffset($data) {
+        if (count($data) !== 4) {
+            http_response_code(400);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'No se pudo realizar la acción, intenta de nuevo5.',
+                'messageToDeveloper' => 'Hace falta datos para poder realizar el método5.',
+                'data' => $data
+            ]);
+            return;
+        }
+
+        $productsResponse = $this->productModel->getProductsByCategoryWithLimitAndOffset($this->connection, $data);
+
+        if ($productsResponse['status'] === 'error') {
+            http_response_code(404);
+            echo json_encode($productsResponse);
+        } else {
+            http_response_code(200);
+            echo json_encode($productsResponse);
+        }
+    }
+
 }

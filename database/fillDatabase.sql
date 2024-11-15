@@ -26,3 +26,6 @@ INSERT INTO bag_product (shopping_bag_id, product_id, quantity) VALUES
 (1, 1, 2), 
 (2, 2, 1), 
 (3, 3, 3);
+
+
+

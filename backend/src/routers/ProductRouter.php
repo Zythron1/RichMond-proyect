@@ -4,7 +4,8 @@ class ProductRouter {
     // paso 1: Crear 4 atributos que guardan la información necesaria para ejecutar el método requerido en la petición (controlador y la acción del controlador, ruta y método)
     private $routesGet = [
         ['controller' => 'ProductController', 'action' => 'getAllProducts', 'route' => '/product', 'method' => 'GET'],
-        ['controller' => 'ProductController', 'action' => 'getProductById', 'route' => '/product/{productId}', 'method' => 'GET']
+        ['controller' => 'ProductController', 'action' => 'getProductById', 'route' => '/product/{productId}', 'method' => 'GET'],
+        ['controller' => 'ProductController', 'action' => 'getProductsByCategoryWithLimitAndOffset', 'route' => '/product/{categoryId}/{limit}/{offset}', 'method' => 'GET']
     ]; 
     private $routesPost = [
         ['controller' => 'ProductController', 'action' => 'createProduct', 'route' => '/product', 'method' => 'POST']

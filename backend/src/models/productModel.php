@@ -81,4 +81,41 @@ class ProductModel {
             return false;
         }
     }
+    
+    public function getProductsByCategoryWithLimitAndOffset ($connection, $data) {
+        if ($data['categoryId'] != 0) {
+
+            $stmt = $connection->prepare('SELECT product_name, price, image_url FROM products WHERE category_id = :categoryId LIMIT :limit OFFSET :offset');
+            $stmt->bindParam(':categoryId', $data['categoryId'], PDO::PARAM_INT);
+            $stmt->bindParam(':limit', $data['limit'], PDO::PARAM_INT);
+            $stmt->bindParam(':offset', $data['offset'], PDO::PARAM_INT);
+
+        } else {
+
+            $stmt = $connection->prepare("SELECT product_name, price, image_url FROM products LIMIT :limit OFFSET :offset");
+            $stmt->bindParam(':limit', $data['limit'], PDO::PARAM_INT);
+            $stmt->bindParam(':offset', $data['offset'], PDO::PARAM_INT);
+
+        }
+
+        $stmt->execute();
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($products)) {
+            return [
+                'status' => 'error',
+                'message' => 'No hay productos disponibles en este momento.',
+                'messageToDeveloper' => 'No hay productos o hubo un error en la consulta.',
+                'products' => $products
+            ];
+        } else {
+            return [
+                'status' => 'success',
+                'message' => 'Cargando productos.',
+                'messageToDeveloper' => 'Ningún error.',
+                'products' => $products
+            ];
+        }
+    }
+
 }

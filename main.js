@@ -3,10 +3,12 @@ import LoginController from "./frontend/src/js/controllers/LoginController.js";
 import UserController from "./frontend/src/js/controllers/UserController.js";
 import UserView from "./frontend/src/js/views/UserView.js";
 import Homepage from "./frontend/src/js/controllers/HomepageController.js";
+import ProductsController from "./frontend/src/js/controllers/productsController.js";
 
 const HomepageInstance = new Homepage;
 const UserControllerInstance = new UserController();
 const UserViewInstance = new UserView();
+const ProductsControllerInstance = new ProductsController();
 
 
 if (window.location.href === 'http://localhost:3000/frontend/src/html/logIn.html') {
@@ -98,8 +100,8 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/logIn.html
 
 // -------------------------------  PÁGINA PRINCIPAL  -------------------------------
 
-
 if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html') {
+
     const shoppingBagProducts = JSON.parse(localStorage.getItem('shoppingBagProducts'));
     if (shoppingBagProducts) {
         UserViewInstance.showProductInShoppingBag(shoppingBagProducts);
@@ -192,6 +194,36 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
         });
     });
 
+    // Mostrar productos por categoría
+    const categoriesButton = [
+        document.getElementById('outfit'),
+        document.getElementById('jeans'),
+        document.getElementById('pants'),
+        document.getElementById('t-shirts'),
+        document.getElementById('shirts'),
+        document.getElementById('sweatshirts'),
+        document.getElementById('accessories')
+    ];
+
+    categoriesButton.forEach(category => {
+        category.addEventListener('click', () => {
+            localStorage.setItem('selectedCategory', category.getAttribute('category'));
+        })
+    })
+
+}
+
+if (window.location.href === 'http://localhost:3000/frontend/src/html/products.html') {
+    let limit = 100;
+    let offset = 0;
     
+    if (localStorage.getItem('selectedCategory') == null) {
+        localStorage.setItem('selectedCategory', 0);
+    } 
+
+    ProductsControllerInstance.loadProducts(localStorage.getItem('selectedCategory'), limit, offset);
+
+    
+
 
 }

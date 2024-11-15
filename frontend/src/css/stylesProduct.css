@@ -1,0 +1,39 @@
+.header {
+    
+    background: radial-gradient(circle, #204761 50%, #000000);
+}
+
+.aside {
+    position: fixed;
+    bottom: 0;
+    
+}
+
+.main {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows:auto;
+    margin-top: 72px;
+    margin-right: 20px;
+}
+
+.Ad-container {
+    justify-self: center;
+    width: 95%;
+    margin-top: 30px;
+    grid-column: 1 / span 2;
+    background: radial-gradient(circle, #000000 50%, #000000);
+    color: #ffffff;
+    border-radius: 10px;
+}
+
+.Ad-container__title {
+    text-align: center;
+    font-size: 2em;
+    margin: 40px 0 10px;
+}
+
+.Ad-container__text {
+    text-align: center;
+    font-size: 1.4em;
+    margin-bottom: 20px;
+}
