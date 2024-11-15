@@ -11,7 +11,6 @@ class ProductsController {
         ProductsServiceInstance.requestToLoadProducts(categoryId, limit, offset)
             .then(data => {
                 if (data.status === 'success') {
-                    alert(categoryId);
                     ProductsViewInstance.renderProducts(data.products);
                     return;
                 }

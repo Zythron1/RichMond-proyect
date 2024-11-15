@@ -15,9 +15,9 @@ class ProductView {
             productDiv.classList.add('product-catalog__product');
 
             productDiv.innerHTML = `
-                <img src="${product.image_url}" alt="${product.product_name}" />
-                <h3>${product.product_name}</h3>
-                <p>Precio: $${product.price}</p>
+                <img src="${product.image_url}" alt="${product.product_name}" class="product__img"/>
+                <h3 class="product__name">${product.product_name}</h3>
+                <p class="product__price">Precio: $${product.price}</p>
             `;
 
             productsContainer.appendChild(productDiv);

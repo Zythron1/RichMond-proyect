@@ -97,16 +97,36 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/logIn.html
 }
 
 
-
 // -------------------------------  PÁGINA PRINCIPAL  -------------------------------
 
 if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html') {
+    // Mostrar productos por categoría
+    const categoriesButton = [
+        document.getElementById('outfit'),
+        document.getElementById('jeans'),
+        document.getElementById('pants'),
+        document.getElementById('t-shirts'),
+        document.getElementById('shirts'),
+        document.getElementById('sweatshirts'),
+        document.getElementById('accessories')
+    ];
 
+    categoriesButton.forEach(category => {
+        category.addEventListener('click', () => {
+            localStorage.setItem('selectedCategory', category.getAttribute('category'));
+        })
+    })
+}
+
+
+// -------------------------------  PÁGINA PRINCIPAL  -------------------------------
+// -------------------------------  PÁGINA DE PRODCUTOS  -------------------------------
+
+if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html' || window.location.href === 'http://localhost:3000/frontend/src/html/products.html') {
     const shoppingBagProducts = JSON.parse(localStorage.getItem('shoppingBagProducts'));
     if (shoppingBagProducts) {
         UserViewInstance.showProductInShoppingBag(shoppingBagProducts);
     }
-
 
 
     // Abrir menú y Cerrar menú
@@ -127,7 +147,7 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
     // Desplegar y cerra lista de productos-categorias (Mujer - hombre)
     const productsListButtonWoman = document.getElementById('products-list-button-woman');
     const productsListButtonMan = document.getElementById('products-list-button-man');
-    
+
     productsListButtonWoman.addEventListener('click', () => {
         const womanProductsList = document.getElementById('woman-products-list');
         HomepageInstance.openCloseSection(womanProductsList);
@@ -139,7 +159,6 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
     })
 
 
-
     // Abrir y cerrar sección del perfil
     const profileButton = document.getElementById('profile-button');
     const profile = document.getElementById('profile');
@@ -149,7 +168,6 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
         HomepageInstance.openCloseSection(accesorio);
         HomepageInstance.openCloseSection(profile);
     });
-
 
 
     // Abrir y cerrar bolsa de compras
@@ -169,17 +187,16 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
     // Abrir y cerrar información de la compañía
     const companyInformationButton1 = document.getElementById('company-information__button1');
     const companyInformationButton2 = document.getElementById('company-information__button2');
-    const companyInformation1  = document.getElementById('company-information1');
+    const companyInformation1 = document.getElementById('company-information1');
     const companyInformation2 = document.getElementById('company-information2');
-    
+
     companyInformationButton1.addEventListener('click', () => {
         HomepageInstance.openCloseSection(companyInformation1);
     });
-    
+
     companyInformationButton2.addEventListener('click', () => {
         HomepageInstance.openCloseSection(companyInformation2);
     });
-
 
 
     // Cerrar sesión
@@ -193,28 +210,12 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
             UserControllerInstance.logout();
         });
     });
-
-    // Mostrar productos por categoría
-    const categoriesButton = [
-        document.getElementById('outfit'),
-        document.getElementById('jeans'),
-        document.getElementById('pants'),
-        document.getElementById('t-shirts'),
-        document.getElementById('shirts'),
-        document.getElementById('sweatshirts'),
-        document.getElementById('accessories')
-    ];
-
-    categoriesButton.forEach(category => {
-        category.addEventListener('click', () => {
-            localStorage.setItem('selectedCategory', category.getAttribute('category'));
-        })
-    })
-
 }
 
+
+// -------------------------------  PÁGINA DE PRODCUTOS  -------------------------------
 if (window.location.href === 'http://localhost:3000/frontend/src/html/products.html') {
-    let limit = 100;
+    let limit = 6;
     let offset = 0;
     
     if (localStorage.getItem('selectedCategory') == null) {
@@ -222,8 +223,5 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/products.h
     } 
 
     ProductsControllerInstance.loadProducts(localStorage.getItem('selectedCategory'), limit, offset);
-
-    
-
 
 }
