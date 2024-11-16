@@ -32,7 +32,7 @@ class UserController {
             .then(data => {
                 if (data.status === 'success') {
                 localStorage.setItem('userId', data.userId);
-                    localStorage.setItem('shoppingBagProducts', JSON.stringify(data.shoppingBag));
+                localStorage.setItem('shoppingBagProducts', JSON.stringify(data.shoppingBag));
 
                 alert(data.message);
                 window.location.href = 'http://localhost:3000/frontend/src/html/index.html';

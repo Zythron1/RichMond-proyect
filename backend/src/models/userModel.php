@@ -93,7 +93,6 @@ class UserModel {
                     'message' => 'Inicio de sesión exitoso.',
                     'userId' => $realUserData['user_id'],
                     'shoppingBag' => $products,
-                    'productsAvailable' => true
                 ];
             }
         }
@@ -104,7 +103,6 @@ class UserModel {
             'message' => 'Inicio de sesión exitoso.',
             'userId' => $realUserData['user_id'],
             'shoppingBag' => false,
-            'productsAvailable' => false
         ];
     }
 
