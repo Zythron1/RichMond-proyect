@@ -13,12 +13,26 @@ class ProductsController {
         ProductsServiceInstance.requestToLoadProducts(categoryId, limit, offset)
             .then(data => {
                 if (data.status === 'success') {
-                    ProductsViewInstance.renderProducts(data.products);
+                    ProductsViewInstance.products = data.products;
+                    ProductsViewInstance.renderProducts(ProductsViewInstance.products);
                     return;
                 }
             });
     }
-
+        
+    loadMoreProducts(categoryId, limit, offset) {
+            
+        ProductsServiceInstance.requestToLoadProducts(categoryId, limit, offset)
+            .then(data => {
+                if (data.status === 'success') {
+                    ProductsViewInstance.products = [...ProductsViewInstance.products, ...data.products];
+                    console.log(ProductsViewInstance.products);
+                    ProductsViewInstance.renderProducts(ProductsViewInstance.products);
+                    return;
+                }
+            });
+        
+    }
 
     deleteProductShoppingBag(userId, productId) {
 

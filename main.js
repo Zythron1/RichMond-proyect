@@ -231,7 +231,7 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
 
 // -------------------------------  PÁGINA DE PRODCUTOS  -------------------------------
 if (window.location.href === 'http://localhost:3000/frontend/src/html/products.html') {
-    let limit = 6;
+    let limit = 15;
     let offset = 0;
     
     if (localStorage.getItem('selectedCategory') == null) {
@@ -240,6 +240,10 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/products.h
 
     ProductsControllerInstance.loadProducts(localStorage.getItem('selectedCategory'), limit, offset);
 
-}
 
-console.log(localStorage);
+    const buttonToLoadMoreProducts = document.getElementById('button-to-load-more-products');
+    buttonToLoadMoreProducts.addEventListener('click', () => {
+        offset += 15;
+        ProductsControllerInstance.loadMoreProducts(localStorage.getItem('selectedCategory'), limit, offset);
+    })
+}

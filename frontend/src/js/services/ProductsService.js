@@ -1,4 +1,7 @@
 class ProductsService {
+    constructor () {
+        this.products = [];
+    }
 
     async requestToLoadProducts(categoryId, limit, offset) {
         return fetch(`http://localhost:3000/product/${categoryId}/${limit}/${offset}`, {
@@ -44,6 +47,7 @@ class ProductsService {
                 return { status: 'error', message: error.message };
             });
     }
+
 
 
 }
