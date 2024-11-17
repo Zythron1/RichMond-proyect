@@ -91,7 +91,7 @@ class UserModel {
                 return [
                     'status' => 'success',
                     'message' => 'Inicio de sesión exitoso.',
-                    'userId' => $realUserData['user_id'],
+                    'userId' => $_SESSION['userId'],
                     'shoppingBag' => $products,
                 ];
             }
@@ -101,7 +101,7 @@ class UserModel {
         return [
             'status' => 'success',
             'message' => 'Inicio de sesión exitoso.',
-            'userId' => $realUserData['user_id'],
+            'userId' => $_SESSION['userId'],
             'shoppingBag' => false,
         ];
     }
@@ -110,7 +110,7 @@ class UserModel {
         if (empty($_SESSION['userId'])) {
             return [
                 'status' => 'error',
-                'message' => 'No tienes ninguna sessión abierta.',
+                'message' => 'No hay una sesión activa.',
                 'messageToDeveloper' => 'No está el userId en la variable $_SESSION.'
             ];
         }
@@ -130,6 +130,8 @@ class UserModel {
                 'messageToDeveloper' => 'Error al destruir la variable $_SESSION.'
             ];
         }
+
+        $_SESSION= [];
         
         return [
             'status' => 'succes',

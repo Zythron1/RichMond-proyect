@@ -1,0 +1,3 @@
+*   Crear un archivo que maneje las configuraciones, el inicio y la destrucción de las sesiones.
+*   Separar en una carpeta quizas llamada services donde se maneje todas las validaciones por entidad para mejorar la modularidad.
+*   Mejorar las respuestas de las peticiones por si el servidor no responde.

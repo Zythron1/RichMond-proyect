@@ -3,7 +3,7 @@ import LoginController from "./frontend/src/js/controllers/LoginController.js";
 import UserController from "./frontend/src/js/controllers/UserController.js";
 import UserView from "./frontend/src/js/views/UserView.js";
 import Homepage from "./frontend/src/js/controllers/HomepageController.js";
-import ProductsController from "./frontend/src/js/controllers/productsController.js";
+import ProductsController from "./frontend/src/js/controllers/ProductsController.js";
 
 const HomepageInstance = new Homepage;
 const UserControllerInstance = new UserController();
@@ -123,10 +123,26 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
 // -------------------------------  PÁGINA DE PRODCUTOS  -------------------------------
 
 if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html' || window.location.href === 'http://localhost:3000/frontend/src/html/products.html') {
+    // Renderizar productos en la bolsa de compra
     const shoppingBagProducts = JSON.parse(localStorage.getItem('shoppingBagProducts'));
     if (shoppingBagProducts) {
-        UserViewInstance.showProductInShoppingBag(shoppingBagProducts);
+        UserViewInstance.renderProductInShoppingBag(shoppingBagProducts);
     }
+
+
+    // Eliminar productos de la bolsa de compra
+    const productsContainer = document.getElementById('shopping-bag-product'); 
+
+    productsContainer.addEventListener('click', (event) => {
+        const button = event.target.closest('.product-item__icons-button');;
+
+        if (button) {
+            const productId = button.dataset.productId;
+            
+            ProductsControllerInstance.deleteProductShoppingBag(localStorage.getItem('userId'), parseInt(productId));
+        }
+    });
+
 
 
     // Abrir menú y Cerrar menú
@@ -225,3 +241,5 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/products.h
     ProductsControllerInstance.loadProducts(localStorage.getItem('selectedCategory'), limit, offset);
 
 }
+
+console.log(localStorage);

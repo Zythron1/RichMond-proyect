@@ -12,7 +12,7 @@ class BagProductRouter {
         ['controller' => 'BagProductController', 'action' => '', 'route' => '', 'method' => 'PUT']
     ]; 
     private $routesDelete = [
-        ['controller' => 'BagProductController', 'action' => '', 'route' => '', 'method' => 'DELETE']
+        ['controller' => 'BagProductController', 'action' => 'deleteProductShoppingBag', 'route' => '/bagProduct/{userId}/{productId}/delete', 'method' => 'DELETE']
     ]; 
 
     // paso 2: hacer todas las funciones para obtener los datos 

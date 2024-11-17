@@ -54,4 +54,25 @@ class BagProductController {
         }
     }
 
+    public function deleteProductShoppingBag ($data) {
+        if (count($data) !== 3) {
+            http_response_code(400);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'No se pudo realizar la acción, intenta de nuevo.',
+                'messageToDeveloper' => 'Hace falta datos para poder realizar el método.',
+                'data' => $data
+            ]);
+            return;
+        }
+
+        $productDeleted = $this->bagProductModel->deleteProductShoppingBag($this->connection, $data);
+
+        if ($productDeleted['status'] === 'error') {
+            http_response_code(404);
+            echo json_encode($productDeleted);
+        } else {
+            http_response_code(204);
+        }
+    }
 }

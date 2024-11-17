@@ -1,8 +1,10 @@
-import ProductsService from "http://localhost:3000/frontend/src/js/services/ProductsService.js";
-import ProductView from "http://localhost:3000/frontend/src/js/views/ProductView.js";
+import ProductsService from "../services/ProductsService.js";
+import ProductView from "../views/ProductView.js";
+import UserView from "../views/UserView.js";
 
 const ProductsServiceInstance = new ProductsService;
 const ProductsViewInstance = new ProductView;
+const UserViewInstance = new UserView;
 
 class ProductsController {
 
@@ -16,7 +18,23 @@ class ProductsController {
                 }
             });
     }
-    
+
+
+    deleteProductShoppingBag(userId, productId) {
+
+        ProductsServiceInstance.requestToDeleteProductShoppingBag(userId, productId)
+            .then(data => {
+                if (data.status === 'success') {
+                    const shoppingBagProducts = JSON.parse(localStorage.getItem('shoppingBagProducts'));
+
+                    const updateProducts = shoppingBagProducts.filter(product => product.product_id !== productId);
+
+                    localStorage.setItem('shoppingBagProducts', JSON.stringify(updateProducts));
+
+                    UserViewInstance.renderProductInShoppingBag(updateProducts);
+                }
+            });
+    }
 
 }
 

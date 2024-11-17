@@ -177,8 +177,8 @@ class ProductController {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
-                'message' => 'No se pudo realizar la acción, intenta de nuevo5.',
-                'messageToDeveloper' => 'Hace falta datos para poder realizar el método5.',
+                'message' => 'No se pudo realizar la acción, intenta de nuevo.',
+                'messageToDeveloper' => 'Hace falta datos para poder realizar el método.',
                 'data' => $data
             ]);
             return;
