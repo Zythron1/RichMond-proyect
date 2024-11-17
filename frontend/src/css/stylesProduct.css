@@ -4,6 +4,10 @@ body {
     align-items: center;
 }
 
+footer {
+    width: 100%;
+}
+
 .header {
     background-color: #000000;
 }

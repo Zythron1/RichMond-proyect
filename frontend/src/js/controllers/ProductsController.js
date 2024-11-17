@@ -20,7 +20,7 @@ class ProductsController {
             });
     }
         
-    loadMoreProducts(categoryId, limit, offset) {
+    loadMoreProducts (categoryId, limit, offset) {
             
         ProductsServiceInstance.requestToLoadProducts(categoryId, limit, offset)
             .then(data => {
@@ -34,7 +34,7 @@ class ProductsController {
         
     }
 
-    deleteProductShoppingBag(userId, productId) {
+    deleteProductShoppingBag (userId, productId) {
 
         ProductsServiceInstance.requestToDeleteProductShoppingBag(userId, productId)
             .then(data => {

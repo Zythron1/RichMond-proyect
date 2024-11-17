@@ -3,7 +3,7 @@ class ProductsService {
         this.products = [];
     }
 
-    async requestToLoadProducts(categoryId, limit, offset) {
+    async requestToLoadProducts (categoryId, limit, offset) {
         return fetch(`http://localhost:3000/product/${categoryId}/${limit}/${offset}`, {
             method: 'GET'
         })
@@ -23,7 +23,7 @@ class ProductsService {
     }
 
 
-    async requestToDeleteProductShoppingBag(userId, productId) {
+    async requestToDeleteProductShoppingBag (userId, productId) {
         return fetch(`http://localhost:3000/bagProduct/${userId}/${productId}/delete`, {
             method: 'DELETE'
         })

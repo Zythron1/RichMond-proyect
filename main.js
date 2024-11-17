@@ -231,7 +231,7 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
 
 // -------------------------------  PÁGINA DE PRODCUTOS  -------------------------------
 if (window.location.href === 'http://localhost:3000/frontend/src/html/products.html') {
-    let limit = 15;
+    let limit = 5;
     let offset = 0;
     
     if (localStorage.getItem('selectedCategory') == null) {
@@ -243,7 +243,7 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/products.h
 
     const buttonToLoadMoreProducts = document.getElementById('button-to-load-more-products');
     buttonToLoadMoreProducts.addEventListener('click', () => {
-        offset += 15;
+        offset += 5;
         ProductsControllerInstance.loadMoreProducts(localStorage.getItem('selectedCategory'), limit, offset);
     })
 }
