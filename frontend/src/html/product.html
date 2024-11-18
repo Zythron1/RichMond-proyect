@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="RichMond es una tienda de ropa online que ofrece prendas de calidad, duraderas, con estilo y comodidad. Con la mejor experiencia de compra del mundo, nuestros productos están diseñados para personas de 14 a 50 años que buscan un estilo aesthetic y fuera de lo común. Descubre una moda única y una compra inigualable.">
+    <meta name="description"
+        content="RichMond es una tienda de ropa online que ofrece prendas de calidad, duraderas, con estilo y comodidad. Con la mejor experiencia de compra del mundo, nuestros productos están diseñados para personas de 14 a 50 años que buscan un estilo aesthetic y fuera de lo común. Descubre una moda única y una compra inigualable.">
     <meta name="author" content="David Felipe Soto Gallego">
     <meta name="copyright" content="&copy; David Felipe Soto Gallego. Todos los derechos reservados">
     <meta name="robots" content="index, follow">
@@ -13,14 +15,17 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="/frontend/node_modules/normalize.css/normalize.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Montserrat">
-
+    <link rel="stylesheet" href="../css/stylesProduct.css">
+    
 </head>
+
 <body>
     <header class="header">
-        <button type="button" class="header__icons-button left transparent button-opacity-hover delete" id="open-menu-button"  aria-label="menú de navagación">
+        <button type="button" class="header__icons-button left transparent button-opacity-hover delete"
+            id="open-menu-button" aria-label="menú de navagación">
             <div class="icons-button__svg-container">
-                <svg class="icons-button__svg transparent"   xmlns="http://www.w3.org/2000/svg" role="presentation" width="22"
-                    height="22" viewBox="0 0 22 22" fill="none">
+                <svg class="icons-button__svg transparent" xmlns="http://www.w3.org/2000/svg" role="presentation"
+                    width="22" height="22" viewBox="0 0 22 22" fill="none">
                     <path d="M3 6H21M3 12H21M3 18H21" stroke="white" stroke-width="1.5" stroke-linecap="round"
                         stroke-linejoin="round"></path>
                 </svg>
@@ -39,11 +44,12 @@
             <ul>
                 <li class="li-brand-name">
                     <a href="/frontend/src/html/index.html">
-                        <svg class="li-brand-name__svg transparent" xmlns="http://www.w3.org/2000/svg" width="148" height="39"
-                            viewBox="0 0 144 35" role="img" aria-label="RichMond logo" fill="none"><text x="50%" y="50%" font-size="30"
-                                fill="white" font-weight="bold" text-anchor="middle" dominant-baseline="middle">RichMond</text></svg>
+                        <svg class="li-brand-name__svg transparent" xmlns="http://www.w3.org/2000/svg" width="148"
+                            height="39" viewBox="0 0 144 35" role="img" aria-label="RichMond logo" fill="none"><text
+                                x="50%" y="50%" font-size="30" fill="white" font-weight="bold" text-anchor="middle"
+                                dominant-baseline="middle">RichMond</text></svg>
                     </a>
-                </li> 
+                </li>
                 <hr>
                 <li class="li-woman">
                     <button class="li-woman__title transparent woman" id="products-list-button-woman">
@@ -65,8 +71,8 @@
                         <li><a href="#" class="a-underline">Busos</a></li>
                         <li><a href="#" class="a-underline">Vestidos</a></li>
                     </ul>
-                </li> 
-                
+                </li>
+
                 <li class="li-man">
                     <button class="li-man__title transparent man" id="products-list-button-man">
                         <h3 class="li-woman__text">Hombre</h3>
@@ -97,34 +103,39 @@
         </div>
 
         <div class="Container-category-woman-man">
-            
-            <a href="http://localhost:3000/frontend/src/html/index.html" class="Container-category-woman-man__p-man">Hombre</a>
+
+            <a href="http://localhost:3000/frontend/src/html/index.html"
+                class="Container-category-woman-man__p-man">Hombre</a>
             <p class="barra">|</p>
             <p class="Container-category-woman-man__p-woman">Mujer En breve</p>
         </div>
 
-        <button type="button" class="header__icons-button left transparent button-opacity-hover search-button-order" aria-label="buscar">
+        <button type="button" class="header__icons-button left transparent button-opacity-hover search-button-order"
+            aria-label="buscar">
             <div class="icons-button__svg-container">
                 <svg class="icons-button__svg transparent" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                     viewBox="0 0 22 22">
                     <g fill="white" fill-rule="evenodd" clip-rule="evenodd">
-                        <path d="M10.5 5.5a5 5 0 1 0 0 10a5 5 0 0 0 0-10m-6.5 5a6.5 6.5 0 1 1 13 0a6.5 6.5 0 0 1-13 0" />
-                        <path d="M14.47 14.47a.75.75 0 0 1 1.06 0l4 4a.75.75 0 1 1-1.06 1.06l-4-4a.75.75 0 0 1 0-1.06" />
+                        <path
+                            d="M10.5 5.5a5 5 0 1 0 0 10a5 5 0 0 0 0-10m-6.5 5a6.5 6.5 0 1 1 13 0a6.5 6.5 0 0 1-13 0" />
+                        <path
+                            d="M14.47 14.47a.75.75 0 0 1 1.06 0l4 4a.75.75 0 1 1-1.06 1.06l-4-4a.75.75 0 0 1 0-1.06" />
                     </g>
                 </svg>
             </div>
         </button>
-    
+
         <h1 class="header__container-brand-name brand-name-order">
             <a href="/frontend/src/html/index.html" class="container-brand-name__link">
                 <svg class="container-brand-name__svg transparent" xmlns="http://www.w3.org/2000/svg" width="147"
-                    height="38" viewBox="0 0 144 35" role="img" aria-label="RichMond logo" fill="none"><text x="50%" y="50%"
-                        font-size="30" fill="white" font-weight="bold" text-anchor="middle"
+                    height="38" viewBox="0 0 144 35" role="img" aria-label="RichMond logo" fill="none"><text x="50%"
+                        y="50%" font-size="30" fill="white" font-weight="bold" text-anchor="middle"
                         dominant-baseline="middle">RichMond</text></svg>
             </a>
         </h1>
-    
-        <button type="button" class="header__icons-button right transparent button-opacity-hover profile-button-order" id="profile-button" aria-label="Usuario">
+
+        <button type="button" class="header__icons-button right transparent button-opacity-hover profile-button-order"
+            id="profile-button" aria-label="Usuario">
             <div class="icons-button__svg-container">
                 <svg class="icons-button__svg transparent" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                     viewBox="0 0 22 22">
@@ -134,24 +145,30 @@
             </div>
         </button>
 
-        
+
         <div class="accesorio hidden" id="accesorio"></div>
         <div class="header__profile hidden" id="profile">
             <ul>
-                <li><a href="#" class="header__profile-link link-animation animation-color" >Perfil</a></li>
-                <li><a href="http://localhost:3000/frontend/src/html/logIn.html" class="header__profile-link link-animation animation-color">Iniciar sesión</a></li>
-                <li><button class="logout-button transparent link-animation animation-color" id="profile-logout-button">Cerrar sesión</button></li>
-                <li><a href="#" class="header__profile-link link-animation animation-color">Seguimiento del pedido</a></li>
-                <li><a href="#" class="header__profile-link link-animation animation-color">Cambios y devoluciones</a></li>
+                <li><a href="#" class="header__profile-link link-animation animation-color">Perfil</a></li>
+                <li><a href="http://localhost:3000/frontend/src/html/logIn.html"
+                        class="header__profile-link link-animation animation-color">Iniciar sesión</a></li>
+                <li><button class="logout-button transparent link-animation animation-color"
+                        id="profile-logout-button">Cerrar sesión</button></li>
+                <li><a href="#" class="header__profile-link link-animation animation-color">Seguimiento del pedido</a>
+                </li>
+                <li><a href="#" class="header__profile-link link-animation animation-color">Cambios y devoluciones</a>
+                </li>
                 <li><a href="#" class="header__profile-link link-animation animation-color">Contáctanos</a></li>
             </ul>
         </div>
-    
-        <button type="button" class="header__icons-button right transparent button-opacity-hover shopping-bag-button-order" id="open-shopping-bag-button" aria-label="Bolsa de compras">
+
+        <button type="button"
+            class="header__icons-button right transparent button-opacity-hover shopping-bag-button-order"
+            id="open-shopping-bag-button" aria-label="Bolsa de compras">
             <div class="icons-button__svg-container">
                 <svg class="icons-button__svg transparent" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                     viewBox="0 0 24 24">
-                    <g fill="none" stroke="white" stroke-width="1.5" >
+                    <g fill="none" stroke="white" stroke-width="1.5">
                         <path stroke-linejoin="round"
                             d="M4 9h16l-.835 9.181A2 2 0 0 1 17.174 20H6.826a2 2 0 0 1-1.991-1.819z" />
                         <path stroke-linecap="round" d="M8 11V8a4 4 0 1 1 8 0v3" />
@@ -171,7 +188,7 @@
             </button>
             <h3 class="shopping-bag__title">Tu bolsa de compra</h3>
             <hr>
-            
+
             <div id="shopping-bag-product" class="shopping-bag-product"></div>
         </div>
     </header>
@@ -183,111 +200,108 @@
     </aside>
 
     <main class="main">
+        <!-- Slider de imágenes -->
+        <div class="slider-container">
+            <img src="/frontend/src/html/camiseta.jpg" alt="">
+            <img src="/frontend/src/html/gorra.jpg" alt="">
+            <img src="/frontend/src/html/camiseta.jpg" alt="">
+        </div>
+        
+        <div class="product">
+            <h3 class="product__name">Camiseta básica negra</h3>
+            <p class="product__price">$105.000</p>
+            <p class="product__size">Talla única</p>
 
-        <div class="main__image-container cien-por-ciento">
-            <a href="http://localhost:3000/frontend/src/html/products.html" class="image-container__link" category="0" id="outfit">
-                <img class="image-container__img" src="../assets/fotos/login/Pull_Bear-Black-white.jpg" alt="Outfits RichMond"
-                    width="200px">
-                <span class="image-container__btn-overlay cambio">Outfit</span>
-            </a>
+            <button type="button" class="product__button-to-add transparent">Agregar a la bolsa</button>
+        
+            <!-- Detalles del producto -->
+            <div class="product__details">
+                <button type="button" class="product__details-toggle" id="product-details-toggle" aria-expanded="true"
+                    aria-controls="product-details">
+                    <h2 class="product__details-title">Detalles del producto</h2>
+                </button>
+                <div class="product__details-content" id="product-details">
+                    <p class="product__details-content-title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam beatae fuga quas quam suscipit ullam officia atque aliquid, corporis odit, voluptate deleniti sequi. Quaerat culpa dolores maxime quod fugit neque.</p>
+                </div>
+            </div>
+        
+            <!-- Envíos -->
+            <div class="product__shipping">
+                <button type="button" class="product__shipping-toggle" id="shipping-toggle" aria-expanded="false"
+                    aria-controls="shipping-content">
+                    <h2 class="product__shipping-title">Envíos</h2>
+                </button>
+                <div class="product__shipping-content hidden" id="shipping-content">
+                    <p class="product__shipping-content-title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam beatae fuga quas quam suscipit ullam officia atque aliquid, corporis odit, voluptate deleniti sequi. Quaerat culpa dolores maxime quod fugit neque.
+                    </p>
+                </div>
+            </div>
+        
+            <!-- Devoluciones y garantías -->
+            <div class="product__returns">
+                <button type="button" class="product__returns-toggle" id="returns-toggle" aria-expanded="false"
+                    aria-controls="returns-content">
+                    <h2 class="product__returns-title">Devoluciones y garantías</h2>
+                </button>
+                <div class="product__returns-content hidden" id="returns-content">
+                    <p class="product__returns-content-title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam beatae fuga quas quam suscipit ullam officia atque aliquid, corporis odit, voluptate deleniti sequi. Quaerat culpa dolores maxime quod fugit neque.
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <div class="main__image-container">
-            <a href="http://localhost:3000/frontend/src/html/products.html" class="image-container__link" category="5" id="sweatshirts">
-                <img class="image-container__img" src="../assets/fotos/body/camisetas.jpg" alt="Sudaderas imagen"
-                    width="200px">
-                <span class="image-container__btn-overlay">Sudaderas</span>
-            </a>
-        </div>
-    
-        <div class="main__image-container">
-            <a href="http://localhost:3000/frontend/src/html/products.html" class="image-container__link" category="3" id="t-shirts">
-                <img class="image-container__img" src="../assets/fotos/body/camisetas.jpg" alt="Camisetas imagen"
-                    width="200px">
-                <span class="image-container__btn-overlay">Camisetas</span>
-            </a>
-        </div>
-    
-        <div class="main__image-container">
-            <a href="http://localhost:3000/frontend/src/html/products.html" class="image-container__link" category="4" id="shirts">
-                <img class="image-container__img" src="../assets/fotos/body/camisetas.jpg" alt="Camisas imagen">
-                <span class="image-container__btn-overlay">Camisas</span>
-            </a>
-        </div>
-    
-        <div class="main__image-container">
-            <a href="http://localhost:3000/frontend/src/html/products.html" class="image-container__link" category="6" id="accessories">
-                <img class="image-container__img" src="../assets/fotos/body/camisetas.jpg" alt="Accesorios imagen"
-                    width="200px">
-                <span class="image-container__btn-overlay">Accesorios</span>
-            </a>
-        </div>
-    
-        <div class="main__image-container mitad">
-            <a href="http://localhost:3000/frontend/src/html/products.html" class="image-container__link" category="2" id="pants">
-                <img class="image-container__img " src="../assets/fotos/body/jeans.jpg" alt="Pantalones imagen"
-                    width="200px">
-                <span class="image-container__btn-overlay">Pantalones</span>
-            </a>
-        </div>
-    
-        <div class="main__image-container mitad">
-            <a href="http://localhost:3000/frontend/src/html/products.html" class="image-container__link" category="1" id="jeans">
-                <img class="image-container__img" src="../assets/fotos/body/jeans.jpg" alt="Jeans imagen"
-                    width="200px">
-                <span class="image-container__btn-overlay">Jeans</span>
-            </a>
-        </div>
     </main>
-    
+
     <footer class="footer">
         <div class="footer__container-social-networks">
             <h2 class="container-social-networks__title">Nuestras Redes Sociales</h2>
-    
+
             <section class="container-social-networks__centrar">
                 <a href="https://www.instagram.com" class="container-social-networks__link" target="_blank"
                     aria-label="Instagram">
                     <img class="container-social-networks__img"
-                        src="../assets/iconos/redesSociales/instagram/icon-img-instagram-36.png" alt="Icono de Instagram">
+                        src="../assets/iconos/redesSociales/instagram/icon-img-instagram-36.png"
+                        alt="Icono de Instagram">
                 </a>
-    
+
                 <a href="https://www.tiktok.com" class="container-social-networks__link" target="_blank"
                     aria-label="Tiktok">
                     <img class="container-social-networks__img"
                         src="../assets/iconos/redesSociales/tiktok/icon-img-tiktok-36.png" alt="Icono de TikTok">
                 </a>
-    
+
                 <a href="https://www.facebook.com" class="container-social-networks__link" target="_blank"
                     aria-label="Facebook">
                     <img class="container-social-networks__img"
                         src="../assets/iconos/redesSociales/facebook/icon-img-facebook-36.png" alt="Icono de Facebook">
                 </a>
-    
+
                 <a href="https://wa.me/1234567890" class="container-social-networks__link" target="_blank"
                     aria-label="WhatsApp">
                     <img class="container-social-networks__img"
                         src="../assets/iconos/redesSociales/whatsapp/icon-img-whatsapp-800.png" alt="Icono de WhatsApp"
                         width="39">
                 </a>
-    
+
                 <a href="https://www.youtube.com" class="container-social-networks__link" target="_blank"
                     aria-label="YouTube">
                     <img class="container-social-networks__img"
                         src="../assets/iconos/redesSociales/youtube/icon-img-youtube-36.png" alt="Icono de YouTube">
                 </a>
-    
+
                 <a href="https://www.pinterest.com" class="container-social-networks__link" target="_blank"
                     aria-label="Pinterest">
                     <img class="container-social-networks__img"
-                        src="../assets/iconos/redesSociales/pinterest/icon-img-pinterest-36.png" alt="Icono de Pinterest">
+                        src="../assets/iconos/redesSociales/pinterest/icon-img-pinterest-36.png"
+                        alt="Icono de Pinterest">
                 </a>
             </section>
         </div>
-    
+
         <div class="footer__container-company-information">
             <div class="container-company-information__company-information">
-                <button type="button" class="company-information__button" id="company-information__button1" aria-expanded="true"
-                    aria-controls="empresa-info">
+                <button type="button" class="company-information__button" id="company-information__button1"
+                    aria-expanded="false" aria-controls="empresa-info">
                     <h2 class="company-information__title">La Familia RichMond</h2>
                 </button>
                 <div id="company-information1">
@@ -298,23 +312,28 @@
             </div>
 
             <div class="container-company-information__company-information">
-                <button type="button" class="company-information__button" id="company-information__button2" aria-expanded="false"
-                    aria-controls="empresa-ayuda">
+                <button type="button" class="company-information__button" id="company-information__button2"
+                    aria-expanded="false" aria-controls="empresa-ayuda">
                     <h3 class="company-information__title">Ayuda</h3>
                 </button>
                 <div class="hidden" id="company-information2">
-                    <a href="#" class="company-information__link link-animation" aria-hidden="true">Servicio al cliente</a>
-                    <a href="#" class="company-information__link link-animation" aria-hidden="true">Seguimiento de mi pedido</a>
-                    <a href="#" class="company-information__link link-animation" aria-hidden="true">Preguntas frecuentes</a>
-                    <a href="#" class="company-information__link link-animation" aria-hidden="true">Cuidado del producto</a>
+                    <a href="#" class="company-information__link link-animation" aria-hidden="true">Servicio al
+                        cliente</a>
+                    <a href="#" class="company-information__link link-animation" aria-hidden="true">Seguimiento de mi
+                        pedido</a>
+                    <a href="#" class="company-information__link link-animation" aria-hidden="true">Preguntas
+                        frecuentes</a>
+                    <a href="#" class="company-information__link link-animation" aria-hidden="true">Cuidado del
+                        producto</a>
                 </div>
             </div>
 
             <h2 class="footer__container-brand-name">
                 <a href="/frontend/src/html/index.html" class="footer-brand-name__link">
-                    <svg class="footer-brand-name__svg transparent" xmlns="http://www.w3.org/2000/svg" width="144" height="35"
-                        viewBox="0 0 144 35" role="img" aria-label="Marca RichMond" fill="none"><text class="brand-name-text"  x="50%" y="50%" font-size="30"
-                            fill="black" font-weight="bold" text-anchor="middle" dominant-baseline="middle">RichMond</text></svg>
+                    <svg class="footer-brand-name__svg transparent" xmlns="http://www.w3.org/2000/svg" width="144"
+                        height="35" viewBox="0 0 144 35" role="img" aria-label="Marca RichMond" fill="none"><text
+                            class="brand-name-text" x="50%" y="50%" font-size="30" fill="black" font-weight="bold"
+                            text-anchor="middle" dominant-baseline="middle">RichMond</text></svg>
                 </a>
             </h2>
         </div>
@@ -328,6 +347,6 @@
             </div>
         </div>
     </footer>
-<script type="module" src="/main.js"></script>
+    <script type="module" src="/main.js"></script>
 </body>
 </html>

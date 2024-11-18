@@ -122,7 +122,7 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
 // -------------------------------  PÁGINA PRINCIPAL  -------------------------------
 // -------------------------------  PÁGINA DE PRODCUTOS  -------------------------------
 
-if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html' || window.location.href === 'http://localhost:3000/frontend/src/html/products.html') {
+if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html' || window.location.href === 'http://localhost:3000/frontend/src/html/products.html' || window.location.href === 'http://localhost:3000/frontend/src/html/product.html') {
     // Renderizar productos en la bolsa de compra
     const shoppingBagProducts = JSON.parse(localStorage.getItem('shoppingBagProducts'));
     if (shoppingBagProducts) {
@@ -246,4 +246,28 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/products.h
         offset += 5;
         ProductsControllerInstance.loadMoreProducts(localStorage.getItem('selectedCategory'), limit, offset);
     })
+}
+
+if (window.location.href === 'http://localhost:3000/frontend/src/html/product.html') {
+    // toggle de botón de información del producto
+    const productDetailsToggle = document.getElementById('product-details-toggle');
+    const shippingToggle = document.getElementById('shipping-toggle');
+    const returnsToggle = document.getElementById('returns-toggle');
+
+    const productDetails = document.getElementById('product-details');
+    const shippingContent = document.getElementById('shipping-content');
+    const returnsContent = document.getElementById('returns-content');
+
+    productDetailsToggle.addEventListener('click', () => {
+        HomepageInstance.openCloseSection(productDetails);
+    })
+    
+    shippingToggle.addEventListener('click', () => {
+        HomepageInstance.openCloseSection(shippingContent);
+    })
+    
+    returnsToggle.addEventListener('click', () => {
+        HomepageInstance.openCloseSection(returnsContent);
+    })
+    
 }
