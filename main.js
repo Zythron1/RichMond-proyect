@@ -1,4 +1,4 @@
-// -------------------------------  LOGIN  -------------------------------
+// -------------------------------  Imports and Instances  -------------------------------
 import LoginController from "./frontend/src/js/controllers/LoginController.js";
 import UserController from "./frontend/src/js/controllers/UserController.js";
 import UserView from "./frontend/src/js/views/UserView.js";
@@ -13,7 +13,9 @@ const ProductsControllerInstance = new ProductsController();
 const ProductsViewInstance = new ProductView;
 
 
+// -------------------------------  LOGIN  -------------------------------
 if (window.location.href === 'http://localhost:3000/frontend/src/html/logIn.html') {
+
     // Eventos cambio de formulario entre iniciar sesión y crear cuenta.
     const registerButton = document.getElementById('register-button');
     const loginButton = document.getElementById('login-button');
@@ -24,6 +26,7 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/logIn.html
     loginButton.addEventListener('click', () => {
         LoginController.toggleFormsLoginCreate();
     });
+
 
 
     // Eventos cambio de formulario entre iniciar sesión y recuperar cuenta.
@@ -38,12 +41,14 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/logIn.html
     });
 
 
+
     // Eventos cambio de formulario entre recuperar cuenta y crear cuenta.
     const registerButtonFromRecovery = document.getElementById('register-button-from-recovery');
 
     registerButtonFromRecovery.addEventListener('click', () => {
         LoginController.toggleFormsRecoveryCreate();
     });
+
 
 
     // Crear nuevo usuario
@@ -65,6 +70,7 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/logIn.html
     });
 
 
+
     // Iniciar sesión
     const loginForm = document.getElementById('login-form');
     loginForm.addEventListener('submit', e => {
@@ -81,6 +87,7 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/logIn.html
 
         UserControllerInstance.login(data);
     });
+
 
 
     // Recuperar cuenta
@@ -102,6 +109,7 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/logIn.html
 // -------------------------------  PÁGINA PRINCIPAL  -------------------------------
 
 if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html') {
+
     // Mostrar productos por categoría
     const categoriesButton = [
         document.getElementById('outfit'),
@@ -125,11 +133,13 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
 // -------------------------------  PÁGINA DE PRODCUTOS  -------------------------------
 
 if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html' || window.location.href === 'http://localhost:3000/frontend/src/html/products.html' || window.location.pathname === '/frontend/src/html/product.html') {
+
     // Renderizar productos en la bolsa de compra
     const shoppingBagProducts = JSON.parse(localStorage.getItem('shoppingBagProducts'));
     if (shoppingBagProducts) {
         UserViewInstance.renderProductInShoppingBag(shoppingBagProducts);
     }
+
 
 
     // Eliminar productos de la bolsa de compra
@@ -177,6 +187,7 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
     })
 
 
+
     // Abrir y cerrar sección del perfil
     const profileButton = document.getElementById('profile-button');
     const profile = document.getElementById('profile');
@@ -186,6 +197,7 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
         HomepageInstance.openCloseSection(accesorio);
         HomepageInstance.openCloseSection(profile);
     });
+
 
 
     // Abrir y cerrar bolsa de compras
@@ -217,6 +229,7 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
     });
 
 
+
     // Cerrar sesión
     const logoutButtons = [
         document.getElementById('profile-logout-button'),
@@ -233,6 +246,8 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
 
 // -------------------------------  PÁGINA DE PRODCUTOS  -------------------------------
 if (window.location.href === 'http://localhost:3000/frontend/src/html/products.html') {
+
+    // Cargar de productos automáticamente y por categoría
     let limit = 5;
     let offset = 0;
     
@@ -244,6 +259,7 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/products.h
 
 
 
+    // Botón para cargar más productos
     const buttonToLoadMoreProducts = document.getElementById('button-to-load-more-products');
     buttonToLoadMoreProducts.addEventListener('click', () => {
         offset += 5;
@@ -252,13 +268,11 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/products.h
 
 
 
+    // Selección del producto
     const productCatalog = document.getElementById('product-catalog');
 
-    
     productCatalog.addEventListener('click', event => {
-        
         const product = event.target.closest('.product-catalog__product');
-        
         
         if (product) {
             const productId = product.dataset.productId;
@@ -268,30 +282,34 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/products.h
 
 
             let productdata = {
-                'productId': productId,
-                'productImg': productImg,
-                'ProductName': productName,
-                'productPrice': productPrice 
+                'product_id': productId,
+                'image_url': productImg,
+                'product_name': productName,
+                'price': productPrice
             };
 
             sessionStorage.setItem('productData', JSON.stringify(productdata));
             window.location.href = `http://localhost:3000/frontend/src/html/product.html?product=${productId}`;
         }
-
     })
-
 } 
 
 
 if (window.location.pathname === `/frontend/src/html/product.html`) {
-    // Renderizar el producto escogido.
+
+    // Renderizar producto escogido.
     let productData = JSON.parse(sessionStorage.getItem('productData'));
-    const urlParams = new URLSearchParams(window.location.search)
+
+    const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('product');
 
-    if (!productData) {
-        ProductsControllerInstance.loadProduct(productId);
+    if (productData !== null && productId == productData.product_id) {
+        ProductsControllerInstance.loadProductPartial(productId, productData);
+    } else {
+        ProductsControllerInstance.loadProductFull(productId);
     }
+
+
 
     productData = JSON.parse(localStorage.getItem('product'));
 

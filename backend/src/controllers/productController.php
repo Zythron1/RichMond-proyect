@@ -71,12 +71,52 @@ class ProductController {
             ]);
         } else {
             // paso 5: Respuesta http 200 y datos
+            $product['product_id'] = $productId;
             http_response_code(200);
             echo json_encode([
                 'status' => 'success',
                 'message' => 'producto encontrado.',
                 'messageToDeveloper' => 'Ningún problema.',
                 'product' => $product
+            ]);
+        }
+    }
+
+    public function getPartialProductById ($data) {
+        // paso 1: Verificar datos recibidos
+        if (!($data['productId'] && is_numeric($data['productId']))) {
+            http_response_code(400);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'No se pudo cargar el producto, intenta de nuevo.',
+                'messageToDeveloper' => 'ID del producto inválido o faltante.'
+            ]);
+            return;
+        }
+
+        // paso 2: Convertir categoryId a entero y llamar al método correspondiente
+        $productId = (int)$data['productId'];
+        $product = $this->productModel->getPartialProductById($this->connection, $productId);
+
+        // paso 3: Verificar datos devueltos del método
+        if (empty($product)) {
+            // paso 4: Respuesta http 404 y mensaje
+            http_response_code(404);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Producto no encontrado.',
+                'messageToDeveloper' => 'No se encontró el producto o hubo un error al hacer la consulta.',
+                'productId' => $productId,
+            ]);
+        } else {
+            // paso 5: Respuesta http 200 y datos
+            http_response_code(200);
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'producto encontrado.',
+                'messageToDeveloper' => 'Ningún problema.',
+                'product' => $product,
+                'productId' => $productId,
             ]);
         }
     }

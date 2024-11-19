@@ -1,6 +1,25 @@
 class ProductsService {
 
-    async requestToLoadProduct (productId) {
+    async requestToLoadProductPartial(productId) {
+        return fetch(`http://localhost:3000/product/${productId}/partialData`, {
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'error') {
+                    alert(data.message);
+                    throw new Error(data.messageToDeveloper);
+                }
+                return data;
+            })
+            .catch(error => {
+                console.warn('Error en la petición: ' + error);
+                return {'status': 'error'}
+            })
+    }
+
+
+    async requestToLoadProductFull (productId) {
         return fetch(`http://localhost:3000/product/${productId}`, {
             method: 'GET'
         })
@@ -17,6 +36,7 @@ class ProductsService {
                 return {'status': 'error'}
             })
     }
+
 
     async requestToLoadProducts (categoryId, limit, offset) {
         return fetch(`http://localhost:3000/product/${categoryId}/${limit}/${offset}`, {
@@ -62,9 +82,6 @@ class ProductsService {
                 return { status: 'error', message: error.message };
             });
     }
-
-
-
 }
 
 export default ProductsService;

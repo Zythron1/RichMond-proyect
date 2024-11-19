@@ -8,12 +8,29 @@ const UserViewInstance = new UserView;
 
 class ProductsController {
 
-    loadProduct (productId) {
-        ProductsServiceInstance.requestToLoadProduct(productId)
+    loadProductPartial (productId, productData) {
+        ProductsServiceInstance.requestToLoadProductPartial(productId)
+            .then(data => {
+                if (data.status === 'success') {
+                    let product = {...productData, ...data.product}
+
+                    ProductsViewInstance.product = product;
+                    ProductsViewInstance.renderProduct(ProductsViewInstance.product);
+
+                    localStorage.setItem('product', JSON.stringify(data.product));
+                }
+            });
+    }
+
+
+    loadProductFull (productId) {
+        ProductsServiceInstance.requestToLoadProductFull(productId)
             .then(data => {
                 if (data.status === 'success') {
                     ProductsViewInstance.product = data.product;
+
                     ProductsViewInstance.renderProduct(ProductsViewInstance.product);
+
                     localStorage.setItem('product', JSON.stringify(data.product));
                 }
             });
@@ -47,6 +64,7 @@ class ProductsController {
         
     }
 
+
     deleteProductShoppingBag (userId, productId) {
 
         ProductsServiceInstance.requestToDeleteProductShoppingBag(userId, productId)
@@ -62,7 +80,6 @@ class ProductsController {
                 }
             });
     }
-
 }
 
 export default ProductsController;

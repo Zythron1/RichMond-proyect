@@ -1,8 +1,10 @@
 class ProductView {
+
     constructor() {
         this.products = [];
         this.product = [];
     }
+
 
     renderProduct (product) {
         const sliderContainerDiv = document.getElementById('slider-container');
@@ -10,7 +12,7 @@ class ProductView {
         sliderContainerDiv.innerHTML = '';
         productDiv.innerHTML = '';
 
-        const { product_name, product_description, price, stock, image_url } = product;
+        const { product_name, product_description, price, stock, image_url, product_id } = product;
 
         sliderContainerDiv.innerHTML = `
         <img src="camiseta.jpg" alt="${product_name}">
@@ -23,7 +25,7 @@ class ProductView {
             <p class="product__price">${price}</p>
             <p class="product__size">Talla única</p>
 
-            <button type="button" class="product__button-to-add transparent" data-product-stock="${stock}" >Agregar a la bolsa</button>
+            <button type="button" class="product__button-to-add transparent" data-product-stock="${stock}" data-product-id="${product_id}" >Agregar a la bolsa</button>
 
             <!-- Detalles del producto -->
             <div class="product__details">
@@ -73,6 +75,7 @@ class ProductView {
         `;
     }
 
+
     renderProducts(products) {
         const productsContainer = document.getElementById('product-catalog');
         productsContainer.innerHTML = '';
@@ -100,7 +103,6 @@ class ProductView {
             productsContainer.appendChild(productDiv);
         });
     }
-
 }
 
 export default ProductView;

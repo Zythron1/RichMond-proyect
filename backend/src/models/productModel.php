@@ -15,6 +15,13 @@ class ProductModel {
         return $product = $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getPartialProductById ($connection, $productId) {
+        $stmt = $connection->prepare('SELECT product_description, stock FROM products WHERE product_id = :productId;');
+        $stmt->bindParam(':productId', $productId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $product = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function createProduct ($connection, $producData) {
         $stmt = $connection->prepare('INSERT INTO products (product_name, product_description, stock, price, image_url, category_id) VALUES (:productName, :productDescription, :stock, :price, :imageUrl, :categoryId);');
         $stmt->bindparam(':productName', $producData['productName'], PDO::PARAM_STR);
