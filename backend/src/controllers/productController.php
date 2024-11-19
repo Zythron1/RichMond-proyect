@@ -48,7 +48,8 @@ class ProductController {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
-                'message' => 'ID del producto inválido o faltante.'
+                'message' => 'No se pudo cargar el producto, intenta de nuevo.',
+                'messageToDeveloper' => 'ID del producto inválido o faltante.'
             ]);
             return;
         }
@@ -63,14 +64,19 @@ class ProductController {
             http_response_code(404);
             echo json_encode([
                 'status' => 'error',
-                'message' => 'Producto no encontrado.'
+                'message' => 'Producto no encontrado.',
+                'messageToDeveloper' => 'No se encontró el producto o hubo un error al hacer la consulta.'
+
+                
             ]);
         } else {
             // paso 5: Respuesta http 200 y datos
             http_response_code(200);
             echo json_encode([
                 'status' => 'success',
-                'data' => $product
+                'message' => 'producto encontrado.',
+                'messageToDeveloper' => 'Ningún problema.',
+                'product' => $product
             ]);
         }
     }

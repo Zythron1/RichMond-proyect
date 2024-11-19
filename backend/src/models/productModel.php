@@ -9,7 +9,7 @@ class ProductModel {
     }
 
     public function getProductById ($connection, $productId) {
-        $stmt = $connection->prepare('SELECT * FROM products WHERE product_id = :productId;');
+        $stmt = $connection->prepare('SELECT product_name, product_description, stock, price, image_url FROM products WHERE product_id = :productId;');
         $stmt->bindParam(':productId', $productId, PDO::PARAM_INT);
         $stmt->execute();
         return $product = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -85,14 +85,14 @@ class ProductModel {
     public function getProductsByCategoryWithLimitAndOffset ($connection, $data) {
         if ($data['categoryId'] != 0) {
 
-            $stmt = $connection->prepare('SELECT product_name, price, image_url FROM products WHERE category_id = :categoryId LIMIT :limit OFFSET :offset');
+            $stmt = $connection->prepare('SELECT product_name, price, image_url, product_id FROM products WHERE category_id = :categoryId LIMIT :limit OFFSET :offset');
             $stmt->bindParam(':categoryId', $data['categoryId'], PDO::PARAM_INT);
             $stmt->bindParam(':limit', $data['limit'], PDO::PARAM_INT);
             $stmt->bindParam(':offset', $data['offset'], PDO::PARAM_INT);
 
         } else {
 
-            $stmt = $connection->prepare("SELECT product_name, price, image_url FROM products LIMIT :limit OFFSET :offset");
+            $stmt = $connection->prepare("SELECT product_name, price, image_url, product_id FROM products LIMIT :limit OFFSET :offset");
             $stmt->bindParam(':limit', $data['limit'], PDO::PARAM_INT);
             $stmt->bindParam(':offset', $data['offset'], PDO::PARAM_INT);
 

@@ -8,6 +8,19 @@ const UserViewInstance = new UserView;
 
 class ProductsController {
 
+    loadProduct (productId) {
+        ProductsServiceInstance.requestToLoadProduct(productId)
+            .then(data => {
+                if (data.status === 'success') {
+                    ProductsViewInstance.product = data.product;
+                    ProductsViewInstance.renderProduct(ProductsViewInstance.product);
+                    localStorage.setItem('product', JSON.stringify(data.product));
+                }
+            });
+
+    }
+
+
     loadProducts (categoryId, limit, offset) {
 
         ProductsServiceInstance.requestToLoadProducts(categoryId, limit, offset)
@@ -19,14 +32,14 @@ class ProductsController {
                 }
             });
     }
-        
+
+
     loadMoreProducts (categoryId, limit, offset) {
             
         ProductsServiceInstance.requestToLoadProducts(categoryId, limit, offset)
             .then(data => {
                 if (data.status === 'success') {
                     ProductsViewInstance.products = [...ProductsViewInstance.products, ...data.products];
-                    console.log(ProductsViewInstance.products);
                     ProductsViewInstance.renderProducts(ProductsViewInstance.products);
                     return;
                 }

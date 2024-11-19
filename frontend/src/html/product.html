@@ -199,56 +199,11 @@
         </div>
     </aside>
 
-    <main class="main">
+    <main class="main" id="main">
         <!-- Slider de imágenes -->
-        <div class="slider-container">
-            <img src="/frontend/src/html/camiseta.jpg" alt="">
-            <img src="/frontend/src/html/gorra.jpg" alt="">
-            <img src="/frontend/src/html/camiseta.jpg" alt="">
-        </div>
+        <div class="slider-container" id="slider-container"></div>
         
-        <div class="product">
-            <h3 class="product__name">Camiseta básica negra</h3>
-            <p class="product__price">$105.000</p>
-            <p class="product__size">Talla única</p>
-
-            <button type="button" class="product__button-to-add transparent">Agregar a la bolsa</button>
-        
-            <!-- Detalles del producto -->
-            <div class="product__details">
-                <button type="button" class="product__details-toggle" id="product-details-toggle" aria-expanded="true"
-                    aria-controls="product-details">
-                    <h2 class="product__details-title">Detalles del producto</h2>
-                </button>
-                <div class="product__details-content" id="product-details">
-                    <p class="product__details-content-title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam beatae fuga quas quam suscipit ullam officia atque aliquid, corporis odit, voluptate deleniti sequi. Quaerat culpa dolores maxime quod fugit neque.</p>
-                </div>
-            </div>
-        
-            <!-- Envíos -->
-            <div class="product__shipping">
-                <button type="button" class="product__shipping-toggle" id="shipping-toggle" aria-expanded="false"
-                    aria-controls="shipping-content">
-                    <h2 class="product__shipping-title">Envíos</h2>
-                </button>
-                <div class="product__shipping-content hidden" id="shipping-content">
-                    <p class="product__shipping-content-title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam beatae fuga quas quam suscipit ullam officia atque aliquid, corporis odit, voluptate deleniti sequi. Quaerat culpa dolores maxime quod fugit neque.
-                    </p>
-                </div>
-            </div>
-        
-            <!-- Devoluciones y garantías -->
-            <div class="product__returns">
-                <button type="button" class="product__returns-toggle" id="returns-toggle" aria-expanded="false"
-                    aria-controls="returns-content">
-                    <h2 class="product__returns-title">Devoluciones y garantías</h2>
-                </button>
-                <div class="product__returns-content hidden" id="returns-content">
-                    <p class="product__returns-content-title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam beatae fuga quas quam suscipit ullam officia atque aliquid, corporis odit, voluptate deleniti sequi. Quaerat culpa dolores maxime quod fugit neque.
-                    </p>
-                </div>
-            </div>
-        </div>
+        <div class="product" id="product"></div>
 
     </main>
 
