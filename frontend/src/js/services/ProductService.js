@@ -58,6 +58,31 @@ class ProductsService {
     }
 
 
+    async requestToAddToShoppingBag (productId, userId) {
+        return fetch('http://localhost:3000/shoppingBag/addProductToShoppingBag', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ 'productId': productId, 'userId': userId })
+        })
+            .then(response => response.json())
+            .then(data => {
+
+                if (data.status === 'error') {
+                    alert(data.message);
+                    throw new Error(data.messageToDeveloper);
+                }
+
+                return data;
+            })
+            .catch(error => {
+                console.error('Error en la petición: ' + error);
+                return { 'status': 'error' }; 
+            })
+    }
+
+
     async requestToDeleteProductShoppingBag (userId, productId) {
         return fetch(`http://localhost:3000/bagProduct/${userId}/${productId}/delete`, {
             method: 'DELETE'

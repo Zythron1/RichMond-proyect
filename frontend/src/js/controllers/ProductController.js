@@ -1,10 +1,12 @@
-import ProductsService from "../services/ProductsService.js";
+import ProductsService from "../services/ProductService.js";
 import ProductView from "../views/ProductView.js";
 import UserView from "../views/UserView.js";
+import ProductModel from "../models/ProductModel.js";
 
 const ProductsServiceInstance = new ProductsService;
 const ProductsViewInstance = new ProductView;
 const UserViewInstance = new UserView;
+const ProductModelInstance = new ProductModel;
 
 class ProductsController {
 
@@ -17,7 +19,7 @@ class ProductsController {
                     ProductsViewInstance.product = product;
                     ProductsViewInstance.renderProduct(ProductsViewInstance.product);
 
-                    localStorage.setItem('product', JSON.stringify(data.product));
+                    localStorage.setItem('product', JSON.stringify(product));
                 }
             });
     }
@@ -52,7 +54,7 @@ class ProductsController {
 
 
     loadMoreProducts (categoryId, limit, offset) {
-            
+
         ProductsServiceInstance.requestToLoadProducts(categoryId, limit, offset)
             .then(data => {
                 if (data.status === 'success') {
@@ -62,6 +64,24 @@ class ProductsController {
                 }
             });
         
+    }
+
+
+    addToShoppingBag(productId, userId, stock) {
+
+        if (!ProductModelInstance.verifyStock(stock)) {
+            alert('No tenemos stock en este momento.');
+            return;
+        }
+
+        ProductsServiceInstance.requestToAddToShoppingBag(productId, userId)
+            .then(data => {
+                if (data.status === 'success') {
+                    localStorage.setItem('shoppingBagProducts', JSON.stringify(data.products));
+
+                    UserViewInstance.renderProductInShoppingBag(data.products);
+                }
+            })
     }
 
 

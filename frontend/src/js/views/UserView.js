@@ -1,4 +1,5 @@
 class UserView {
+
     renderProductInShoppingBag(products) {
         const productsContainer = document.getElementById('shopping-bag-product');
 

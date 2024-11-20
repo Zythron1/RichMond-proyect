@@ -1,3 +1,8 @@
 *   Crear un archivo que maneje las configuraciones, el inicio y la destrucción de las sesiones.
 *   Separar en una carpeta quizas llamada services donde se maneje todas las validaciones por entidad para mejorar la modularidad.
 *   Mejorar las respuestas de las peticiones por si el servidor no responde.
+*   Hoy 20/11/2024 se descubrió que la forma en que se manejan las rutas tiene un defecto. Este defecto impide que una ruta que no tenga parámetros dinámicos a la hora de guardarse en las propiedades de cada clase en el documento de cada entidad en la carpeta routers. Esté despues de una ruta que si tenga parámetros dinámicos. 
+*   Mejorar la ubicación de los métodos tanto en el frontend como backend debido a que por falta de haber hecho las bases bien (requisitos y todo lo que conlleva esto) se ha ido teniendo problemas a la hora de ubicar el método.
+*   Mejorar la modularización que se ha tenido especialmente en el código que se ha escrito el primer mes.
+*   Mejorar algunos métodos que hacen muchas cosas a la vez lo cual no es mantenible en el tiempo.
+*   Distribuir mejor las responsabilidades en la arquitectura de manera que el controlador y el modelo no se encarguen de hacer validaciones. 

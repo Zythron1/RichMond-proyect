@@ -1,5 +1,9 @@
 <?php
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once './backend/src/config/dbConnection.php';
 require_once './backend/src/models/OrderModel.php';
 require_once './backend/src/models/PurchaseHistoryModel.php';
@@ -28,7 +32,7 @@ class ShoppingBagModel {
             products ON bag_product.product_id = products.product_id
         WHERE 
             bag_product.shopping_bag_id = :shoppingBagId
-    ');
+        ');
         $stmt->bindParam(':shoppingBagId', $shoppingBagId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -49,70 +53,102 @@ class ShoppingBagModel {
     }
 
     public function createShoppingBag ($connection, $shoppingBagData) {
-        $stmt = $connection->prepare('INSERT INTO shopping_bag (user_id, product_id, quantity) VALUES (:userId, :productId, :quantity);');
+        $stmt = $connection->prepare('INSERT INTO shopping_bag (user_id) VALUES (:userId);');
         $stmt->bindParam(':userId', $shoppingBagData['userId'], PDO::PARAM_INT);
-        $stmt->bindParam(':productId', $shoppingBagData['productId'], PDO::PARAM_INT);
-        $stmt->bindParam(':quantity', $shoppingBagData['quantity'], PDO::PARAM_INT);
         if ($stmt->execute()) {
-            return $connection->lastInsertId();
+            return true;
         } else {
             return false;
         }
     }
 
-    public function addProduct($connection, $userId, $productId, $quantity) {
+    public function addProduct ($connection, $userId, $productId) {
+        if ($_SESSION['userId'] !== $userId) {
+            return [
+                'status' => 'error',
+                'message' => 'User ID inválido.',
+                'messageToDeveloper' => 'El ID del usuario es diferente del de la sesión iniciada.'
+            ];
+        }
+
         // Paso 1: Verificar el stock
         $stmt = $connection->prepare('SELECT stock FROM products WHERE product_id = :productId;');
         $stmt->bindParam(':productId', $productId, PDO::PARAM_INT);
         $stmt->execute();
         $stock = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($stock && $stock['stock'] >= $quantity) {
+        if ($stock && $stock['stock'] >= 1) {
             // Paso 2: Verificar si el usuario ya tiene una bolsa de compra
-            $bagStmt = $connection->prepare('SELECT shopping_bag_id FROM shopping_bag WHERE user_id = :userId AND product_id = :productId;');
+            $bagStmt = $connection->prepare('SELECT shopping_bag_id FROM shopping_bag WHERE user_id = :userId;');
             $bagStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-            $bagStmt->bindParam(':productId', $productId, PDO::PARAM_INT);
             $bagStmt->execute();
             $shoppingBag = $bagStmt->fetch(PDO::FETCH_ASSOC);
-        
-            if ($shoppingBag) {
-                // paso 3: Si la bolsa existe se actualiza el stock de la bolsa de compray el bag_product
-                $updateBagStmt = $connection->prepare('UPDATE shopping_bag SET quantity = quantity + :quantity WHERE user_id = :userId AND product_id = :productId;');
-                $updateBagStmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
-                $updateBagStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-                $updateBagStmt->bindParam(':productId', $productId, PDO::PARAM_INT);
-                $updateBagStmt->execute();
 
-                $updateBagProductStmt = $connection->prepare('UPDATE bag_product SET quantity = quantity + :quantity WHERE shopping_bag_id = :shoppingBagId AND product_id = :productId;');
-                $updateBagProductStmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
-                $updateBagProductStmt->bindParam(':shoppingBagId', $shoppingBag['shopping_bag_id'], PDO::PARAM_INT);
-                $updateBagProductStmt->bindParam(':productId', $productId, PDO::PARAM_INT);
-                $updateBagProductStmt->execute();
-
-                return ['status' => 'success', 'message' => 'Producto actualizado.'];
+            if (!$shoppingBag) {
+                // Si la bolsa no existe, crear una nueva
+                $createBagStmt = $connection->prepare('INSERT INTO shopping_bag (user_id) VALUES (:userId);');
+                $createBagStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+                if (!$createBagStmt->execute()) {
+                    return [
+                        'status' => 'error',
+                        'message' => 'No se pudo crear la bolsa de compra.',
+                        'messageToDeveloper' => 'Error al crear la bolsa en la base de datos.'
+                    ];
+                }
+                // Obtener el ID de la nueva bolsa
+                $shoppingBagId = $connection->lastInsertId();
             } else {
-                // paso 4: Si la bolsa no existe crear una bolsa de compra y crear el bag_product
-                $shoppingBagData = [
-                    'userId' => $userId,
-                    'productId' => $productId,
-                    'quantity' => $quantity
-                ];
-                $shoppingBagId = $this->createShoppingBag(DatabaseConnection::getConnection(), $shoppingBagData);
-
-                $bagProduct = new BagProductModel();
-                $bagProductData = [
-                    'shoppingBagId' => $shoppingBagId,
-                    'productId' => $productId,
-                    'quantity' => $quantity
-                ];
-                $bagProductId = $bagProduct->createBagProduct(DatabaseConnection::getConnection(), $bagProductData);
-
-                return ['status' => 'success', 'message' => 'Producto añadido a la bolsa de compra.'];
+                $shoppingBagId = $shoppingBag['shopping_bag_id'];
             }
+
+            // Paso 3: Verificar si el producto ya está en la bolsa
+            $productStmt = $connection->prepare('SELECT quantity FROM bag_product WHERE shopping_bag_id = :shoppingBagId AND product_id = :productId;');
+            $productStmt->bindParam(':shoppingBagId', $shoppingBagId, PDO::PARAM_INT);
+            $productStmt->bindParam(':productId', $productId, PDO::PARAM_INT);
+            $productStmt->execute();
+            $bagProduct = $productStmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($bagProduct) {
+                // Si ya existe, actualizar la cantidad
+                $newQuantity = $bagProduct['quantity'] + 1;
+                if ($newQuantity > $stock['stock']) {
+                    return [
+                        'status' => 'error',
+                        'message' => 'No hay suficiente stock para añadir más de este producto.',
+                        'messageToDeveloper' => 'Stock insuficiente al actualizar la cantidad en bag_product.'
+                    ];
+                }
+
+                $updateStmt = $connection->prepare('UPDATE bag_product SET quantity = :quantity WHERE shopping_bag_id = :shoppingBagId AND product_id = :productId;');
+                $updateStmt->bindParam(':quantity', $newQuantity, PDO::PARAM_INT);
+                $updateStmt->bindParam(':shoppingBagId', $shoppingBagId, PDO::PARAM_INT);
+                $updateStmt->bindParam(':productId', $productId, PDO::PARAM_INT);
+                $updateStmt->execute();
+            } else {
+                // Si no existe, insertar el producto en la bolsa
+                $insertStmt = $connection->prepare('INSERT INTO bag_product (shopping_bag_id, product_id, quantity) VALUES (:shoppingBagId, :productId, 1);');
+                $insertStmt->bindParam(':shoppingBagId', $shoppingBagId, PDO::PARAM_INT);
+                $insertStmt->bindParam(':productId', $productId, PDO::PARAM_INT);
+                $insertStmt->execute();
+            }
+
+            $products = $this->getShoppingBagProducts(DatabaseConnection::getConnection(), $shoppingBagId);
+
+            return [
+                'status' => 'success',
+                'message' => 'Producto añadido a la bolsa de compra.',
+                'messageToDeveloper' => 'Operación realizada con éxito.',
+                'products' => $products
+            ];
         } else {
-            return ['status' => 'error', 'message' => 'No hay suficiente stock para este producto.'];
+            return [
+                'status' => 'error',
+                'message' => 'No hay suficiente stock para este producto.',
+                'messageToDeveloper' => 'El producto no tiene stock suficiente.'
+            ];
         }
     }
+
 
     // finalizar la compra de una bolsa de compra. Lógica
     public function checkOuts ($connection, $userId) {

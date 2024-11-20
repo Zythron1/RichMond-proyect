@@ -3,7 +3,7 @@ import LoginController from "./frontend/src/js/controllers/LoginController.js";
 import UserController from "./frontend/src/js/controllers/UserController.js";
 import UserView from "./frontend/src/js/views/UserView.js";
 import Homepage from "./frontend/src/js/controllers/HomepageController.js";
-import ProductsController from "./frontend/src/js/controllers/ProductsController.js";
+import ProductsController from "./frontend/src/js/controllers/ProductController.js";
 import ProductView from "./frontend/src/js/views/ProductView.js";
 
 const HomepageInstance = new Homepage;
@@ -320,7 +320,11 @@ if (window.location.pathname === `/frontend/src/html/product.html`) {
         const target = event.target;
         
         if (target.closest('.product__button-to-add')) { 
-            
+            let productId = target.dataset.productId;
+            let stock = target.dataset.productStock;
+
+            ProductsControllerInstance.addToShoppingBag(productId ,localStorage.getItem('userId'), stock);
+
         } else if (target.closest('.product__details-toggle')) {
             const productDetails = document.getElementById('product-details');
             HomepageInstance.openCloseSection(productDetails);

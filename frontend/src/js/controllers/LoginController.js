@@ -32,7 +32,8 @@ class LoginController {
             imgLogin.classList.add('visible');
         }
     }
-    
+
+
     static toggleFormsLoginRecovery () {
         const loginForm = document.getElementById('login-form');
         const passwordRecoveryForm = document.getElementById('password-recovery-form');
@@ -51,6 +52,7 @@ class LoginController {
             passwordRecoveryForm.classList.add('hidden');
         }
     }
+
 
     static toggleFormsRecoveryCreate () {
         const registerForm = document.getElementById('register-form');

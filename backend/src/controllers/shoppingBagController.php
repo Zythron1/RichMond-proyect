@@ -87,12 +87,13 @@ class ShoppingBagController {
     }
 
     public function addProduct ($data) {
-        // paso 2: Validar los datos recibidos userId productId quantity
-        if (count(array_filter($data)) !== 3 && count(array_filter($data, 'is_numeric')) !== 3) {
+        // paso 2: Validar los datos recibidos userId productId 
+        if (count(array_filter($data)) !== 2 && count(array_filter($data, 'is_numeric')) !== 2) {
             http_response_code(400);
             echo json_encode([
                 'status' => 'error',
-                'message' => 'Datos de la bolsa de compra faltantes, se requiere el id de usuario, el id del producto y la cantidad.'
+                'message' => 'Se requiere el id.',
+                'messageToDeveloper' => 'Datos de la bolsa de compra faltantes, se requiere el id de usuario y el id del producto.'
             ]);
             return;
         }
@@ -100,24 +101,18 @@ class ShoppingBagController {
         // paso 3: convertir los datos a int y llamar al método requerido
         $userId = (int)$data['userId'];
         $productId = (int)$data['productId'];
-        $quantity = (int)$data['quantity'];
-        $shoppingBagResult = $this->shoppingBag->addProduct($this->connection, $userId, $productId, $quantity);
+
+        $shoppingBagResult = $this->shoppingBag->addProduct($this->connection, $userId, $productId);
 
         // paso 4: Verificar la respuesta del método.
         if ($shoppingBagResult['status'] === 'error') {
             // paso 5: Respuesta http 500 y mensaje
             http_response_code(500);
-            echo json_encode([
-                'status' => 'error',
-                'message' => $shoppingBagResult['message']
-            ]);
+            echo json_encode($shoppingBagResult);
         } else {
             // paso 5: Respuesta http 201 y mensaje
             http_response_code(200);
-            echo json_encode([
-                'status' => 'success',
-                'message' => $shoppingBagResult['message']
-            ]);
+            echo json_encode($shoppingBagResult);
         }
     }
 
