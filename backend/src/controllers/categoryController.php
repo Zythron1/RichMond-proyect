@@ -1,11 +1,31 @@
 <?php
+
+/**
+    * Carga de archivos necesarios.
+    * 
+    * Se incluyen los archivos PHP necesarios para el funcionamiento del backend.
+    * 
+    * - `dbConnection.php`: Configuración de la conexión a la base de datos.
+    * - `CategoryModel.php`: Modelo para gestionar las categorías.
+*/
 require_once './backend/src/config/dbConnection.php';
 require_once './backend/src/models/CategoryModel.php';
+
 
 class CategoryController {
     private $connection;
     private $categoryModel;
 
+
+    /**
+        * Constructor de la clase.
+        *
+        * Este método establece la conexión a la base de datos y crea una instancia del modelo de categorías.
+        * Si ocurre un error durante la conexión a la base de datos, se lanza una excepción que detiene la ejecución 
+        * y devuelve un mensaje de error con el código de estado HTTP 500.
+        *
+        * @return void No retorna ningún valor.
+    */
     public function __construct () {
         try {
             $this->connection = DatabaseConnection::getConnection();
@@ -18,6 +38,21 @@ class CategoryController {
             ]);
         }
     }
+
+
+    /**
+        * Obtiene todas las categorías disponibles.
+        *
+        * Este método llama al modelo correspondiente para obtener una lista de todas las categorías. Si se encuentran categorías,
+        * se devuelve una respuesta con un código de estado HTTP 200 y los datos de las categorías. Si no se encuentran categorías,
+        * se devuelve una respuesta con un código de estado HTTP 404 y un mensaje de error.
+        *
+        * @param void
+        *
+        * @return void No retorna un valor directo, pero responde con un código de estado HTTP y un mensaje:
+        *     - HTTP 200: Si se encuentran categorías, con los datos de las categorías.
+        *     - HTTP 404: Si no se encuentran categorías, con un mensaje de error.
+    */
     public function getAllCategories () {
         // paso 1: Llamar al método requerido
         $categories = $this->categoryModel->getAllCategories($this->connection);
@@ -40,6 +75,22 @@ class CategoryController {
         }
     }
 
+
+    /**
+        * Obtiene los detalles de una categoría por su ID.
+        *
+        * Este método verifica que el `categoryId` recibido sea válido y numérico. Luego, llama al modelo correspondiente para
+        * obtener la categoría con ese ID. Si se encuentra la categoría, se devuelve una respuesta con un código de estado HTTP 200
+        * y los datos de la categoría. Si no se encuentra la categoría, se devuelve una respuesta con un código de estado HTTP 404
+        * y un mensaje de error.
+        *
+        * @param array $data Datos de la solicitud, que debe incluir el parámetro 'categoryId' con el ID de la categoría.
+        *     - 'categoryId' (int): El ID de la categoría a buscar.
+        *
+        * @return void No retorna un valor directo, pero responde con un código de estado HTTP y un mensaje:
+        *     - HTTP 200: Si se encuentra la categoría, con los datos de la categoría.
+        *     - HTTP 404: Si no se encuentra la categoría, con un mensaje de error.
+    */
     public function getCategorieById ($data) {
         // paso 1: Verificar datos recibidos
         if (!($data['categoryId'] && is_numeric($data['categoryId']))) {
@@ -73,6 +124,24 @@ class CategoryController {
         }
     }
 
+
+    /**
+        * Crea una nueva categoría en el sistema.
+        *
+        * Este método verifica que los datos necesarios (nombre, descripción y status) estén presentes en la solicitud. Si los datos
+        * son válidos, llama al modelo para crear la categoría y devuelve una respuesta con un código de estado HTTP 201 y el ID de
+        * la nueva categoría. Si no se pueden crear los datos, devuelve una respuesta con un código de estado HTTP 500 y un mensaje
+        * de error.
+        *
+        * @param array $data Datos de la solicitud, que debe incluir los siguientes parámetros:
+        *     - 'name' (string): El nombre de la categoría.
+        *     - 'description' (string): La descripción de la categoría.
+        *     - 'status' (string): El estado de la categoría (activo/inactivo).
+        *
+        * @return void No retorna un valor directo, pero responde con un código de estado HTTP y un mensaje:
+        *     - HTTP 201: Si se crea la categoría correctamente, con el ID de la nueva categoría.
+        *     - HTTP 500: Si no se puede crear la categoría, con un mensaje de error.
+    */
     public function createCategory ($data) {
         // paso 2: Verificar los datos recibidos
         if (count(array_filter($data)) !== 3) {
@@ -106,6 +175,25 @@ class CategoryController {
         }
     }
 
+
+    /**
+        * Actualiza una categoría existente en el sistema.
+        *
+        * Este método verifica que se hayan recibido los datos necesarios para actualizar una categoría (ID y al menos un campo
+        * a actualizar). Si los datos son válidos, llama al modelo para realizar la actualización y devuelve una respuesta con un 
+        * código de estado HTTP 200 si la actualización es exitosa. Si ocurre un error, responde con un código de estado HTTP 500 
+        * y un mensaje de error.
+        *
+        * @param array $data Datos de la solicitud, que debe incluir los siguientes parámetros:
+        *     - 'categoryId' (int): El ID de la categoría a actualizar.
+        *     - 'name' (string, opcional): El nuevo nombre de la categoría.
+        *     - 'description' (string, opcional): La nueva descripción de la categoría.
+        *     - 'status' (string, opcional): El nuevo estado de la categoría (activo/inactivo).
+        *
+        * @return void No retorna un valor directo, pero responde con un código de estado HTTP y un mensaje:
+        *     - HTTP 200: Si se actualiza la categoría correctamente.
+        *     - HTTP 500: Si no se puede actualizar la categoría, con un mensaje de error.
+    */
     public function updateCategory ($data) {
         // paso 2: Verficar los datos recibidos
         if (!($data['categoryId'] && is_numeric($data['categoryId']) && count(array_filter($data)) > 1)) {

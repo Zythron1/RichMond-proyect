@@ -1,18 +1,59 @@
 <?php
+
+// Configuración de la sesión para mejorar la seguridad
+/**
+    * Se configuran los parámetros de la sesión para garantizar la seguridad.
+    * 
+    * - Se establece el tiempo de vida de la cookie de la sesión a 0, lo que significa que la cookie de sesión se eliminará
+    *   cuando se cierre el navegador.
+    * - Se habilita la opción `cookie_httponly`, lo que asegura que la cookie de sesión no sea accesible a través de JavaScript.
+    * - Se inicia la sesión con `session_start()`.
+    * - Se regenera el ID de sesión al comenzar, lo que ayuda a prevenir ataques de fijación de sesión.
+*/
 ini_set('session.cookie_lifetime', 0);
 ini_set('session.cookie_httponly', true);
 session_start();
 session_regenerate_id(true);
 
+
+/**
+    * Carga de archivos necesarios.
+    * 
+    * Se incluyen los archivos PHP necesarios para el funcionamiento del backend.
+    * 
+    * - `dbConnection.php`: Configuración de la conexión a la base de datos.
+    * - `ShoppingBagModel.php`: Modelo para gestionar la bolsa de compras.
+    * - `UserHelpers.php`: Funciones auxiliares relacionadas con los usuarios.
+    * - `autoload.php`: Carga automática de las dependencias gestionadas por Composer.
+*/
 require_once './backend/src/config/dbConnection.php';
 require_once './backend/src/models/ShoppingBagModel.php';
 require_once './backend/src/helpers/UserHelpers.php';
 require_once './backend/vendor/autoload.php';
 
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+
+/**
+    * Clase UserModel
+    * 
+    * Esta clase maneja la interacción con la base de datos relacionada con los usuarios.
+*/
 class UserModel {
+    /**
+        * Obtiene todos los usuarios registrados en la base de datos.
+        *
+        * Este método ejecuta una consulta SQL para obtener todos los registros de la tabla `users`. 
+        * La consulta devuelve los datos en un arreglo asociativo. Si no se encuentran registros, 
+        * la respuesta será un arreglo vacío.
+        *
+        * @param PDO $connection Instancia de la conexión a la base de datos.
+        *
+        * @return array Un arreglo asociativo con todos los registros de la tabla `users`.
+        *     Si no se encuentran usuarios, el arreglo será vacío.
+    */
     public function getAllUsers ($connection) {
         // Se realiza la consulta con el método query del objeto que fue instaciado de PDO
         $stmt = $connection->query('SELECT * FROM users;');
@@ -21,6 +62,19 @@ class UserModel {
         
     }
 
+
+    /**
+        * Obtiene un usuario de la base de datos por su ID.
+        *
+        * Este método ejecuta una consulta SQL preparada para obtener un solo registro de la tabla `users`
+        * basado en el `user_id` proporcionado. Se utiliza una consulta preparada para prevenir inyecciones SQL.
+        * El resultado es un arreglo asociativo con los datos del usuario o `false` si no se encuentra el usuario.
+        *
+        * @param PDO $connection Instancia de la conexión a la base de datos.
+        * @param int $userId El ID del usuario que se desea obtener de la base de datos.
+        *
+        * @return array|false Un arreglo asociativo con los datos del usuario si se encuentra, o `false` si no se encuentra el usuario.
+    */
     public function getUserById ($connection, $userId) {
         // Se prepara la consulta para evitar inyecciones SQL
         $stmt = $connection->prepare('SELECT  * FROM users WHERE user_id = :userId;');
@@ -32,6 +86,22 @@ class UserModel {
         return $user = $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+
+    /**
+        * Crea un nuevo usuario en la base de datos.
+        *
+        * Este método inserta un nuevo usuario en la tabla `users` utilizando los datos proporcionados.
+        * La contraseña del usuario se encripta antes de ser almacenada en la base de datos.
+        * Se utiliza una consulta preparada para evitar inyecciones SQL.
+        *
+        * @param PDO $connection Instancia de la conexión a la base de datos.
+        * @param array $userData Un arreglo asociativo con los datos del usuario:
+        *                        - 'userName' => Nombre del usuario.
+        *                        - 'emailAddress' => Dirección de correo electrónico del usuario.
+        *                        - 'userPassword' => Contraseña del usuario (será encriptada antes de almacenarse).
+        *
+        * @return int|false El ID del nuevo usuario insertado si la operación es exitosa, o `false` en caso de error.
+    */
     public function createUser ($connection, $userData) {
         // Se encripta la contraseña del usuario
         $hashedPassword = password_hash($userData['userPassword'], PASSWORD_BCRYPT);
@@ -52,6 +122,25 @@ class UserModel {
         }
     }
 
+
+    /**
+        * Inicia sesión de un usuario y valida sus credenciales.
+        *
+        * Este método verifica si el usuario ya tiene una sesión activa. Si no tiene, valida las credenciales proporcionadas
+        * (email y contraseña). Si las credenciales son correctas, se inicia la sesión del usuario.
+        * Además, se obtiene la bolsa de compras del usuario si existe, y se retorna el estado del inicio de sesión.
+        *
+        * @param PDO $connection Instancia de la conexión a la base de datos.
+        * @param array $data Un arreglo asociativo con los datos del usuario:
+        *                    - 'emailAddress' => Dirección de correo electrónico del usuario.
+        *                    - 'userPassword' => Contraseña del usuario (será verificada).
+        *
+        * @return array Un arreglo con el estado y mensaje del inicio de sesión, y los datos del usuario si la autenticación es exitosa:
+        *               - 'status' => 'success' o 'error'.
+        *               - 'message' => Mensaje correspondiente al estado del login.
+        *               - 'userId' => ID del usuario en sesión si el login es exitoso.
+        *               - 'shoppingBag' => Bolsa de compras del usuario si existe, o `false` si no tiene productos en la bolsa.
+    */
     public function login ($connection, $data) {
         if (isset($_SESSION['userId'])) {
             return [
@@ -106,6 +195,19 @@ class UserModel {
         ];
     }
 
+
+    /**
+        * Cierra la sesión de un usuario.
+        *
+        * Este método verifica si el usuario tiene una sesión activa. Si la sesión está activa, intenta destruir la sesión
+        * y limpiar la variable `$_SESSION`. Si la sesión no está activa o hay un error en el proceso de cierre, 
+        * retorna un mensaje de error. En caso de éxito, retorna un mensaje de confirmación.
+        *
+        * @return array Un arreglo con el estado y mensaje del cierre de sesión:
+        *               - 'status' => 'success' o 'error'.
+        *               - 'message' => Mensaje correspondiente al estado del cierre de sesión.
+        *               - 'messageToDeveloper' => Información adicional para los desarrolladores, útil para la depuración.
+    */
     public function logout () {
         if (empty($_SESSION['userId'])) {
             return [
@@ -140,6 +242,25 @@ class UserModel {
         ];
     }
 
+
+    /**
+        * Actualiza los datos de un usuario en la base de datos.
+        *
+        * Este método permite actualizar los datos de un usuario en la tabla `users`. Los campos que pueden ser actualizados
+        * son el nombre de usuario, dirección de correo electrónico, dirección y teléfono. Los valores que se pasan en el 
+        * parámetro `$userData` son opcionales y solo se actualizarán los que se incluyan. La consulta se construye dinámicamente
+        * según los datos proporcionados y se ejecuta sobre el `user_id` específico.
+        *
+        * @param PDO $connection Instancia de la conexión a la base de datos.
+        * @param int $userId El ID del usuario a actualizar.
+        * @param array $userData Un arreglo asociativo con los datos a actualizar. Las claves pueden ser:
+        *                        - 'userName' => El nombre de usuario.
+        *                        - 'emailAddress' => La dirección de correo electrónico del usuario.
+        *                        - 'address' => La dirección física del usuario.
+        *                        - 'phone' => El número de teléfono del usuario.
+        * 
+        * @return bool `true` si la actualización fue exitosa, `false` si ocurrió un error durante el proceso.
+    */
     public function updateUser ($connection, $userId, $userData) {
         $query = 'UPDATE users SET ';
         $params = [];
@@ -176,6 +297,22 @@ class UserModel {
         }
     }
 
+
+    /**
+        * Cambia la contraseña de un usuario.
+        *
+        * Este método permite cambiar la contraseña de un usuario verificando primero que la contraseña actual
+        * coincida con la almacenada en la base de datos. Si la verificación es exitosa, la nueva contraseña se
+        * encripta y se actualiza en la base de datos.
+        *
+        * @param PDO $connection Instancia de la conexión a la base de datos.
+        * @param int $userId El ID del usuario cuya contraseña se desea cambiar.
+        * @param string $currentPassword La contraseña actual del usuario.
+        * @param string $newPassword La nueva contraseña que se desea establecer.
+        * 
+        * @return array|bool Retorna un arreglo con un mensaje de error si la contraseña actual no coincide, 
+        *                    o `true` si la contraseña se actualiza correctamente, o `false` en caso de error.
+    */
     public function changePassword ($connection, $userId, $currentPassword, $newPassword) { 
         // paso 1: Se obtiene la contraseña actual del usuario
         $currentPasswordstmt = $connection->prepare('SELECT user_password FROM users WHERE user_id = :userId;');
@@ -205,9 +342,22 @@ class UserModel {
         }
     }
 
+
+    /**
+        * Envía un enlace de restablecimiento de contraseña por correo electrónico.
+        *
+        * Este método permite enviar un enlace de restablecimiento de contraseña a la dirección de correo electrónico
+        * proporcionada. Si el correo existe en la base de datos, se genera un token único, se almacena en la tabla
+        * `password_resets`, y se envía un correo con el enlace para restablecer la contraseña.
+        *
+        * @param PDO $connection Instancia de la conexión a la base de datos.
+        * @param array $data Datos del usuario que contiene el correo electrónico.
+        * 
+        * @return array Un arreglo con el estado de la operación:
+        *               - 'status' puede ser 'success' o 'error'.
+        *               - 'message' proporciona más detalles sobre el resultado.
+    */
     public function sendUrlToEmail($connection, $data){
-
-
         $stmt = $connection->prepare('SELECT user_id, email_address FROM users WHERE email_address = :emailAddress;');
         $stmt->bindParam(':emailAddress', $data['emailAddress'], PDO::PARAM_STR);
         $stmt->execute();
@@ -266,6 +416,4 @@ class UserModel {
         }
 
     }
-
-
 }

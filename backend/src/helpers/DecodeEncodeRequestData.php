@@ -1,7 +1,25 @@
 <?php
 
 class DecodeEncodeRequestData {
-
+    /**
+        * Decodifica una cadena JSON en un arreglo asociativo.
+        *
+        * Este método convierte una cadena JSON en un arreglo asociativo y verifica si 
+        * la operación fue exitosa. En caso de error durante la decodificación, lanza
+        * una excepción y devuelve un estado de error con el mensaje correspondiente.
+        *
+        * @param string $jsonData Cadena JSON a decodificar.
+        *
+        * @return array Retorna un arreglo con el estado y los datos decodificados:
+        *     - Si no hay datos para decodificar: 
+        *         - 'status' => 'succes'.
+        *     - Si la decodificación es exitosa:
+        *         - 'status' => 'succes'.
+        *         - Contenido del JSON decodificado.
+        *     - Si ocurre un error durante la decodificación:
+        *         - 'status' => 'error'.
+        *         - 'message': Mensaje de error indicando el problema.
+    */
     public static function decodeJson ($jsonData) {
         try {
             // Verificar si hay datos antes de intentar decodificar
@@ -29,5 +47,4 @@ class DecodeEncodeRequestData {
             ];
         }
     }
-
 }
