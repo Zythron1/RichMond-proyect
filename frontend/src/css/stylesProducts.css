@@ -116,3 +116,16 @@ footer {
     transform: translateY(-2px);
     box-shadow: 0 8px 12px #000000bb;
 }
+
+@media (min-width: 500px) {
+    .product-catalog {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 770px) {
+    .product-catalog {
+        grid-template-columns: repeat(4, 1fr);
+        width: 85%;
+    }
+}

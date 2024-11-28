@@ -472,7 +472,7 @@ li {
     background-color: #c6ae91;
 }
 
-@media (min-width: 500px) {
+@media (min-width: 770px) {
     .delete {
         display: none;
     }

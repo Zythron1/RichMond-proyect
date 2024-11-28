@@ -15,9 +15,9 @@ class ProductView {
         const { product_name, product_description, price, stock, image_url, product_id } = product;
 
         sliderContainerDiv.innerHTML = `
-        <img src="camiseta.jpg" alt="${product_name}">
-            <img src="${image_url}" alt="${product_name}">
-            <img src="/frontend/src/html/gorra.jpg" alt="${product_name}">
+        <img src="/frontend/src/assets/fotos/productos/camiseta.jpg" alt="${product_name}">
+            <img src="/frontend/src/assets/fotos/productos/${image_url}" alt="${product_name}">
+            <img src="/frontend/src/assets/fotos/productos/camiseta.jpg" alt="${product_name}">
         `;
 
         productDiv.innerHTML = `

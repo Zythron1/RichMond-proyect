@@ -114,3 +114,26 @@ footer {
         width: 390px;
     }
 }
+
+@media (min-width: 770px) {
+    .main {
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .slider-container {
+        display: grid; 
+        gap: 20px; 
+        height: 80vh;
+        overflow: auto;
+    }
+
+    .slider-container img {
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .product {
+        width: 600px; 
+    }
+}
