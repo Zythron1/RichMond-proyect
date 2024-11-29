@@ -1,9 +1,11 @@
 import UserModel from "../models/UserModel.js";
 import UserService from "../services/UserService.js";
+import UserView from "../views/UserView.js";
 
 
 const UserModelInstance = new UserModel();
-const UserServiceInstance = new UserService;
+const UserServiceInstance = new UserService();
+const UserViewInstance = new UserView;
 
 
 class UserController {
@@ -55,6 +57,7 @@ class UserController {
                 localStorage.removeItem('userId');
                 localStorage.removeItem('shoppingBagProducts');
                 alert(data.message);
+                UserViewInstance.renderProductInShoppingBag(localStorage.getItem('shoppingBagProducts'));
             }
         });
     }

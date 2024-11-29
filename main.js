@@ -131,6 +131,7 @@ if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html
 
 // -------------------------------  PÁGINA PRINCIPAL  -------------------------------
 // -------------------------------  PÁGINA DE PRODCUTOS  -------------------------------
+// -------------------------------  PÁGINA DE PRODCUTO  -------------------------------
 
 if (window.location.href === 'http://localhost:3000/frontend/src/html/index.html' || window.location.href === 'http://localhost:3000/frontend/src/html/products.html' || window.location.pathname === '/frontend/src/html/product.html') {
 

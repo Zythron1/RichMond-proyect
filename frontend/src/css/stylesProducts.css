@@ -73,11 +73,10 @@ footer {
 }
 
 .product__img {
-    justify-self: start;
-    align-self: start;
     width: 100%;
-    height: auto;
-    border-radius: 5px;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 3px;
     margin-bottom: 10px;
 }
 

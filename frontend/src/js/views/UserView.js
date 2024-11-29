@@ -23,7 +23,7 @@ class UserView {
 
             productDiv.innerHTML = `
                 <div class="product-item__img-container">
-                    <img src="${image_url}" alt="${product_name}" class="img-container__img">
+                    <img src="/frontend/src/assets/fotos/productos/${image_url}" alt="${product_name}" class="img-container__img">
                 </div>
                 <div class="product-item__details-container">
                     <h4 class="details-container__name">${product_name}</h4>

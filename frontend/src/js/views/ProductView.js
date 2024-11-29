@@ -95,7 +95,7 @@ class ProductView {
             productDiv.setAttribute('data-product-price', price);
 
             productDiv.innerHTML = `
-                <img src="${product.image_url}" alt="${product.product_name}"  class="product__img"/>
+                <img src="/frontend/src/assets/fotos/productos/${product.image_url}" alt="${product.product_name}"  class="product__img"/>
                 <h3  class="product__name" >${product.product_name}</h3>
                 <p  class="product__price">Precio: $${product.price}</p>
             `;
